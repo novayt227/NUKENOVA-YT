@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NUKENOVA YT</title>
+  <meta name="description" content="Play on NUKENOVA YT - a community Minecraft SMP." />
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1230;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --text:#EAF0FF;
+      --muted:#A9B4DA;
+      --brand:#7C5CFF;
+      --brand2:#2EE9A6;
+      --danger:#FF4D6D;
+      --border: rgba(255,255,255,.14);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background: var(--bg0);
+      overflow-x:hidden;
+    }
+
+    /* Video Background Styling */
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      object-fit: cover;
+      pointer-events: none;
+      opacity: 0.25; /* Isse video zyada bright nahi lagegi aur text saaf dikhega */
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .container{ width: min(1100px, 92vw); margin: 0 auto; }
+
+    /* Header */
+    header{
+      position: sticky;
+      top:0;
+      z-index: 10;
+      background: rgba(7,10,18,.55);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+    .logo{
+      width: 36px; height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(46,233,166,1));
+      box-shadow: 0 0 0 4px rgba(124,92,255,.15);
+    }
+    .nav-links{ display:flex; align-items:center; gap: 18px; flex-wrap: wrap; }
+    .nav-links a{
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: .15s;
+    }
+    .nav-links a:hover{
+      color: var(--text);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+    }
+
+    /* Hero */
+    .hero{
+      padding: 54px 0 18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns: 1fr; }
+    }
+
+    .hero-card{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+    }
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 220px at 20% 10%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(500px 200px at 85% 15%, rgba(46,233,166,.25), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .hero-inner{
+      position: relative;
+      padding: 26px;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(124,92,255,.12);
+      border: 1px solid rgba(124,92,255,.25);
+      color: #DCD4FF;
+      font-weight: 800;
+      letter-spacing: .2px;
+      font-size: 13px;
+    }
+    .dot{
+      width: 9px; height: 9px;
+      border-radius: 999px;
+      background: var(--brand2);
+      box-shadow: 0 0 0 4px rgba(46,233,166,.14);
+    }
+
+    h1{
+      margin: 14px 0 8px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.5px;
+    }
+    .tagline{
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .btn{
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      transition: .15s;
+      user-select:none;
+      cursor:pointer;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.24); background: rgba(255,255,255,.09); }
+    .btn:active{ transform: translateY(0px); }
+    .btn-primary{
+      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(46,233,166,1));
+      border-color: rgba(255,255,255,.22);
+      color: #07101C;
+    }
+    .btn-primary:hover{ filter: brightness(1.04); }
+    .btn-ghost{
+      background: rgba(255,255,255,.04);
+    }
+    .btn-danger{
+      border-color: rgba(255,77,109,.35);
+      background: rgba(255,77,109,.12);
+    }
+
+    .copywrap{
+      margin-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 16px;
+      display:flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .ip{
+      flex: 1 1 auto;
+      min-width: 260px;
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ip .label{ color: var(--muted); font-weight: 700; font-size: 13px; }
+    .ipcode{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      border-radius: 14px;
+      padding: 10px 12px;
+      overflow:hidden;
+    }
+    .ipcode code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: 15px;
+      color: #E9F1FF;
+      white-space: nowrap;
+    }
+    .mini{
+      padding: 8px 10px;
+      font-size: 13px;
+      border-radius: 12px;
+      font-weight: 900;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      transition:.15s;
+    }
+    .mini:hover{ background: rgba(255,255,255,.10); transform: translateY(-1px); }
+
+    /* Side card */
+    .side{
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 14px 50px rgba(0,0,0,.22);
+      display:flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .stat{
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .stat .top{ display:flex; justify-content: space-between; align-items:center; gap: 10px; }
+    .stat .name{ color: var(--muted); font-weight: 800; font-size: 13px; }
+    .stat .value{ font-size: 18px; font-weight: 900; }
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: #EAF0FF;
+    }
+
+    /* Sections */
+    section{ padding: 26px 0; }
+    .section-title{
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -0.2px;
+    }
+    .hint{ color: var(--muted); font-weight: 700; font-size: 14px; }
+
+    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 900px){ .grid3{ grid-template-columns: 1fr; } }
+
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      padding: 16px;
+    }
+    .card h3{ margin: 0 0 8px; font-size: 16px; }
+    .card p{ margin:0; color: var(--muted); line-height: 1.45; font-weight: 650; }
+
+    .rules{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 900px){ .rules{ grid-template-columns: 1fr; } }
+    .rule{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 14px;
+      display:flex;
+      gap: 12px;
+    }
+    .rule .num{
+      width: 28px; height: 28px;
+      border-radius: 10px;
+      background: rgba(124,92,255,.16);
+      border: 1px solid rgba(124,92,255,.25);
+      font-weight: 950;
+      display:flex; align-items:center; justify-content:center;
+      color: #E8E1FF;
+      flex: 0 0 auto;
+    }
+    .rule .txt{ font-weight: 750; color: #DDE6FF; line-height:1.35; }
+    .rule .sub{ color: var(--muted); font-weight: 650; font-size: 13px; margin-top: 4px; line-height:1.35; }
+
+    .staff{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    @media (max-width: 1100px){ .staff{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px){ .staff{ grid-template-columns: 1fr; } }
+    .person{
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .avatar{
+      width: 52px; height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(124,92,255,.55), rgba(46,233,166,.35));
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .role{ color: var(--muted); font-weight: 800; font-size: 13px; }
+    .name{ font-weight: 950; }
+    .tag{ color: var(--muted); font-weight: 650; font-size: 13px; line-height:1.35; }
+
+    .cta-row{ display:flex; gap: 12px; flex-wrap: wrap; align-items:center; }
+
+    /* Modal */
+    .modal-overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 50;
+    }
+    .modal{
+      width: min(720px, 96vw);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(10,14,26,.92);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 30px 120px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modal header{
+      position: static;
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: none;
+    }
+    .modal .modal-head{
+      padding: 16px 16px 12px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .modal-title{ font-weight: 950; font-size: 16px; }
+    .close{
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 14px;
+      font-weight: 950;
+      padding: 10px 12px;
+      cursor:pointer;
+      transition:.15s;
+    }
+    .close:hover{ background: rgba(255,255,255,.10); transform: translateY(-1px); }
+
+    .modal-body{ padding: 14px 16px 16px; }
+    form{ display:grid; gap: 12px; }
+    .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 720px){ .row2{ grid-template-columns: 1fr; } }
+
+    label{ display:flex; flex-direction: column; gap: 7px; color: var(--muted); font-weight: 800; font-size: 13px; }
+    input, textarea, select{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+      font-weight: 750;
+    }
+    textarea{ min-height: 110px; resize: vertical; }
+
+    .modal-foot{
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      justify-content: flex-end;
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .notice{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(46,233,166,.25);
+      background: rgba(46,233,166,.08);
+      color: #CFFAF0;
+      font-weight: 800;
+      display:none;
+    }
+
+    /* Footer */
+    footer{
+      padding: 26px 0 42px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .foot{
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 18px;
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(10,14,26,.92);
+      border: 1px solid rgba(255,255,255,.16);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 16px;
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: .18s;
+      z-index: 60;
+      font-weight: 900;
+    }
+    .toast.show{ opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <video autoplay loop muted playsinline class="video-bg">
+    <source src="assets/bg-video.mp4" type="video/mp4">
+  </video>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="font-size:14px; color: var(--muted); font-weight: 900; letter-spacing:.2px;">YOUTUBER</div>
+          <div style="font-size:16px;">NUKENOVA YT</div>
+        </div>
+      </div>
+
+      <nav class="nav-links" aria-label="Site">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#rules">Rules</a>
+        <a href="#whitelist">Whitelist</a>
+        <a href="#staff">Staff</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div id="home" class="container hero">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="hero-inner">
+            <div class="kicker"><span class="dot" aria-hidden="true"></span> Ready to join</div>
+            <h1>NUKENOVA YT</h1>
+            <p class="tagline">DESTROYER LEGACY</p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer">
+                <span aria-hidden="true">💬</span> Join Discord
+              </a>
+              <button class="btn btn-ghost" id="openWhitelistBtn" type="button">
+                <span aria-hidden="true">🧑‍⚖️</span> Apply for Staff
+              </button>
+            </div>
+
+            <div class="copywrap">
+              <div class="ip">
+                <div class="label">Server Address</div>
+                <div class="ipcode">
+                  <code id="serverAddress" data-server="play.novayt.warmc.fun">SERVER IS OFF</code>
+                  <button class="mini" id="copyIpBtn" type="button" title="Copy server address">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side" aria-label="Server highlights">
+          <div class="stat">
+            <div class="top">
+              <div class="name">Community</div>
+              <div class="pill">Always growing</div>
+            </div>
+            <div class="value">Survival SMP vibes</div>
+          </div>
+          <div class="stat">
+            <div class="top">
+              <div class="name">How to play</div>
+              <div class="pill">1 minute</div>
+            </div>
+            <div class="value" style="font-size:16px;">Discord → Apply → Join</div>
+            <div style="color: var(--muted); font-weight: 700; line-height:1.4; font-size: 14px;">
+              Connect using the server address (copy button above).
+            </div>
+          </div>
+          <div class="stat">
+            <div class="top">
+              <div class="name">Status</div>
+              <div class="pill" id="statusPill">Checking…</div>
+            </div>
+            <div class="value" id="statusValue">Online / Offline</div>
+            <div style="color: var(--muted); font-weight: 700; line-height:1.4; font-size: 14px;">
+              (Optional) Real status can be added later with a backend.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <section id="features" class="container">
+      <div class="section-title">
+        <h2>Features</h2>
+        <div class="hint">Built for long-term building + community</div>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <h3>Survival Gameplay</h3>
+          <p>Progress, build your base, explore, and collaborate with the community.</p>
+        </div>
+        <div class="card">
+          <h3>Active Events</h3>
+          <p>Monthly events, community challenges, and special drops (placeholders for now).</p>
+        </div>
+        <div class="card">
+          <h3>Community First</h3>
+          <p>Friendly moderation, clear rules, and a welcoming SMP environment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules" class="container">
+      <div class="section-title">
+        <h2>Rules</h2>
+        <div class="hint">Keep it respectful—help everyone have fun</div>
+      </div>
+
+      <div class="rules">
+        <div class="rule">
+          <div class="num">1</div>
+          <div>
+            <div class="txt">No hate speech / harassment</div>
+            <div class="sub">Be respectful to players and staff at all times.</div>
+          </div>
+        </div>
+        <div class="rule">
+          <div class="num">2</div>
+          <div>
+            <div class="txt">No griefing / stealing</div>
+            <div class="sub">Respect builds. Use permissions or claims if applicable.</div>
+          </div>
+        </div>
+        <div class="rule">
+          <div class="num">3</div>
+          <div>
+            <div class="txt">Cheats are not allowed</div>
+            <div class="sub">No hacked clients, exploits, or abusive bugs.</div>
+          </div>
+        </div>
+        <div class="rule">
+          <div class="num">4</div>
+          <div>
+            <div class="txt">AFK / spam limits</div>
+            <div class="sub">Avoid spam. Don’t farm resources in disruptive ways.</div>
+          </div>
+        </div>
+        <div class="rule">
+          <div class="num">5</div>
+          <div>
+            <div class="txt">Follow staff instructions</div>
+            <div class="sub">Staff decisions are final in the moment.</div>
+          </div>
+        </div>
+        <div class="rule">
+          <div class="num">6</div>
+          <div>
+            <div class="txt">Report issues</div>
+            <div class="sub">Bugs, grief reports, and rule questions go to Discord.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="whitelist" class="container">
+      <div class="section-title">
+        <h2>Staff Application</h2>
+        <div class="hint">Request to join the team</div>
+      </div>
+
+      <div class="card">
+        <div class="cta-row">
+          <div style="flex:1; min-width: 260px;">
+            <div style="font-weight: 950; font-size: 16px; margin-bottom: 6px;">Staff application</div>
+            <div style="color: var(--muted); font-weight: 700; line-height:1.45;">
+              Use the form to apply for a staff role. (Demo confirmation)
+            </div>
+          </div>
+          <button class="btn btn-primary" id="openWhitelistBtn2" type="button">
+            <span aria-hidden="true">🧑‍⚖️</span> Open Application
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="staff" class="container">
+      <div class="section-title">
+        <h2>OPERATOR</h2>
+        <div class="hint">Meet the people keeping the SERVER healthy</div>
+      </div>
+
+      <div class="staff">
+        <div class="person">
+          <div class="avatar" aria-hidden="true"></div>
+          <div class="name">[✨NK ANKUSH]</div>
+          <div class="role">Server Owner</div>
+          <div class="tag">Manage updates, rules, and community direction.</div>
+        </div>
+        <div class="person">
+          <div class="avatar" aria-hidden="true"></div>
+          <div class="name">[✨NK NAITIK]</div>
+          <div class="role">Moderator</div>
+          <div class="tag">Help players and enforce rules fairly.</div>
+        </div>
+        <div class="person">
+          <div class="avatar" aria-hidden="true"></div>
+          <div class="name">[MISSING]</div>
+          <div class="role">Community</div>
+          <div class="tag">Organizes events and helps new players.</div>
+        </div>
+        <div class="person">
+          <div class="avatar" aria-hidden="true"></div>
+          <div class="name">[MISSING]</div>
+          <div class="role">Developer</div>
+          <div class="tag">Improves gameplay systems and performance.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="foot">
+          <div>© <span id="year"></span> NUKENOVA YT</div>
+          <div>
+            <a href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer">Discord</a>
+            <span style="opacity:.5; margin: 0 10px;">•</span>
+            <a href="#home">Back to top</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <header>
+        <div class="modal-head">
+          <div>
+            <div class="modal-title" id="modalTitle">Staff Application</div>
+            <div style="color: var(--muted); font-weight: 700; font-size: 13px; margin-top: 2px;">Tell us about you (demo form)</div>
+          </div>
+          <button class="close" id="closeModalBtn" type="button">✕ Close</button>
+        </div>
+      </header>
+
+      <div class="modal-body">
+        <form id="whitelistForm">
+          <div class="row2">
+            <label>
+              Minecraft Username
+              <input name="username" required placeholder="e.g., TitanPlayer123" />
+            </label>
+            <label>
+              Age (optional)
+              <input name="age" placeholder="e.g., 16" inputmode="numeric" />
+            </label>
+          </div>
+
+          <div class="row2">
+            <label>
+              Preferred Playstyle
+              <select name="playstyle" required>
+                <option value="survival">Survival</option>
+                <option value="building">Building</option>
+                <option value="pvp">PvP</option>
+                <option value="events">Events</option>
+                <option value="mixed" selected>Mixed</option>
+              </select>
+            </label>
+            <label>
+              Time Zone
+              <input name="timezone" required placeholder="e.g., GMT+5 / EST" />
+            </label>
+          </div>
+
+          <label>
+            Why do you want to apply for staff?
+            <textarea name="reason" required placeholder="Write a short introduction..."></textarea>
+          </label>
+
+          <label>
+            Discord Username (for contact)
+            <input name="discord" required placeholder="e.g., titan#0001 or @titan" />
+          </label>
+
+          <div class="modal-foot">
+            <button class="btn btn-danger" type="button" id="cancelModalBtn">Cancel</button>
+            <button class="btn btn-primary" type="submit">Submit Application</button>
+          </div>
+
+          <div class="notice" id="submitNotice">Application submitted! (Demo) Please join Discord for the real staff application process.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" aria-live="polite">Copied!</div>
+
+  <script>
+    const SERVER_ADDRESS = 'play.novayt.warmc.fun';
+    const SERVER_ADDRESS_DISPLAY_ID = 'serverAddress';
+    const DISCORD_URL = 'https://discord.gg/gMnQehmRKx';
+
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    // Copy server IP
+    const copyBtn = document.getElementById('copyIpBtn');
+    const serverAddressEl = document.getElementById(SERVER_ADDRESS_DISPLAY_ID);
+    const toast = document.getElementById('toast');
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add('show');
+      window.clearTimeout(showToast._t);
+      showToast._t = window.setTimeout(()=> toast.classList.remove('show'), 1400);
+    }
+
+    if(serverAddressEl){
+      serverAddressEl.innerHTML = '<span style="font-weight:950; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \'Liberation Mono\',\'Courier New\', monospace;">SERVER IS OFF</span>';
+    }
+
+    copyBtn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(SERVER_ADDRESS);
+        showToast('Server address copied');
+      }catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = SERVER_ADDRESS;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showToast('Server address copied');
+      }
+    });
+
+    // Modal logic
+    const overlay = document.getElementById('modalOverlay');
+    const openBtn1 = document.getElementById('openWhitelistBtn');
+    const openBtn2 = document.getElementById('openWhitelistBtn2');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const cancelBtn = document.getElementById('cancelModalBtn');
+    const form = document.getElementById('whitelistForm');
+    const notice = document.getElementById('submitNotice');
+
+    function openModal(){
+      overlay.style.display = 'flex';
+      notice.style.display = 'none';
+    }
+    function closeModal(){
+      overlay.style.display = 'none';
+      form.reset();
+      notice.style.display = 'none';
+    }
+
+    openBtn1.addEventListener('click', openModal);
+    openBtn2.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', (e) => {
+      if(e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && overlay.style.display === 'flex') closeModal();
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      notice.style.display = 'block';
+      showToast('Submitted');
+      window.setTimeout(() => {
+        closeModal();
+      }, 1700);
+    });
+
+    const statusPill = document.getElementById('statusPill');
+    const statusValue = document.getElementById('statusValue');
+    statusPill.textContent = 'Offline';
+    statusValue.textContent = 'Check in-game';
+  </script>
+</body>
+</html>

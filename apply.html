@@ -33,7 +33,7 @@
       overflow-x: hidden;
     }
 
-    /* Video Background */
+    /* Video Background Styling with Mobile Fallback Support */
     .video-bg {
       position: fixed;
       inset: 0;
@@ -45,6 +45,8 @@
       object-fit: cover;
       pointer-events: none;
       opacity: 0.25;
+      background: url('assets/logo.jpeg') no-repeat center center;
+      background-size: cover;
     }
 
     .page-title-section {
@@ -202,7 +204,7 @@
 </head>
 <body>
 
-  <video autoplay loop muted playsinline class="video-bg">
+  <video autoplay loop muted playsinline webkit-playsinline preload="auto" class="video-bg">
     <source src="assets/bg-video.mp4" type="video/mp4">
   </video>
 
@@ -457,7 +459,7 @@
     });
 
 
-    // --- 2. 🔥 UPDATED: COLLABORATION SUBMIT LOGIC WITH DISCORD WEBHOOK ---
+    // --- 2. COLLABORATION SUBMIT LOGIC WITH DISCORD WEBHOOK ---
     const collabForm = document.getElementById('CollabForm');
     const collabNotice = document.getElementById('collabNotice');
     const collabSubmitBtn = document.getElementById('collabSubmitBtn');
@@ -474,7 +476,6 @@
       const email = formData.get('c_email');
       const experience = formData.get('c_experience');
 
-      // ⚠️ APNA DUSRA DISCORD WEBHOOK URL YAHAN NEECHE PASTE KAREIN
       const collabWebhookUrl = "https://discord.com/api/webhooks/1508431839776211046/elzQXz8KrQKAGIDNXrsPvjPK5pfUv-oiWjpaYbbZCDdxfZcOZLpVyCTY5_pAaoCs553I";
 
       collabSubmitBtn.disabled = true;
@@ -485,7 +486,7 @@
         avatar_url: "https://i.imgur.com/AfFp7pu.png",
         embeds: [{
           title: "🤝 New Collaboration Proposal Received! 🤝",
-          color: 3074470, // Sleek Green Color Card
+          color: 3074470,
           fields: [
             { name: "👤 Name", value: `\`${name}\``, inline: true },
             { name: "🎂 Age", value: `\`${age}\``, inline: true },
@@ -501,10 +502,6 @@
       };
 
       try {
-        if(collabWebhookUrl === "YOUR_DISCORD_COLLAB_WEBHOOK_URL_HERE") {
-          throw new Error("FORM NOT SENT!");
-        }
-
         const response = await fetch(collabWebhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

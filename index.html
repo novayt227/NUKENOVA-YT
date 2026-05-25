@@ -439,6 +439,11 @@
       font-weight: 800;
       display:none;
     }
+    .notice.error-notice {
+      border-color: rgba(255,77,109,.25);
+      background: rgba(255,77,109,.08);
+      color: #FFD2DA;
+    }
 
     /* Footer */
     footer{
@@ -497,7 +502,7 @@
         <a href="#features">Features</a>
         <a href="#rules">Rules</a>
         <a href="#whitelist">Whitelist</a>
-        <a href="#staff">Staff</a>
+        <a href="#MANAGEMENT">Staff</a>
       </nav>
     </div>
   </header>
@@ -760,7 +765,7 @@
 
           <div class="modal-foot">
             <button class="btn btn-danger" type="button" id="cancelModalBtn">Cancel</button>
-            <button class="btn btn-primary" type="submit">Submit Application</button>
+            <button class="btn btn-primary" type="submit" id="submitBtn">Submit Application</button>
           </div>
 
           <div class="notice" id="submitNotice">Application submitted! (Demo) Please join Discord for the real staff application process.</div>
@@ -818,15 +823,20 @@
     const cancelBtn = document.getElementById('cancelModalBtn');
     const form = document.getElementById('whitelistForm');
     const notice = document.getElementById('submitNotice');
+    const submitBtn = document.getElementById('submitBtn');
 
     function openModal(){
       overlay.style.display = 'flex';
       notice.style.display = 'none';
+      notice.classList.remove('error-notice');
     }
     function closeModal(){
       overlay.style.display = 'none';
       form.reset();
       notice.style.display = 'none';
+      notice.classList.remove('error-notice');
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit Application";
     }
 
     openBtn1.addEventListener('click', openModal);
@@ -842,13 +852,80 @@
       if(e.key === 'Escape' && overlay.style.display === 'flex') closeModal();
     });
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      notice.style.display = 'block';
-      showToast('Submitted');
-      window.setTimeout(() => {
-        closeModal();
-      }, 1700);
+      
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
+
+      // Form data collect kar rahe hain
+      const formData = new FormData(form);
+      const username = formData.get('username');
+      const age = formData.get('age') || 'Not provided';
+      const playstyle = formData.get('playstyle');
+      const timezone = formData.get('timezone');
+      const reason = formData.get('reason');
+      const discord = formData.get('discord');
+
+      // DISCORD WEBHOOK URL (YAHAN APNA LINK PASTE KARNA HAI)
+      const webhookUrl = "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv";
+
+      // Agar webhook URL lagana bhool gaye toh alert dikhayega
+      if (webhookUrl === "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv") {
+        notice.innerText = "Error: Webhook URL set nahi kiya gaya hai!";
+        notice.classList.add('error-notice');
+        notice.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Application";
+        return;
+      }
+
+      // Discord Embed Message format taiyar kar rahe hain
+      const discordMessage = {
+        username: "TITANEDGE SMP Bot",
+        avatar_url: "https://i.imgur.com/AfFp7pu.png", // Aap apna koi bhi bot image link daal sakte ho
+        embeds: [{
+          title: "✨ New Staff Application Received! ✨",
+          color: 8149247, // Purple color code
+          fields: [
+            { name: "👤 Minecraft Username", value: `\`${username}\``, inline: true },
+            { name: "🎂 Age", value: `\`${age}\``, inline: true },
+            { name: "🌍 Time Zone", value: `\`${timezone}\``, inline: true },
+            { name: "🎮 Playstyle", value: `\`${playstyle}\``, inline: true },
+            { name: "💬 Discord Username", value: `**${discord}**`, inline: false },
+            { name: "📝 Reason to Apply", value: reason, inline: false }
+          ],
+          timestamp: new Date().toISOString(),
+          footer: { text: "NOVA YT Website System" }
+        }]
+      };
+
+      try {
+        // Discord par data bhej rahe hain
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(discordMessage)
+        });
+
+        if (response.ok) {
+          notice.innerText = "Success! Application aapke Discord par bhej di gayi hai.";
+          notice.classList.remove('error-notice');
+          notice.style.display = 'block';
+          showToast('Application Sent!');
+          window.setTimeout(() => {
+            closeModal();
+          }, 2000);
+        } else {
+          throw new Error("Discord server ne response nahi diya");
+        }
+      } catch (error) {
+        notice.innerText = "Error: Application nahi bheji ja saki. URL check karein!";
+        notice.classList.add('error-notice');
+        notice.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Application";
+      }
     });
 
     const statusPill = document.getElementById('statusPill');

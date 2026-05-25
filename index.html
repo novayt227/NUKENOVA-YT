@@ -878,7 +878,7 @@
 
       // --- 1 HAFTE KA COOLDOWN & DUPLICATE CHECK LOGIC ---
       const currentTime = new Date().getTime();
-      const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 7 Din mili-seconds me
+      const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000; // 7 Din mili-seconds me
 
       // LocalStorage se check kar rahe hain ki kya is name se pehle apply hua hai
       const lastAppliedTime = localStorage.getItem(`cooldown_${username}`);
@@ -886,8 +886,8 @@
       if (lastAppliedTime) {
         const timePassed = currentTime - parseInt(lastAppliedTime);
         
-        if (timePassed < oneWeekInMilliseconds) {
-          const timeLeft = oneWeekInMilliseconds - timePassed;
+        if (timePassed < oneMonthInMilliseconds) {
+          const timeLeft = oneMonthInMilliseconds - timePassed;
           const daysLeft = Math.ceil(timeLeft / (24 * 60 * 60 * 1000)); // Din calculate karne ke liye
           
           notice.innerText = `Error: This username has already applied! Please wait ${daysLeft} more day(s) before applying again.`;

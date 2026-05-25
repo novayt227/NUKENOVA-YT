@@ -501,8 +501,8 @@
         <a href="#home">Home</a>
         <a href="#features">Features</a>
         <a href="#rules">Rules</a>
-        <a href="#Application">Application</a>
-        <a href="#MANAGEMENT">Staff</a>
+        <a href="apply.html">Application</a>
+        <a href="#staff">Staff</a>
       </nav>
     </div>
   </header>
@@ -520,9 +520,9 @@
               <a class="btn btn-primary" href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer">
                 <span aria-hidden="true">💬</span> Join Discord
               </a>
-              <button class="btn btn-ghost" id="openApplicationBtn" type="button">
+              <a class="btn btn-ghost" href="apply.html">
                 <span aria-hidden="true">🧑‍⚖️</span> Apply for Staff
-              </button>
+              </a>
             </div>
 
             <div class="copywrap">
@@ -656,9 +656,9 @@
               Use the form to apply for a staff role. (1 application allowed per Month)
             </div>
           </div>
-          <button class="btn btn-primary" id="openApplicationBtn2" type="button">
+          <a class="btn btn-primary" href="apply.html">
             <span aria-hidden="true">🧑‍⚖️</span> Open Application
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -717,7 +717,7 @@
         <div class="modal-head">
           <div>
             <div class="modal-title" id="modalTitle">Staff Application</div>
-            <div style="color: var(--muted); font-weight: 700; font-size: 13px; margin-top: 2px;">Tell us about you (1 application allowed per week)</div>
+            <div style="color: var(--muted); font-weight: 700; font-size: 13px; margin-top: 2px;">Tell us about you (1 application allowed per Month)</div>
           </div>
           <button class="close" id="closeModalBtn" type="button">✕ Close</button>
         </div>
@@ -815,22 +815,14 @@
       }
     });
 
-    // Modal logic
+    // Modal fallback / Backwards compatibility logic
     const overlay = document.getElementById('modalOverlay');
-    const openBtn1 = document.getElementById('openApplicationBtn');
-    const openBtn2 = document.getElementById('openApplicationBtn2');
     const closeBtn = document.getElementById('closeModalBtn');
     const cancelBtn = document.getElementById('cancelModalBtn');
     const form = document.getElementById('ApplicationForm');
     const notice = document.getElementById('submitNotice');
     const submitBtn = document.getElementById('submitBtn');
-    const mcUsernameInput = document.getElementById('mcUsernameInput');
 
-    function openModal(){
-      overlay.style.display = 'flex';
-      notice.style.display = 'none';
-      notice.classList.remove('error-notice');
-    }
     function closeModal(){
       overlay.style.display = 'none';
       form.reset();
@@ -840,115 +832,101 @@
       submitBtn.innerText = "Submit Application";
     }
 
-    openBtn1.addEventListener('click', openModal);
-    openBtn2.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
+    if(closeBtn) closeBtn.addEventListener('click', closeModal);
+    if(cancelBtn) cancelBtn.addEventListener('click', closeModal);
 
-    overlay.addEventListener('click', (e) => {
-      if(e.target === overlay) closeModal();
-    });
+    if(overlay) {
+      overlay.addEventListener('click', (e) => {
+        if(e.target === overlay) closeModal();
+      });
+    }
 
     document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape' && overlay.style.display === 'flex') closeModal();
+      if(e.key === 'Escape' && overlay && overlay.style.display === 'flex') closeModal();
     });
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    if(form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      // Form data collect kar rahe hain
-      const formData = new FormData(form);
-      const username = formData.get('username').trim().toLowerCase();
-      const originalUsername = formData.get('username').trim();
-      const age = formData.get('age') || 'Not provided';
-      const playstyle = formData.get('playstyle');
-      const timezone = formData.get('timezone');
-      const reason = formData.get('reason');
-      const discord = formData.get('discord');
+        const formData = new FormData(form);
+        const username = formData.get('username').trim().toLowerCase();
+        const originalUsername = formData.get('username').trim();
+        const age = formData.get('age') || 'Not provided';
+        const playstyle = formData.get('playstyle');
+        const timezone = formData.get('timezone');
+        const reason = formData.get('reason');
+        const discord = formData.get('discord');
 
-      // DISCORD WEBHOOK URL (YAHAN APNA LINK PASTE KARNA HAI)
-      const webhookUrl = "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv";
+        const webhookUrl = "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv";
 
-      if (webhookUrl === "YOUR_DISCORD_WEBHOOK_URL_HERE") {
-        notice.innerText = "Error: TRY AGAIN AFTER FEW MINUTES!";
-        notice.classList.add('error-notice');
-        notice.style.display = 'block';
-        return;
-      }
+        // 1 MAHINE KA COOLDOWN
+        const currentTime = new Date().getTime();
+        const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
+        const lastAppliedTime = localStorage.getItem(`cooldown_${username}`);
 
-      // --- 1 HAFTE KA COOLDOWN & DUPLICATE CHECK LOGIC ---
-      const currentTime = new Date().getTime();
-      const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000; // 7 Din mili-seconds me
+        if (lastAppliedTime) {
+          const timePassed = currentTime - parseInt(lastAppliedTime);
+          if (timePassed < oneMonthInMilliseconds) {
+            const timeLeft = oneMonthInMilliseconds - timePassed;
+            const daysLeft = Math.ceil(timeLeft / (24 * 60 * 60 * 1000));
+            notice.innerText = `Error: This username has already applied! Please wait ${daysLeft} more day(s) before applying again.`;
+            notice.classList.add('error-notice');
+            notice.style.display = 'block';
+            return;
+          }
+        }
 
-      // LocalStorage se check kar rahe hain ki kya is name se pehle apply hua hai
-      const lastAppliedTime = localStorage.getItem(`cooldown_${username}`);
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
 
-      if (lastAppliedTime) {
-        const timePassed = currentTime - parseInt(lastAppliedTime);
-        
-        if (timePassed < oneMonthInMilliseconds) {
-          const timeLeft = oneMonthInMilliseconds - timePassed;
-          const daysLeft = Math.ceil(timeLeft / (24 * 60 * 60 * 1000)); // Din calculate karne ke liye
-          
-          notice.innerText = `Error: This username has already applied! Please wait ${daysLeft} more day(s) before applying again.`;
+        const discordMessage = {
+          username: "NUKENOVA YT",
+          avatar_url: "https://i.imgur.com/AfFp7pu.png",
+          embeds: [{
+            title: "✨ New Staff Application Received! ✨",
+            color: 8149247,
+            fields: [
+              { name: "👤 Minecraft Username", value: `\`${originalUsername}\``, inline: true },
+              { name: "🎂 Age", value: `\`${age}\``, inline: true },
+              { name: "🌍 Time Zone", value: `\`${timezone}\``, inline: true },
+              { name: "🎮 Playstyle", value: `\`${playstyle}\``, inline: true },
+              { name: "💬 Discord Username", value: `**${discord}**`, inline: false },
+              { name: "📝 Reason to Apply", value: reason, inline: false }
+            ],
+            timestamp: new Date().toISOString(),
+            footer: { text: "NOVA YT Website System" }
+          }]
+        };
+
+        try {
+          const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(discordMessage)
+          });
+
+          if (response.ok) {
+            localStorage.setItem(`cooldown_${username}`, currentTime.toString());
+            notice.innerText = "Success! Your Application sent.";
+            notice.classList.remove('error-notice');
+            notice.style.display = 'block';
+            showToast('Application Sent!');
+            window.setTimeout(() => {
+              closeModal();
+            }, 2000);
+          } else {
+            throw new Error("Discord server error");
+          }
+        } catch (error) {
+          notice.innerText = "Error: Application nahi bheji ja saki. Network check karein!";
           notice.classList.add('error-notice');
           notice.style.display = 'block';
-          return;
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Submit Application";
         }
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Sending...";
-
-      // Discord Embed Message format taiyar kar rahe hain
-      const discordMessage = {
-        username: "NUKENOVA YT",
-        avatar_url: "https://i.imgur.com/AfFp7pu.png",
-        embeds: [{
-          title: "✨ New Staff Application Received! ✨",
-          color: 8149247,
-          fields: [
-            { name: "👤 Minecraft Username", value: `\`${originalUsername}\``, inline: true },
-            { name: "🎂 Age", value: `\`${age}\``, inline: true },
-            { name: "🌍 Time Zone", value: `\`${timezone}\``, inline: true },
-            { name: "🎮 Playstyle", value: `\`${playstyle}\``, inline: true },
-            { name: "💬 Discord Username", value: `**${discord}**`, inline: false },
-            { name: "📝 Reason to Apply", value: reason, inline: false }
-          ],
-          timestamp: new Date().toISOString(),
-          footer: { text: "NOVA YT Website System" }
-        }]
-      };
-
-      try {
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(discordMessage)
-        });
-
-        if (response.ok) {
-          // Application successfully send hone par user ka data local storage me save kar denge timestamp ke sath
-          localStorage.setItem(`cooldown_${username}`, currentTime.toString());
-
-          notice.innerText = "Success! Your Application sent.";
-          notice.classList.remove('error-notice');
-          notice.style.display = 'block';
-          showToast('Application Sent!');
-          window.setTimeout(() => {
-            closeModal();
-          }, 2000);
-        } else {
-          throw new Error("Discord server error");
-        }
-      } catch (error) {
-        notice.innerText = "Error: Application nahi bheji ja saki. Network check karein!";
-        notice.classList.add('error-notice');
-        notice.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Submit Application";
-      }
-    });
+      });
+    }
 
     const statusPill = document.getElementById('statusPill');
     const statusValue = document.getElementById('statusValue');

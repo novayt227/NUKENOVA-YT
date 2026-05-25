@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Staff Application - NUKENOVA YT</title>
+  <title>Applications - NUKENOVA YT</title>
   <style>
     :root{
-      /* Main Page jaise colors */
       --bg0:#070A12;
       --text:#EAF0FF;
       --muted:#A9B4DA;
@@ -21,18 +20,17 @@
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
       color: var(--text);
-      /* Background black rahega jab tak video load na ho */
       background: var(--bg0);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       min-height: 100vh;
-      padding: 20px;
-      /* Background video scroll ke sath fixed rahe */
+      padding: 40px 20px;
       overflow-x: hidden;
     }
 
-    /* Video Background Styling (Main Page jaise exact same) */
+    /* Video Background */
     .video-bg {
       position: fixed;
       inset: 0;
@@ -43,31 +41,40 @@
       z-index: -1;
       object-fit: cover;
       pointer-events: none;
-      opacity: 0.25; /* Isse background anime art halka dikhega, text saaf dikhega */
+      opacity: 0.25;
+    }
+
+    .container-layout {
+      width: min(650px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
     }
 
     .wrapper {
-      position: relative;
-      z-index: 1; /* Content video ke upar dikhe */
-      width: min(650px, 100%);
+      width: 100%;
       border-radius: var(--radius);
       border: 1px solid var(--border);
-      /* Transparent background, Main Page ke cards jaise */
       background: rgba(255,255,255,.06);
       padding: 30px;
       box-shadow: 0 20px 60px rgba(0,0,0,.35);
-      backdrop-filter: blur(8px); /* Halki blurred look card ke niche */
+      backdrop-filter: blur(8px);
     }
     h1 { margin: 0 0 6px 0; font-size: 26px; font-weight: 950; }
     .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; font-weight: 700; }
+    
     form { display: grid; gap: 16px; }
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     @media (max-width: 600px){ .row2 { grid-template-columns: 1fr; } }
+    
     label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); font-weight: 800; font-size: 13px; }
+    .optional-tag { color: rgba(255,255,255,0.4); font-weight: 500; font-size: 11px; margin-left: 4px; }
+    
     input, textarea, select {
       border-radius: 14px;
       border: 1px solid var(--border);
-      /* Thoda darker translucent inputs */
       background: rgba(0,0,0,.3);
       color: var(--text);
       padding: 12px;
@@ -79,7 +86,8 @@
     input:focus, textarea:focus, select:focus{
         border-color: var(--brand);
     }
-    textarea { min-height: 120px; resize: vertical; }
+    textarea { min-height: 100px; resize: vertical; }
+    
     .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 10px; }
     .btn {
       padding: 12px 20px;
@@ -89,13 +97,63 @@
       border: 1px solid rgba(255,255,255,.16);
       font-size: 14px;
       transition: .15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .btn-back { background: rgba(255,255,255,.06); color: var(--text); text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-back { background: rgba(255,255,255,.06); color: var(--text); text-decoration: none; }
     .btn-back:hover{ background: rgba(255,255,255,.1); transform: translateY(-1px); }
+    
     .btn-submit { background: linear-gradient(135deg, #7C5CFF, #2EE9A6); color: #07101C; border: none; }
     .btn-submit:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+    
+    .btn-collab { background: linear-gradient(135deg, #2EE9A6, #7C5CFF); color: #07101C; border: none; width: 100%; margin-top: 8px; }
+    .btn-collab:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+
     .notice { padding: 12px; border-radius: 16px; border: 1px solid rgba(46,233,166,.25); background: rgba(46,233,166,.08); color: #CFFAF0; font-weight: 800; display: none; margin-top: 10px; }
     .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+      backdrop-filter: blur(5px);
+    }
+    .modal-content {
+      width: min(600px, 100%);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #0B101D;
+      padding: 26px;
+      box-shadow: 0 25px 70px rgba(0,0,0,.5);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 12px;
+    }
+    .close-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+    .close-btn:hover { background: rgba(255,255,255,0.1); }
   </style>
 </head>
 <body>
@@ -104,59 +162,174 @@
     <source src="assets/bg-video.mp4" type="video/mp4">
   </video>
 
-  <div class="wrapper">
-    <h1>Staff Application</h1>
-    <div class="subtitle">Tell us about you (1 application allowed per Month)</div>
+  <div class="container-layout">
+    
+    <div class="wrapper">
+      <h1>Staff Application</h1>
+      <div class="subtitle">Tell us about you (1 application allowed per Month)</div>
 
-    <form id="ApplicationForm">
-      <div class="row2">
+      <form id="ApplicationForm">
+        <div class="row2">
+          <label>
+            Minecraft Username
+            <input name="username" id="mcUsernameInput" required placeholder="e.g., TitanPlayer123" />
+          </label>
+          <label>
+            Age (optional)
+            <input name="age" placeholder="e.g., 16" inputmode="numeric" />
+          </label>
+        </div>
+
+        <div class="row2">
+          <label>
+            Preferred Playstyle
+            <select name="playstyle" required>
+              <option value="survival">Survival</option>
+              <option value="building">Building</option>
+              <option value="pvp">PvP</option>
+              <option value="events">Events</option>
+              <option value="mixed" selected>Mixed</option>
+            </select>
+          </label>
+          <label>
+            Time Zone
+            <input name="timezone" required placeholder="e.g., GMT+5 / EST" />
+          </label>
+        </div>
+
         <label>
-          Minecraft Username
-          <input name="username" id="mcUsernameInput" required placeholder="e.g., TitanPlayer123" />
+          Why do you want to apply for staff?
+          <textarea name="reason" required placeholder="Write a short introduction..."></textarea>
         </label>
+
         <label>
-          Age (optional)
-          <input name="age" placeholder="e.g., 16" inputmode="numeric" />
+          Discord Username (for contact)
+          <input name="discord" required placeholder="e.g., @titan" />
         </label>
+
+        <div class="actions">
+          <a href="index.html" class="btn btn-back">← Back to Home</a>
+          <button class="btn btn-submit" type="submit" id="submitBtn">Submit Application</button>
+        </div>
+
+        <div class="notice" id="submitNotice"></div>
+      </form>
+    </div>
+
+    <div class="wrapper">
+      <h1>Collaboration Application</h1>
+      <div class="subtitle">Partner with NUKENOVA YT for events, media, or business</div>
+      <p style="margin: 0 0 16px 0; color: var(--muted); font-size: 14px; font-weight: 650; line-height: 1.5;">
+        Agar aap hamare sath collaborate karna chahte hain, toh niche diye gaye button par click karke apni details submit karein.
+      </p>
+      <button class="btn btn-collab" id="openCollabBtn">🤝 Open Collaboration Form</button>
+    </div>
+
+  </div>
+
+  <div class="modal-overlay" id="collabModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 style="margin:0; font-size:22px; font-weight:900;">Collaboration Form</h2>
+        <button class="close-btn" id="closeCollabBtn">✕ Close</button>
       </div>
+      
+      <form id="CollabForm">
+        <div class="row2">
+          <label>
+            Name
+            <input name="c_name" required placeholder="Your full name" />
+          </label>
+          <label>
+            Age <span style="color:var(--danger)">* (Mandatory)</span>
+            <input name="c_age" type="number" required placeholder="e.g., 18" />
+          </label>
+        </div>
 
-      <div class="row2">
+        <div class="row2">
+          <label>
+            YouTube Channel <span class="optional-tag">(Optional)</span>
+            <input name="c_youtube" placeholder="Link ya Channel Name" />
+          </label>
+          <label>
+            Product / Brand <span class="optional-tag">(Optional)</span>
+            <input name="c_product" placeholder="e.g., Server Hosting, Client" />
+          </label>
+        </div>
+
+        <div class="row2">
+          <label>
+            Phone Number <span style="color:var(--danger)">* (Mandatory)</span>
+            <input name="c_phone" type="tel" required placeholder="With Country Code" />
+          </label>
+          <label>
+            Business Email <span style="color:var(--danger)">* (Mandatory)</span>
+            <input name="c_email" type="email" required placeholder="name@company.com" />
+          </label>
+        </div>
+
         <label>
-          Preferred Playstyle
-          <select name="playstyle" required>
-            <option value="survival">Survival</option>
-            <option value="building">Building</option>
-            <option value="pvp">PvP</option>
-            <option value="events">Events</option>
-            <option value="mixed" selected>Mixed</option>
-          </select>
+          Experience Details
+          <textarea name="c_experience" required placeholder="Apne pichle projects ya experience ke baare me batayein..."></textarea>
         </label>
-        <label>
-          Time Zone
-          <input name="timezone" required placeholder="e.g., GMT+5 / EST" />
-        </label>
-      </div>
 
-      <label>
-        Why do you want to apply for staff?
-        <textarea name="reason" required placeholder="Write a short introduction..."></textarea>
-      </label>
-
-      <label>
-        Discord Username (for contact)
-        <input name="discord" required placeholder="e.g., @titan" />
-      </label>
-
-      <div class="actions">
-        <a href="index.html" class="btn btn-back">← Back to Home</a>
-        <button class="btn btn-submit" type="submit" id="submitBtn">Submit Application</button>
-      </div>
-
-      <div class="notice" id="submitNotice"></div>
-    </form>
+        <div class="actions" style="margin-top: 10px;">
+          <button class="btn btn-back" type="button" id="cancelCollabBtn">Cancel</button>
+          <button class="btn btn-submit" type="submit" id="collabSubmitBtn">Submit Details</button>
+        </div>
+        
+        <div class="notice" id="collabNotice"></div>
+      </form>
+    </div>
   </div>
 
   <script>
+    // --- POPUP MODAL LOGIC FOR COLLABORATION ---
+    const collabModal = document.getElementById('collabModal');
+    const openCollabBtn = document.getElementById('openCollabBtn');
+    const closeCollabBtn = document.getElementById('closeCollabBtn');
+    const cancelCollabBtn = document.getElementById('cancelCollabBtn');
+    const collabForm = document.getElementById('CollabForm');
+    const collabNotice = document.getElementById('collabNotice');
+    const collabSubmitBtn = document.getElementById('collabSubmitBtn');
+
+    openCollabBtn.addEventListener('click', () => {
+      collabModal.style.display = 'flex';
+    });
+
+    function closeCollab() {
+      collabModal.style.display = 'none';
+      collabForm.reset();
+      collabNotice.style.display = 'none';
+    }
+
+    closeCollabBtn.addEventListener('click', closeCollab);
+    cancelCollabBtn.addEventListener('click', closeCollab);
+    collabModal.addEventListener('click', (e) => {
+      if(e.target === collabModal) closeCollab();
+    });
+
+    // Webhook implementation placeholder/alert text logic for Collab
+    collabForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      collabSubmitBtn.disabled = true;
+      collabSubmitBtn.innerText = "Sending...";
+      
+      // Jaisa aapne bola "baad me bta dunga", abhi ke liye success show karega local screen par
+      setTimeout(() => {
+        collabNotice.innerText = "Success! Collaboration details saved locally. (Webhook configured later)";
+        collabNotice.className = "notice";
+        collabNotice.style.display = 'block';
+        setTimeout(() => {
+          closeCollab();
+          collabSubmitBtn.disabled = false;
+          collabSubmitBtn.innerText = "Submit Details";
+        }, 2000);
+      }, 1000);
+    });
+
+
+    // --- STAFF APPLICATION FORM LOGIC ---
     const form = document.getElementById('ApplicationForm');
     const notice = document.getElementById('submitNotice');
     const submitBtn = document.getElementById('submitBtn');
@@ -175,7 +348,6 @@
 
       const webhookUrl = "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv";
 
-      // --- 1 MAHINE KA COOLDOWN LOGIC ---
       const currentTime = new Date().getTime();
       const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
       const lastAppliedTime = localStorage.getItem(`cooldown_${username}`);
@@ -228,7 +400,7 @@
           notice.style.display = 'block';
           form.reset();
           setTimeout(() => {
-            window.location.href = "index.html"; // Submit hone ke baad wapas home page par bhej dega
+            window.location.href = "index.html";
           }, 2000);
         } else {
           throw new Error("Discord server error");

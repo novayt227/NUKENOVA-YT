@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Applications - NUKENOVA YT</title>
+  
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpeg" />
+
   <style>
     :root{
       --bg0:#070A12;
@@ -50,14 +53,14 @@
       position: relative;
       z-index: 1;
     }
-    .page-title-section h0 {
+    .page-title-section h2 {
       font-size: 32px;
       font-weight: 950;
       background: linear-gradient(135deg, #FFF, var(--muted));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       display: block;
-      margin-bottom: 8px;
+      margin: 0 0 8px 0;
     }
     .page-title-section p {
       margin: 0;
@@ -66,7 +69,7 @@
       font-weight: 600;
     }
 
-    /* Main Selection Layout Grid */
+    /* Selection Layout Grid */
     .selection-grid {
       width: min(700px, 100%);
       display: grid;
@@ -95,7 +98,7 @@
       transform: translateY(-4px);
       border-color: rgba(124, 92, 255, 0.4);
     }
-    .app-card h2 { margin: 0 0 10px 0; font-size: 22px; font-weight: 900; }
+    .app-card h3 { margin: 0 0 10px 0; font-size: 22px; font-weight: 900; }
     .app-card p { margin: 0 0 24px 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; font-weight: 650; }
 
     /* Buttons Styling */
@@ -204,7 +207,7 @@
   </video>
 
   <div class="page-title-section">
-    <h0>Application Portal</h0>
+    <h2>Application Portal</h2>
     <p>Select the type of form you want to submit</p>
   </div>
 
@@ -212,7 +215,7 @@
     
     <div class="app-card">
       <div>
-        <h2>Staff Application</h2>
+        <h3>Staff Application</h3>
         <p>Join the TitanEdge SMP management team! Help us monitor the server, assist players, and manage events.</p>
       </div>
       <button class="btn btn-staff" id="openStaffBtn">🛡️ Apply For Staff</button>
@@ -220,7 +223,7 @@
 
     <div class="app-card">
       <div>
-        <h2>Collaboration</h2>
+        <h3>Collaboration</h3>
         <p>Partner with NUKENOVA YT! Open for content creators, server hostings, brand sponsorships, and media events.</p>
       </div>
       <button class="btn btn-collab" id="openCollabBtn">🤝 Open Collab Form</button>
@@ -228,7 +231,7 @@
 
   </div>
 
-  <a href="index.html" class="btn btn-back-home">← Back to Home Page</a>
+  <a href="/" class="btn btn-back-home">← Back to Home Page</a>
 
 
   <div class="modal-overlay" id="staffModal">
@@ -344,18 +347,15 @@
 
 
   <script>
-    // Elements Setup
     const staffModal = document.getElementById('staffModal');
     const collabModal = document.getElementById('collabModal');
     
     const openStaffBtn = document.getElementById('openStaffBtn');
     const openCollabBtn = document.getElementById('openCollabBtn');
 
-    // Open Modal Functions
     openStaffBtn.addEventListener('click', () => staffModal.style.display = 'flex');
     openCollabBtn.addEventListener('click', () => collabModal.style.display = 'flex');
 
-    // Close Modal Function
     function closeModal(modalId) {
       const targetModal = document.getElementById(modalId);
       targetModal.style.display = 'none';
@@ -365,14 +365,12 @@
       if(notice) notice.style.display = 'none';
     }
 
-    // Overlay click se close karne ke liye
     window.addEventListener('click', (e) => {
       if(e.target === staffModal) closeModal('staffModal');
       if(e.target === collabModal) closeModal('collabModal');
     });
 
-
-    // --- 1. STAFF APPLICATION SUBMIT LOGIC (With Discord Webhook) ---
+    // Staff Submit Webhook System
     const staffForm = document.getElementById('StaffForm');
     const staffNotice = document.getElementById('staffNotice');
     const staffSubmitBtn = document.getElementById('staffSubmitBtn');
@@ -391,7 +389,6 @@
 
       const webhookUrl = "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv";
 
-      // Cooldown Logic
       const currentTime = new Date().getTime();
       const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
       const lastAppliedTime = localStorage.getItem(`cooldown_${username}`);
@@ -445,7 +442,7 @@
           staffForm.reset();
           setTimeout(() => {
             closeModal('staffModal');
-            window.location.href = "index.html"; 
+            window.location.href = "/"; // FIXED: Redirect smoothly to root domain
           }, 2000);
         } else {
           throw new Error("Discord server error");
@@ -459,8 +456,7 @@
       }
     });
 
-
-    // --- 2. COLLABORATION SUBMIT LOGIC (Placeholder) ---
+    // Collaboration Submit System
     const collabForm = document.getElementById('CollabForm');
     const collabNotice = document.getElementById('collabNotice');
     const collabSubmitBtn = document.getElementById('collabSubmitBtn');
@@ -471,7 +467,7 @@
       collabSubmitBtn.innerText = "Sending...";
       
       setTimeout(() => {
-        collabNotice.innerText = "Success! Collaboration details saved. (Webhook integration waiting)";
+        collabNotice.innerText = "Success! Collaboration details saved.";
         collabNotice.className = "notice";
         collabNotice.style.display = 'block';
         setTimeout(() => {

@@ -24,9 +24,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 20px;
       overflow-x: hidden;
     }
 
@@ -44,51 +44,61 @@
       opacity: 0.25;
     }
 
-    .container-layout {
-      width: min(650px, 100%);
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+    .page-title-section {
+      text-align: center;
+      margin-bottom: 30px;
       position: relative;
       z-index: 1;
     }
+    .page-title-section h0 {
+      font-size: 32px;
+      font-weight: 950;
+      background: linear-gradient(135deg, #FFF, var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .page-title-section p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 600;
+    }
 
-    .wrapper {
-      width: 100%;
+    /* Main Selection Layout Grid */
+    .selection-grid {
+      width: min(700px, 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 600px){ 
+      .selection-grid { grid-template-columns: 1fr; } 
+    }
+
+    .app-card {
       border-radius: var(--radius);
       border: 1px solid var(--border);
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.05);
       padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
-      backdrop-filter: blur(8px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.3);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
     }
-    h1 { margin: 0 0 6px 0; font-size: 26px; font-weight: 950; }
-    .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; font-weight: 700; }
-    
-    form { display: grid; gap: 16px; }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 600px){ .row2 { grid-template-columns: 1fr; } }
-    
-    label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); font-weight: 800; font-size: 13px; }
-    .optional-tag { color: rgba(255,255,255,0.4); font-weight: 500; font-size: 11px; margin-left: 4px; }
-    
-    input, textarea, select {
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,.3);
-      color: var(--text);
-      padding: 12px;
-      outline: none;
-      font-weight: 750;
-      font-size: 14px;
-      transition: border-color .15s;
+    .app-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124, 92, 255, 0.4);
     }
-    input:focus, textarea:focus, select:focus{
-        border-color: var(--brand);
-    }
-    textarea { min-height: 100px; resize: vertical; }
-    
-    .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 10px; }
+    .app-card h2 { margin: 0 0 10px 0; font-size: 22px; font-weight: 900; }
+    .app-card p { margin: 0 0 24px 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; font-weight: 650; }
+
+    /* Buttons Styling */
     .btn {
       padding: 12px 20px;
       border-radius: 14px;
@@ -101,38 +111,45 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      width: 100%;
+      text-decoration: none;
     }
-    .btn-back { background: rgba(255,255,255,.06); color: var(--text); text-decoration: none; }
-    .btn-back:hover{ background: rgba(255,255,255,.1); transform: translateY(-1px); }
+    .btn-staff { background: linear-gradient(135deg, #7C5CFF, #512ee9); color: #FFF; border: none; }
+    .btn-staff:hover { filter: brightness(1.1); }
     
-    .btn-submit { background: linear-gradient(135deg, #7C5CFF, #2EE9A6); color: #07101C; border: none; }
-    .btn-submit:hover{ filter: brightness(1.05); transform: translateY(-1px); }
-    
-    .btn-collab { background: linear-gradient(135deg, #2EE9A6, #7C5CFF); color: #07101C; border: none; width: 100%; margin-top: 8px; }
-    .btn-collab:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+    .btn-collab { background: linear-gradient(135deg, #2EE9A6, #1bbf84); color: #07101C; border: none; }
+    .btn-collab:hover { filter: brightness(1.1); }
 
-    .notice { padding: 12px; border-radius: 16px; border: 1px solid rgba(46,233,166,.25); background: rgba(46,233,166,.08); color: #CFFAF0; font-weight: 800; display: none; margin-top: 10px; }
-    .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
+    .btn-back-home {
+      margin-top: 30px;
+      width: auto;
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 10px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-back-home:hover { background: rgba(255,255,255,.1); }
 
-    /* Modal Overlay */
+    /* Modals Configuration */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.65);
+      background: rgba(0,0,0,.75);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
       z-index: 100;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(6px);
     }
     .modal-content {
       width: min(600px, 100%);
       border-radius: var(--radius);
       border: 1px solid var(--border);
-      background: #0B101D;
+      background: #090D1A;
       padding: 26px;
-      box-shadow: 0 25px 70px rgba(0,0,0,.5);
+      box-shadow: 0 25px 70px rgba(0,0,0,.6);
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -154,6 +171,30 @@
       font-weight: 800;
     }
     .close-btn:hover { background: rgba(255,255,255,0.1); }
+
+    /* Form Layouts */
+    form { display: grid; gap: 16px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px){ .row2 { grid-template-columns: 1fr; } }
+    
+    label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); font-weight: 800; font-size: 13px; }
+    .optional-tag { color: rgba(255,255,255,0.35); font-weight: 500; font-size: 11px; margin-left: 4px; }
+    
+    input, textarea, select {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.4);
+      color: var(--text);
+      padding: 12px;
+      outline: none;
+      font-weight: 750;
+      font-size: 14px;
+    }
+    input:focus, textarea:focus, select:focus{ border-color: var(--brand); }
+    textarea { min-height: 100px; resize: vertical; }
+
+    .notice { padding: 12px; border-radius: 16px; border: 1px solid rgba(46,233,166,.25); background: rgba(46,233,166,.08); color: #CFFAF0; font-weight: 800; display: none; margin-top: 10px; }
+    .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
   </style>
 </head>
 <body>
@@ -162,20 +203,49 @@
     <source src="assets/bg-video.mp4" type="video/mp4">
   </video>
 
-  <div class="container-layout">
-    
-    <div class="wrapper">
-      <h1>Staff Application</h1>
-      <div class="subtitle">Tell us about you (1 application allowed per Month)</div>
+  <div class="page-title-section">
+    <h0>Application Portal</h0>
+    <p>Select the type of form you want to submit</p>
+  </div>
 
-      <form id="ApplicationForm">
+  <div class="selection-grid">
+    
+    <div class="app-card">
+      <div>
+        <h2>Staff Application</h2>
+        <p>Join the TitanEdge SMP management team! Help us monitor the server, assist players, and manage events.</p>
+      </div>
+      <button class="btn btn-staff" id="openStaffBtn">🛡️ Apply For Staff</button>
+    </div>
+
+    <div class="app-card">
+      <div>
+        <h2>Collaboration</h2>
+        <p>Partner with NUKENOVA YT! Open for content creators, server hostings, brand sponsorships, and media events.</p>
+      </div>
+      <button class="btn btn-collab" id="openCollabBtn">🤝 Open Collab Form</button>
+    </div>
+
+  </div>
+
+  <a href="index.html" class="btn btn-back-home">← Back to Home Page</a>
+
+
+  <div class="modal-overlay" id="staffModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 style="margin:0; font-size:22px; font-weight:900;">Staff Application Form</h2>
+        <button class="close-btn" onclick="closeModal('staffModal')">✕</button>
+      </div>
+      
+      <form id="StaffForm">
         <div class="row2">
           <label>
             Minecraft Username
-            <input name="username" id="mcUsernameInput" required placeholder="e.g., TitanPlayer123" />
+            <input name="username" required placeholder="e.g., TitanPlayer123" />
           </label>
           <label>
-            Age (optional)
+            Age <span class="optional-tag">(Optional)</span>
             <input name="age" placeholder="e.g., 16" inputmode="numeric" />
           </label>
         </div>
@@ -193,7 +263,7 @@
           </label>
           <label>
             Time Zone
-            <input name="timezone" required placeholder="e.g., GMT+5 / EST" />
+            <input name="timezone" required placeholder="e.g., GMT+5:30" />
           </label>
         </div>
 
@@ -204,34 +274,24 @@
 
         <label>
           Discord Username (for contact)
-          <input name="discord" required placeholder="e.g., @titan" />
+          <input name="discord" required placeholder="e.g., @titan_nova" />
         </label>
 
-        <div class="actions">
-          <a href="index.html" class="btn btn-back">← Back to Home</a>
-          <button class="btn btn-submit" type="submit" id="submitBtn">Submit Application</button>
+        <div class="actions" style="display:flex; gap:12px; justify-content:flex-end;">
+          <button class="btn" style="background:rgba(255,255,255,0.05); color:#fff; width:auto;" type="button" onclick="closeModal('staffModal')">Cancel</button>
+          <button class="btn btn-staff" style="width:auto;" type="submit" id="staffSubmitBtn">Submit Staff Form</button>
         </div>
-
-        <div class="notice" id="submitNotice"></div>
+        <div class="notice" id="staffNotice"></div>
       </form>
     </div>
-
-    <div class="wrapper">
-      <h1>Collaboration Application</h1>
-      <div class="subtitle">Partner with NUKENOVA YT for events, media, or business</div>
-      <p style="margin: 0 0 16px 0; color: var(--muted); font-size: 14px; font-weight: 650; line-height: 1.5;">
-        Agar aap hamare sath collaborate karna chahte hain, toh niche diye gaye button par click karke apni details submit karein.
-      </p>
-      <button class="btn btn-collab" id="openCollabBtn">🤝 Open Collaboration Form</button>
-    </div>
-
   </div>
+
 
   <div class="modal-overlay" id="collabModal">
     <div class="modal-content">
       <div class="modal-header">
         <h2 style="margin:0; font-size:22px; font-weight:900;">Collaboration Form</h2>
-        <button class="close-btn" id="closeCollabBtn">✕ Close</button>
+        <button class="close-btn" onclick="closeModal('collabModal')">✕</button>
       </div>
       
       <form id="CollabForm">
@@ -273,71 +333,54 @@
           <textarea name="c_experience" required placeholder="Apne pichle projects ya experience ke baare me batayein..."></textarea>
         </label>
 
-        <div class="actions" style="margin-top: 10px;">
-          <button class="btn btn-back" type="button" id="cancelCollabBtn">Cancel</button>
-          <button class="btn btn-submit" type="submit" id="collabSubmitBtn">Submit Details</button>
+        <div class="actions" style="display:flex; gap:12px; justify-content:flex-end;">
+          <button class="btn" style="background:rgba(255,255,255,0.05); color:#fff; width:auto;" type="button" onclick="closeModal('collabModal')">Cancel</button>
+          <button class="btn btn-collab" style="width:auto;" type="submit" id="collabSubmitBtn">Submit Collab Form</button>
         </div>
-        
         <div class="notice" id="collabNotice"></div>
       </form>
     </div>
   </div>
 
+
   <script>
-    // --- POPUP MODAL LOGIC FOR COLLABORATION ---
+    // Elements Setup
+    const staffModal = document.getElementById('staffModal');
     const collabModal = document.getElementById('collabModal');
+    
+    const openStaffBtn = document.getElementById('openStaffBtn');
     const openCollabBtn = document.getElementById('openCollabBtn');
-    const closeCollabBtn = document.getElementById('closeCollabBtn');
-    const cancelCollabBtn = document.getElementById('cancelCollabBtn');
-    const collabForm = document.getElementById('CollabForm');
-    const collabNotice = document.getElementById('collabNotice');
-    const collabSubmitBtn = document.getElementById('collabSubmitBtn');
 
-    openCollabBtn.addEventListener('click', () => {
-      collabModal.style.display = 'flex';
-    });
+    // Open Modal Functions
+    openStaffBtn.addEventListener('click', () => staffModal.style.display = 'flex');
+    openCollabBtn.addEventListener('click', () => collabModal.style.display = 'flex');
 
-    function closeCollab() {
-      collabModal.style.display = 'none';
-      collabForm.reset();
-      collabNotice.style.display = 'none';
+    // Close Modal Function
+    function closeModal(modalId) {
+      const targetModal = document.getElementById(modalId);
+      targetModal.style.display = 'none';
+      const form = targetModal.querySelector('form');
+      if(form) form.reset();
+      const notice = targetModal.querySelector('.notice');
+      if(notice) notice.style.display = 'none';
     }
 
-    closeCollabBtn.addEventListener('click', closeCollab);
-    cancelCollabBtn.addEventListener('click', closeCollab);
-    collabModal.addEventListener('click', (e) => {
-      if(e.target === collabModal) closeCollab();
-    });
-
-    // Webhook implementation placeholder/alert text logic for Collab
-    collabForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      collabSubmitBtn.disabled = true;
-      collabSubmitBtn.innerText = "Sending...";
-      
-      // Jaisa aapne bola "baad me bta dunga", abhi ke liye success show karega local screen par
-      setTimeout(() => {
-        collabNotice.innerText = "Success! Collaboration details saved locally. (Webhook configured later)";
-        collabNotice.className = "notice";
-        collabNotice.style.display = 'block';
-        setTimeout(() => {
-          closeCollab();
-          collabSubmitBtn.disabled = false;
-          collabSubmitBtn.innerText = "Submit Details";
-        }, 2000);
-      }, 1000);
+    // Overlay click se close karne ke liye
+    window.addEventListener('click', (e) => {
+      if(e.target === staffModal) closeModal('staffModal');
+      if(e.target === collabModal) closeModal('collabModal');
     });
 
 
-    // --- STAFF APPLICATION FORM LOGIC ---
-    const form = document.getElementById('ApplicationForm');
-    const notice = document.getElementById('submitNotice');
-    const submitBtn = document.getElementById('submitBtn');
+    // --- 1. STAFF APPLICATION SUBMIT LOGIC (With Discord Webhook) ---
+    const staffForm = document.getElementById('StaffForm');
+    const staffNotice = document.getElementById('staffNotice');
+    const staffSubmitBtn = document.getElementById('staffSubmitBtn');
 
-    form.addEventListener('submit', async (e) => {
+    staffForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const formData = new FormData(form);
+      const formData = new FormData(staffForm);
       const username = formData.get('username').trim().toLowerCase();
       const originalUsername = formData.get('username').trim();
       const age = formData.get('age') || 'Not provided';
@@ -348,6 +391,7 @@
 
       const webhookUrl = "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv";
 
+      // Cooldown Logic
       const currentTime = new Date().getTime();
       const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
       const lastAppliedTime = localStorage.getItem(`cooldown_${username}`);
@@ -357,15 +401,15 @@
         if (timePassed < oneMonthInMilliseconds) {
           const timeLeft = oneMonthInMilliseconds - timePassed;
           const daysLeft = Math.ceil(timeLeft / (24 * 60 * 60 * 1000));
-          notice.innerText = `Error: This username has already applied! Please wait ${daysLeft} more day(s) before applying again.`;
-          notice.className = "notice error-notice";
-          notice.style.display = 'block';
+          staffNotice.innerText = `Error: This username has already applied! Please wait ${daysLeft} more day(s).`;
+          staffNotice.className = "notice error-notice";
+          staffNotice.style.display = 'block';
           return;
         }
       }
 
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Sending...";
+      staffSubmitBtn.disabled = true;
+      staffSubmitBtn.innerText = "Sending...";
 
       const discordMessage = {
         username: "NUKENOVA YT",
@@ -395,23 +439,47 @@
 
         if (response.ok) {
           localStorage.setItem(`cooldown_${username}`, currentTime.toString());
-          notice.innerText = "Success! Your Application sent.";
-          notice.className = "notice";
-          notice.style.display = 'block';
-          form.reset();
+          staffNotice.innerText = "Success! Your Staff Application has been sent.";
+          staffNotice.className = "notice";
+          staffNotice.style.display = 'block';
+          staffForm.reset();
           setTimeout(() => {
-            window.location.href = "index.html";
+            closeModal('staffModal');
+            window.location.href = "index.html"; 
           }, 2000);
         } else {
           throw new Error("Discord server error");
         }
       } catch (error) {
-        notice.innerText = "Error: Application nahi bheji ja saki. Network check karein!";
-        notice.className = "notice error-notice";
-        notice.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Submit Application";
+        staffNotice.innerText = "Error: Application nahi bheji ja saki.";
+        staffNotice.className = "notice error-notice";
+        staffNotice.style.display = 'block';
+        staffSubmitBtn.disabled = false;
+        staffSubmitBtn.innerText = "Submit Staff Form";
       }
+    });
+
+
+    // --- 2. COLLABORATION SUBMIT LOGIC (Placeholder) ---
+    const collabForm = document.getElementById('CollabForm');
+    const collabNotice = document.getElementById('collabNotice');
+    const collabSubmitBtn = document.getElementById('collabSubmitBtn');
+
+    collabForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      collabSubmitBtn.disabled = true;
+      collabSubmitBtn.innerText = "Sending...";
+      
+      setTimeout(() => {
+        collabNotice.innerText = "Success! Collaboration details saved. (Webhook integration waiting)";
+        collabNotice.className = "notice";
+        collabNotice.style.display = 'block';
+        setTimeout(() => {
+          closeModal('collabModal');
+          collabSubmitBtn.disabled = false;
+          collabSubmitBtn.innerText = "Submit Collab Form";
+        }, 2000);
+      }, 1200);
     });
   </script>
 </body>

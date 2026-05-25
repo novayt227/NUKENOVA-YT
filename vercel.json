@@ -1,7 +1,0 @@
-{
-  "cleanUrls": true,
-  "routes": [
-    { "src": "/application", "dest": "/apply.html" },
-    { "src": "/apply", "dest": "/apply.html" }
-  ]
-}

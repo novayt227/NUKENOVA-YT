@@ -370,7 +370,7 @@
       if(e.target === collabModal) closeModal('collabModal');
     });
 
-    // Staff Submit Webhook System
+    // --- 1. STAFF APPLICATION SUBMIT LOGIC ---
     const staffForm = document.getElementById('StaffForm');
     const staffNotice = document.getElementById('staffNotice');
     const staffSubmitBtn = document.getElementById('staffSubmitBtn');
@@ -442,7 +442,7 @@
           staffForm.reset();
           setTimeout(() => {
             closeModal('staffModal');
-            window.location.href = "/"; // FIXED: Redirect smoothly to root domain
+            window.location.href = "/"; 
           }, 2000);
         } else {
           throw new Error("Discord server error");
@@ -456,26 +456,80 @@
       }
     });
 
-    // Collaboration Submit System
+
+    // --- 2. 🔥 UPDATED: COLLABORATION SUBMIT LOGIC WITH DISCORD WEBHOOK ---
     const collabForm = document.getElementById('CollabForm');
     const collabNotice = document.getElementById('collabNotice');
     const collabSubmitBtn = document.getElementById('collabSubmitBtn');
 
-    collabForm.addEventListener('submit', (e) => {
+    collabForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      const formData = new FormData(collabForm);
+      const name = formData.get('c_name');
+      const age = formData.get('c_age');
+      const youtube = formData.get('c_youtube') || 'Not provided';
+      const product = formData.get('c_product') || 'Not provided';
+      const phone = formData.get('c_phone');
+      const email = formData.get('c_email');
+      const experience = formData.get('c_experience');
+
+      // ⚠️ APNA DUSRA DISCORD WEBHOOK URL YAHAN NEECHE PASTE KAREIN
+      const collabWebhookUrl = "https://discord.com/api/webhooks/1508431839776211046/elzQXz8KrQKAGIDNXrsPvjPK5pfUv-oiWjpaYbbZCDdxfZcOZLpVyCTY5_pAaoCs553I";
+
       collabSubmitBtn.disabled = true;
       collabSubmitBtn.innerText = "Sending...";
-      
-      setTimeout(() => {
-        collabNotice.innerText = "Success! Collaboration details saved.";
-        collabNotice.className = "notice";
+
+      const discordCollabMessage = {
+        username: "NOVA YT Collab System",
+        avatar_url: "https://i.imgur.com/AfFp7pu.png",
+        embeds: [{
+          title: "🤝 New Collaboration Proposal Received! 🤝",
+          color: 3074470, // Sleek Green Color Card
+          fields: [
+            { name: "👤 Name", value: `\`${name}\``, inline: true },
+            { name: "🎂 Age", value: `\`${age}\``, inline: true },
+            { name: "📞 Phone Number", value: `**${phone}**`, inline: false },
+            { name: "📧 Business Email", value: `\`${email}\``, inline: false },
+            { name: "📺 YouTube Channel", value: youtube, inline: true },
+            { name: "📦 Product / Brand", value: product, inline: true },
+            { name: "📝 Experience Details", value: experience, inline: false }
+          ],
+          timestamp: new Date().toISOString(),
+          footer: { text: "NOVA YT Website System" }
+        }]
+      };
+
+      try {
+        if(collabWebhookUrl === "YOUR_DISCORD_COLLAB_WEBHOOK_URL_HERE") {
+          throw new Error("FORM NOT SENT!");
+        }
+
+        const response = await fetch(collabWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(discordCollabMessage)
+        });
+
+        if (response.ok) {
+          collabNotice.innerText = "Success! Collaboration details sent to Discord.";
+          collabNotice.className = "notice";
+          collabNotice.style.display = 'block';
+          collabForm.reset();
+          setTimeout(() => {
+            closeModal('collabModal');
+            window.location.href = "/";
+          }, 2000);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        collabNotice.innerText = "Error: Webhook configuration check karein ya details fill karein!";
+        collabNotice.className = "notice error-notice";
         collabNotice.style.display = 'block';
-        setTimeout(() => {
-          closeModal('collabModal');
-          collabSubmitBtn.disabled = false;
-          collabSubmitBtn.innerText = "Submit Collab Form";
-        }, 2000);
-      }, 1200);
+        collabSubmitBtn.disabled = false;
+        collabSubmitBtn.innerText = "Submit Collab Form";
+      }
     });
   </script>
 </body>

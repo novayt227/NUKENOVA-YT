@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/application", "destination": "/apply.html" },
+    { "source": "/apply", "destination": "/apply.html" }
+  ]
+}

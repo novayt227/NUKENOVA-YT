@@ -43,7 +43,7 @@
       z-index: -1;
       object-fit: cover;
       pointer-events: none;
-      opacity: 0.25; /* Isse video zyada bright nahi lagegi aur text saaf dikhega */
+      opacity: 0.25;
     }
 
     a{ color: inherit; text-decoration: none; }
@@ -653,7 +653,7 @@
           <div style="flex:1; min-width: 260px;">
             <div style="font-weight: 950; font-size: 16px; margin-bottom: 6px;">Staff application</div>
             <div style="color: var(--muted); font-weight: 700; line-height:1.45;">
-              Use the form to apply for a staff role. (Demo confirmation)
+              Use the form to apply for a staff role. (1 application allowed per week)
             </div>
           </div>
           <button class="btn btn-primary" id="openWhitelistBtn2" type="button">
@@ -717,7 +717,7 @@
         <div class="modal-head">
           <div>
             <div class="modal-title" id="modalTitle">Staff Application</div>
-            <div style="color: var(--muted); font-weight: 700; font-size: 13px; margin-top: 2px;">Tell us about you (demo form)</div>
+            <div style="color: var(--muted); font-weight: 700; font-size: 13px; margin-top: 2px;">Tell us about you (1 application allowed per week)</div>
           </div>
           <button class="close" id="closeModalBtn" type="button">✕ Close</button>
         </div>
@@ -728,7 +728,7 @@
           <div class="row2">
             <label>
               Minecraft Username
-              <input name="username" required placeholder="e.g., TitanPlayer123" />
+              <input name="username" id="mcUsernameInput" required placeholder="e.g., TitanPlayer123" />
             </label>
             <label>
               Age (optional)
@@ -768,7 +768,7 @@
             <button class="btn btn-primary" type="submit" id="submitBtn">Submit Application</button>
           </div>
 
-          <div class="notice" id="submitNotice">Application submitted! (Demo) Please join Discord for the real staff application process.</div>
+          <div class="notice" id="submitNotice">Application submitted!</div>
         </form>
       </div>
     </div>
@@ -824,6 +824,7 @@
     const form = document.getElementById('whitelistForm');
     const notice = document.getElementById('submitNotice');
     const submitBtn = document.getElementById('submitBtn');
+    const mcUsernameInput = document.getElementById('mcUsernameInput');
 
     function openModal(){
       overlay.style.display = 'flex';
@@ -854,13 +855,11 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Sending...";
 
       // Form data collect kar rahe hain
       const formData = new FormData(form);
-      const username = formData.get('username');
+      const username = formData.get('username').trim().toLowerCase();
+      const originalUsername = formData.get('username').trim();
       const age = formData.get('age') || 'Not provided';
       const playstyle = formData.get('playstyle');
       const timezone = formData.get('timezone');
@@ -870,25 +869,46 @@
       // DISCORD WEBHOOK URL (YAHAN APNA LINK PASTE KARNA HAI)
       const webhookUrl = "https://discord.com/api/webhooks/1508339526731567144/px9fqzuC9UnvAb3u3PMx3zE4g4VZdvypogOczkqwMI9iORALfFNKAHKkcdCrt5v6Wtyv";
 
-      // Agar webhook URL lagana bhool gaye toh alert dikhayega
       if (webhookUrl === "YOUR_DISCORD_WEBHOOK_URL_HERE") {
         notice.innerText = "Error: TRY AGAIN AFTER FEW MINUTES!";
         notice.classList.add('error-notice');
         notice.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Submit Application";
         return;
       }
+
+      // --- 1 HAFTE KA COOLDOWN & DUPLICATE CHECK LOGIC ---
+      const currentTime = new Date().getTime();
+      const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 7 Din mili-seconds me
+
+      // LocalStorage se check kar rahe hain ki kya is name se pehle apply hua hai
+      const lastAppliedTime = localStorage.getItem(`cooldown_${username}`);
+
+      if (lastAppliedTime) {
+        const timePassed = currentTime - parseInt(lastAppliedTime);
+        
+        if (timePassed < oneWeekInMilliseconds) {
+          const timeLeft = oneWeekInMilliseconds - timePassed;
+          const daysLeft = Math.ceil(timeLeft / (24 * 60 * 60 * 1000)); // Din calculate karne ke liye
+          
+          notice.innerText = `Error: This username has already applied! Please wait ${daysLeft} more day(s) before applying again.`;
+          notice.classList.add('error-notice');
+          notice.style.display = 'block';
+          return;
+        }
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
 
       // Discord Embed Message format taiyar kar rahe hain
       const discordMessage = {
         username: "NUKENOVA YT",
-        avatar_url: "https://i.imgur.com/AfFp7pu.png", // Aap apna koi bhi bot image link daal sakte ho
+        avatar_url: "https://i.imgur.com/AfFp7pu.png",
         embeds: [{
           title: "✨ New Staff Application Received! ✨",
-          color: 8149247, // Purple color code
+          color: 8149247,
           fields: [
-            { name: "👤 Minecraft Username", value: `\`${username}\``, inline: true },
+            { name: "👤 Minecraft Username", value: `\`${originalUsername}\``, inline: true },
             { name: "🎂 Age", value: `\`${age}\``, inline: true },
             { name: "🌍 Time Zone", value: `\`${timezone}\``, inline: true },
             { name: "🎮 Playstyle", value: `\`${playstyle}\``, inline: true },
@@ -901,7 +921,6 @@
       };
 
       try {
-        // Discord par data bhej rahe hain
         const response = await fetch(webhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -909,7 +928,10 @@
         });
 
         if (response.ok) {
-          notice.innerText = "Success! Your Application has succesfully submitted💕.";
+          // Application successfully send hone par user ka data local storage me save kar denge timestamp ke sath
+          localStorage.setItem(`cooldown_${username}`, currentTime.toString());
+
+          notice.innerText = "Success! Your Application sent.";
           notice.classList.remove('error-notice');
           notice.style.display = 'block';
           showToast('Application Sent!');
@@ -917,10 +939,10 @@
             closeModal();
           }, 2000);
         } else {
-          throw new Error("Discord server ne response nahi diya");
+          throw new Error("Discord server error");
         }
       } catch (error) {
-        notice.innerText = "Error: Application nahi bheji ja saki. URL check karein!";
+        notice.innerText = "Error: Application nahi bheji ja saki. Network check karein!";
         notice.classList.add('error-notice');
         notice.style.display = 'block';
         submitBtn.disabled = false;

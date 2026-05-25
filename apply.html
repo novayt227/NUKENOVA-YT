@@ -6,6 +6,7 @@
   <title>Staff Application - NUKENOVA YT</title>
   <style>
     :root{
+      /* Main Page jaise colors */
       --bg0:#070A12;
       --text:#EAF0FF;
       --muted:#A9B4DA;
@@ -20,20 +21,42 @@
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
       color: var(--text);
+      /* Background black rahega jab tak video load na ho */
       background: var(--bg0);
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       padding: 20px;
+      /* Background video scroll ke sath fixed rahe */
+      overflow-x: hidden;
     }
+
+    /* Video Background Styling (Main Page jaise exact same) */
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      object-fit: cover;
+      pointer-events: none;
+      opacity: 0.25; /* Isse background anime art halka dikhega, text saaf dikhega */
+    }
+
     .wrapper {
+      position: relative;
+      z-index: 1; /* Content video ke upar dikhe */
       width: min(650px, 100%);
       border-radius: var(--radius);
       border: 1px solid var(--border);
-      background: rgba(255,255,255,.04);
+      /* Transparent background, Main Page ke cards jaise */
+      background: rgba(255,255,255,.06);
       padding: 30px;
       box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px); /* Halki blurred look card ke niche */
     }
     h1 { margin: 0 0 6px 0; font-size: 26px; font-weight: 950; }
     .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; font-weight: 700; }
@@ -44,12 +67,17 @@
     input, textarea, select {
       border-radius: 14px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,.05);
+      /* Thoda darker translucent inputs */
+      background: rgba(0,0,0,.3);
       color: var(--text);
       padding: 12px;
       outline: none;
       font-weight: 750;
       font-size: 14px;
+      transition: border-color .15s;
+    }
+    input:focus, textarea:focus, select:focus{
+        border-color: var(--brand);
     }
     textarea { min-height: 120px; resize: vertical; }
     .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 10px; }
@@ -60,14 +88,21 @@
       cursor: pointer;
       border: 1px solid rgba(255,255,255,.16);
       font-size: 14px;
+      transition: .15s;
     }
     .btn-back { background: rgba(255,255,255,.06); color: var(--text); text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-back:hover{ background: rgba(255,255,255,.1); transform: translateY(-1px); }
     .btn-submit { background: linear-gradient(135deg, #7C5CFF, #2EE9A6); color: #07101C; border: none; }
+    .btn-submit:hover{ filter: brightness(1.05); transform: translateY(-1px); }
     .notice { padding: 12px; border-radius: 16px; border: 1px solid rgba(46,233,166,.25); background: rgba(46,233,166,.08); color: #CFFAF0; font-weight: 800; display: none; margin-top: 10px; }
     .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
   </style>
 </head>
 <body>
+
+  <video autoplay loop muted playsinline class="video-bg">
+    <source src="assets/bg-video.mp4" type="video/mp4">
+  </video>
 
   <div class="wrapper">
     <h1>Staff Application</h1>

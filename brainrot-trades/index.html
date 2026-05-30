@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STEAL A BRAINROT - NUKENOVA YT</title>
+  
+  <link rel="icon" type="image/jpeg" href="../assets/logo.jpeg" />
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --text:#EAF0FF;
+      --muted:#A9B4DA;
+      --brand:#E92EA6;
+      --brand2:#7C5CFF;
+      --border: rgba(255,255,255,.14);
+      --radius: 18px;
+    }
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* Fixed backdrop matching original layout styling */
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      object-fit: cover;
+      pointer-events: none;
+      opacity: 0.25;
+      background: url('../assets/logo.jpeg') no-repeat center center;
+      background-size: cover;
+    }
+
+    .form-container {
+      width: min(650px, 100%);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #090D1A;
+      padding: 32px;
+      box-shadow: 0 25px 70px rgba(0,0,0,.6);
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .form-header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 16px;
+    }
+    .form-header h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 950;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #FFF, var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    form { display: grid; gap: 18px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px){ .row2 { grid-template-columns: 1fr; } }
+    
+    label { display: flex; flex-direction: column; gap: 8px; color: var(--muted); font-weight: 800; font-size: 13.5px; }
+    .optional-tag { color: rgba(255,255,255,0.35); font-weight: 500; font-size: 11px; margin-left: 4px; }
+    
+    input, textarea, select {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.4);
+      color: var(--text);
+      padding: 14px;
+      outline: none;
+      font-weight: 750;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus{ border-color: var(--brand); }
+    textarea { min-height: 110px; resize: vertical; }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 13px 22px;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 14px;
+      transition: .15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .btn-cancel { background: rgba(255,255,255,0.05); color: #FFF; }
+    .btn-cancel:hover { background: rgba(255,255,255,0.1); }
+    
+    .btn-submit { 
+      background: linear-gradient(135deg, #E92EA6, #7C5CFF); 
+      color: #FFF; 
+      border: none;
+    }
+    .btn-submit:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .notice { 
+      padding: 12px; 
+      border-radius: 16px; 
+      border: 1px solid rgba(46,233,166,.25); 
+      background: rgba(46,233,166,.08); 
+      color: #CFFAF0; 
+      font-weight: 800; 
+      display: none; 
+      margin-top: 12px; 
+      text-align: center;
+    }
+    .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
+  </style>
+</head>
+<body>
+
+  <!-- Fallback layout syncing desktop video and mobile image assets -->
+  <video autoplay loop muted playsinline webkit-playsinline preload="auto" class="video-bg">
+    <source src="../assets/bg-video.mp4" type="video/mp4">
+  </video>
+
+  <div class="form-container">
+    <div class="form-header">
+      <h2>STEAL A BRAINROT</h2>
+    </div>
+    
+    <form id="BrainrotForm">
+      <div class="row2">
+        <label>
+          ROBLOX Username
+          <input name="roblox_user" required placeholder="e.g., RobloxPlayer99" />
+        </label>
+        <label>
+          Age <span class="optional-tag">(Optional)</span>
+          <input name="age" placeholder="e.g., 16" inputmode="numeric" />
+        </label>
+      </div>
+
+      <div class="row2">
+        <label>
+          Preferred Playstyle
+          <select name="playstyle" required>
+            <option value="Duel">Duel</option>
+            <option value="Stealing">Stealing</option>
+          </select>
+        </label>
+        <label>
+          Time Zone
+          <input name="timezone" required placeholder="e.g., GMT+5:30" />
+        </label>
+      </div>
+
+      <label>
+        Describe your Brainrot
+        <textarea name="brainrot_desc" required placeholder="Write details about your brainrot style..."></textarea>
+      </label>
+
+      <div class="row2">
+        <label>
+          Discord Username (for contact)
+          <input name="discord" required placeholder="e.g., @titan_nova" />
+        </label>
+        <label>
+          Media <span class="optional-tag">(Image URL Link)</span>
+          <input name="media_url" placeholder="https://i.imgur.com/your-image.png" type="url" />
+        </label>
+      </div>
+
+      <div class="actions">
+        <a href="/" class="btn btn-cancel">Cancel</a>
+        <button class="btn btn-submit" type="submit" id="submitBtn">Submit Trade Form</button>
+      </div>
+      <div class="notice" id="formNotice"></div>
+    </form>
+  </div>
+
+  <!-- JAVASCRIPT DISCORD WEBHOOK PIPELINE AUTOMATION -->
+  <script>
+    const form = document.getElementById('BrainrotForm');
+    const formNotice = document.getElementById('formNotice');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const robloxUser = formData.get('roblox_user').trim();
+      const age = formData.get('age') || 'Not provided';
+      const playstyle = formData.get('playstyle');
+      const timezone = formData.get('timezone');
+      const brainrotDesc = formData.get('brainrot_desc');
+      const discord = formData.get('discord');
+      const mediaUrl = formData.get('media_url') || 'No media image link attached';
+
+      // 🚨 Dedicated Webhook pipeline setup for Brainrot Trades channel
+      const webhookUrl = "https://discord.com/api/webhooks/1508431839776211046/elzQXz8KrQKAGIDNXrsPvjPK5pfUv-oiWjpaYbbZCDdxfZcOZLpVyCTY5_pAaoCs553I";
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
+
+      const discordMessage = {
+        username: "NOVA YT Brainrot System",
+        avatar_url: "https://i.imgur.com/AfFp7pu.png",
+        embeds: [{
+          title: "💸 New Brainrot Trade Requested! 💸",
+          color: 15281830, // Branded Neon Pink hex code layout
+          fields: [
+            { name: "🎮 ROBLOX Username", value: `\`${robloxUser}\``, inline: true },
+            { name: "🎂 Age", value: `\`${age}\``, inline: true },
+            { name: "🌍 Time Zone", value: `\`${timezone}\``, inline: true },
+            { name: "⚔️ Playstyle", value: `\`${playstyle}\``, inline: true },
+            { name: "💬 Discord Contact", value: `**${discord}**`, inline: false },
+            { name: "🧠 Brainrot Description", value: brainrotDesc, inline: false },
+            { name: "🖼️ Media Link", value: mediaUrl, inline: false }
+          ],
+          timestamp: new Date().toISOString(),
+          footer: { text: "Brainrot Trade Module" }
+        }]
+      };
+
+      // Auto load embedded image structure if user shares standard image url
+      if(formData.get('media_url')) {
+        discordMessage.embeds[0].image = { url: formData.get('media_url').trim() };
+      }
+
+      try {
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(discordMessage)
+        });
+
+        if (response.ok) {
+          formNotice.innerText = "Success! Your Brainrot Trade data sent successfully.";
+          formNotice.className = "notice";
+          formNotice.style.display = 'block';
+          form.reset();
+          setTimeout(() => {
+            window.location.href = "/"; 
+          }, 2000);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        formNotice.innerText = "Error: Transmission failed. Check your network or configurations.";
+        formNotice.className = "notice error-notice";
+        formNotice.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Trade Form";
+      }
+    });
+  </script>
+</body>
+</html>

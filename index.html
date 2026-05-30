@@ -221,6 +221,33 @@
       border-color: rgba(255, 0, 0, 0.45);
     }
 
+    /* 🔥 NEW STYLE: Stylish Neon Brainrot Trades Button configuration */
+    .btn-brainrot {
+      margin-top: 10px;
+      background: linear-gradient(135deg, rgba(233, 46, 158, 0.14), rgba(124, 92, 255, 0.14));
+      border: 1px solid rgba(233, 46, 158, 0.4);
+      color: #FFE5F4;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(233, 46, 158, 0.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      transition: .2s ease-in-out;
+    }
+    .btn-brainrot:hover {
+      background: linear-gradient(135deg, rgba(233, 46, 158, 0.25), rgba(124, 92, 255, 0.25));
+      border-color: #E92EA6;
+      box-shadow: 0 0 16px rgba(233, 46, 158, 0.3);
+      transform: translateY(-2px);
+    }
+
     .copywrap{
       margin-top: 16px;
       border-top: 1px solid rgba(255,255,255,.10);
@@ -475,13 +502,16 @@
         </div>
 
         <aside class="side" aria-label="Server highlights">
+          <!-- 🔥 UPDATED: Community Card me naya custom styled button laga diya hai -->
           <div class="stat">
             <div class="top">
               <div class="name">Community</div>
               <div class="pill">Always growing</div>
             </div>
             <div class="value">Survival SMP vibes</div>
+            <a href="/brainrot-trades" target="_blank" class="btn btn-brainrot">💸 Brainrot Trades</a>
           </div>
+          
           <div class="stat">
             <div class="top">
               <div class="name">How to play</div>
@@ -627,7 +657,7 @@
           <div>
             <a href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer">Discord</a>
             <span style="opacity:.5; margin: 0 10px;">•</span>
-            <a href="/">Back to top</a>
+            <a href="#home">Back to top</a>
           </div>
         </div>
       </div>
@@ -682,7 +712,6 @@
   </script>
 
   <script src="https://pl29548958.effectivecpmnetwork.com/b6/36/f8/b636f8f4d9edb94c818a422c40d0aa10.js"></script>
-
   <script src="https://pl29549155.effectivecpmnetwork.com/4c/84/e2/4c84e21b7e82f715706382c79f17a52a.js"></script>
 
 </body>

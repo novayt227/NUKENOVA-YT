@@ -65,6 +65,8 @@
       -webkit-backdrop-filter: blur(16px);
       position: relative;
     }
+    
+    /* 🔥 FIXED FIRST WARNING: Added standard 'mask' properties along with webkit for compatibility */
     .form-container::before {
       content: "";
       position: absolute;
@@ -74,6 +76,7 @@
       background: linear-gradient(135deg, rgba(233, 46, 158, 0.4), rgba(124, 92, 255, 0.15) 40%, transparent 60%, rgba(46, 233, 166, 0.2));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask-composite: exclude;
       pointer-events: none;
     }
@@ -85,7 +88,7 @@
       text-align: center;
     }
     
-    /* 🔥 FIXED DIFFERENT COLOR: Title Heading customized with Neon Mint and Blue-Violet text gradient */
+    /* 🔥 FIXED SECOND WARNING: Added standard 'background-clip' property right under webkit-background-clip */
     .form-header h2 {
       margin: 0;
       font-size: 32px;
@@ -93,6 +96,7 @@
       letter-spacing: 1.5px;
       background: linear-gradient(135deg, #2EE9A6 0%, #3B82F6 50%, #7C5CFF 100%);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 30px rgba(46, 233, 166, 0.2);
     }

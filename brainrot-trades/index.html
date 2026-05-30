@@ -101,7 +101,6 @@
       display: block;
       width: 100%;
     }
-    /* Hide native file text input styling natively */
     input[type="file"] {
       position: absolute;
       left: 0; top: 0; opacity: 0;
@@ -228,7 +227,6 @@
           <input name="discord" required placeholder="e.g., @titan_nova" />
         </label>
         
-        <!-- 🔥 UPDATED: Input type badal kar file manager support de diya hai -->
         <label>
           Media <span class="optional-tag">(Upload Image)</span>
           <div class="file-upload-wrapper">
@@ -249,7 +247,6 @@
     </form>
   </div>
 
-  <!-- ADVANCED WEBHOOK PIPELINE WITH FILE STREAM CONVERSION -->
   <script>
     const form = document.getElementById('BrainrotForm');
     const formNotice = document.getElementById('formNotice');
@@ -257,26 +254,15 @@
     const mediaFileInput = document.getElementById('mediaFileInput');
     const fileChosenText = document.getElementById('fileChosenText');
 
-    // UI Feedback jab player file select karega file manager se
     mediaFileInput.addEventListener('change', () => {
       if (mediaFileInput.files.length > 0) {
         fileChosenText.textContent = mediaFileInput.files[0].name;
-        fileChosenText.style.color = '#2EE9A6'; // Green confirmation indicator text
+        fileChosenText.style.color = '#2EE9A6'; 
       } else {
         fileChosenText.textContent = 'No file chosen';
         fileChosenText.style.color = 'rgba(255,255,255,0.4)';
       }
     });
-
-    // Helper pipeline function to read local files natively inside browser memory
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
-    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -289,12 +275,12 @@
       const brainrotDesc = formData.get('brainrot_desc');
       const discord = formData.get('discord');
 
-      const webhookUrl = "https://discord.com/api/webhooks/1508431839776211046/elzQXz8KrQKAGIDNXrsPvjPK5pfUv-oiWjpaYbbZCDdxfZcOZLpVyCTY5_pAaoCs553I";
+      // 🔥 FIXED: Aapka exact naya webhook URL yahan load ho chuka hai
+      const webhookUrl = "https://discord.com/api/webhooks/1510220328209612800/Cu8RBCwoeXQEzbhDQpoDxQHJiNdtdSx56MfY6xAaUP0_o7YOFlklvQrL7jip2r4Ezrka";
 
       submitBtn.disabled = true;
       submitBtn.innerText = "Sending...";
 
-      // Standard multi-part form data pipeline configuration for attachments upload to Discord
       const discordPayload = new FormData();
 
       const embedMessage = {
@@ -304,7 +290,7 @@
           title: "💸 New Brainrot Trade Requested! 💸",
           color: 15281830,
           fields: [
-            { name: "幕 ROBLOX Username", value: `\`${robloxUser}\``, inline: true },
+            { name: "🎮 ROBLOX Username", value: `\`${robloxUser}\``, inline: true },
             { name: "🎂 Age", value: `\`${age}\``, inline: true },
             { name: "🌍 Time Zone", value: `\`${timezone}\``, inline: true },
             { name: "⚔️ Playstyle", value: `\`${playstyle}\``, inline: true },
@@ -316,18 +302,12 @@
         }]
       };
 
-      // Check if player selected a file from local device storage manager natively
       if (mediaFileInput.files.length > 0) {
         const imageFile = mediaFileInput.files[0];
-        
-        // Append actual raw media attachments block natively into payload streams
         discordPayload.append('files[0]', imageFile, imageFile.name);
-        
-        // Link embed image target referencing file schema attachments pipeline natively
         embedMessage.embeds[0].image = { url: `attachment://${imageFile.name}` };
       }
 
-      // Final json payload injection rule
       discordPayload.append('payload_json', JSON.stringify(embedMessage));
 
       try {
@@ -337,7 +317,7 @@
         });
 
         if (response.ok) {
-          formNotice.innerText = "Success! Your Brainrot Trade data sent successfully.";
+          formNotice.innerText = "Success! Data sent to Discord.";
           formNotice.className = "notice";
           formNotice.style.display = 'block';
           form.reset();
@@ -350,7 +330,7 @@
           throw new Error();
         }
       } catch (error) {
-        formNotice.innerText = "Error: Transmission failed. Check your network or file size.";
+        formNotice.innerText = "Error: Transmission failed. Check file size or webhook.";
         formNotice.className = "notice error-notice";
         formNotice.style.display = 'block';
         submitBtn.disabled = false;

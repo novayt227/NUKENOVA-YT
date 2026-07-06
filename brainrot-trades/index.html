@@ -66,7 +66,6 @@
       position: relative;
     }
     
-    /* 🔥 FIXED FIRST WARNING: Added standard 'mask' properties along with webkit for compatibility */
     .form-container::before {
       content: "";
       position: absolute;
@@ -88,7 +87,6 @@
       text-align: center;
     }
     
-    /* 🔥 FIXED SECOND WARNING: Added standard 'background-clip' property right under webkit-background-clip */
     .form-header h2 {
       margin: 0;
       font-size: 32px;
@@ -231,6 +229,43 @@
       font-size: 14px;
     }
     .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
+
+    /* 🔥 FIXED CURSOR SETUP: Hide default mouse pointer on desktop grids natively */
+    @media (min-width: 769px) {
+      body { cursor: none; }
+      a, button, .btn, select, input, textarea, .file-custom-btn { cursor: none !important; }
+    }
+    .custom-cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--brand2);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+      box-shadow: 0 0 10px var(--brand2), 0 0 20px var(--brand2);
+    }
+    .custom-cursor-follower {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1.5px solid rgba(46, 233, 166, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out, width 0.2s, height 0.2s;
+    }
+    .custom-cursor.hovered {
+      width: 6px; height: 6px;
+      background: var(--brand);
+      box-shadow: 0 0 12px var(--brand);
+    }
+    .custom-cursor-follower.hovered {
+      width: 44px; height: 44px;
+      border-color: var(--brand);
+      background: rgba(233, 46, 158, 0.05);
+    }
   </style>
 </head>
 <body>
@@ -300,6 +335,9 @@
       <div class="notice" id="formNotice"></div>
     </form>
   </div>
+
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-follower" id="customFollower"></div>
 
   <script>
     const form = document.getElementById('BrainrotForm');
@@ -390,6 +428,35 @@
         submitBtn.innerText = "Submit Trade Form";
       }
     });
+
+    // --- 🔥 FIXED TRACKING SCRIPT ENGINE: JavaScript calculations for cursor ring latency ---
+    const cursor = document.getElementById('customCursor');
+    const follower = document.getElementById('customFollower');
+
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        follower.style.left = e.clientX + 'px';
+        follower.style.top = e.clientY + 'px';
+      });
+
+      const clickables = document.querySelectorAll('a, button, .btn, select, input, textarea, .file-custom-btn');
+      clickables.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          cursor.classList.add('hovered');
+          follower.classList.add('hovered');
+        });
+        item.addEventListener('mouseleave', () => {
+          cursor.classList.remove('hovered');
+          follower.classList.remove('hovered');
+        });
+      });
+    } else {
+      cursor.style.display = 'none';
+      follower.style.display = 'none';
+    }
   </script>
 </body>
 </html>

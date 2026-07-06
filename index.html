@@ -119,7 +119,7 @@
 
     .hero-card{
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
@@ -440,6 +440,43 @@
       font-weight: 900;
     }
     .toast.show{ opacity: 1; }
+
+    /* 🔥 FIXED CURSOR SETUP: CSS properties for desktop tracking modules */
+    @media (min-width: 769px) {
+      body { cursor: none; }
+      a, button, .mini, .btn, select, input { cursor: none !important; }
+    }
+    .custom-cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--brand2);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+      box-shadow: 0 0 10px var(--brand2), 0 0 20px var(--brand2);
+    }
+    .custom-cursor-follower {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1.5px solid rgba(46, 233, 166, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out, width 0.2s, height 0.2s;
+    }
+    .custom-cursor.hovered {
+      width: 6px; height: 6px;
+      background: var(--brand);
+      box-shadow: 0 0 12px var(--brand);
+    }
+    .custom-cursor-follower.hovered {
+      width: 44px; height: 44px;
+      border-color: var(--brand);
+      background: rgba(233, 46, 158, 0.05);
+    }
   </style>
 </head>
 <body>
@@ -660,6 +697,9 @@
 
   <div class="toast" id="toast" aria-live="polite">Copied!</div>
 
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-follower" id="customFollower"></div>
+
   <script>
     const SERVER_ADDRESS = 'play.novayt.warmc.fun';
     const SERVER_ADDRESS_DISPLAY_ID = 'serverAddress';
@@ -703,6 +743,35 @@
     const statusValue = document.getElementById('statusValue');
     statusPill.textContent = 'Offline';
     statusValue.textContent = 'Check in-game';
+
+    // --- 🔥 FIXED TRACKING SCRIPT ENGINE: JavaScript calculations for cursor ring latency logic ---
+    const cursor = document.getElementById('customCursor');
+    const follower = document.getElementById('customFollower');
+
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        follower.style.left = e.clientX + 'px';
+        follower.style.top = e.clientY + 'px';
+      });
+
+      const clickables = document.querySelectorAll('a, button, .mini, .btn, select, input');
+      clickables.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          cursor.classList.add('hovered');
+          follower.classList.add('hovered');
+        });
+        item.addEventListener('mouseleave', () => {
+          cursor.classList.remove('hovered');
+          follower.classList.remove('hovered');
+        });
+      });
+    } else {
+      cursor.style.display = 'none';
+      follower.style.display = 'none';
+    }
   </script>
 
 </body>

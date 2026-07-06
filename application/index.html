@@ -196,15 +196,51 @@
       font-size: 14px;
     }
     input:focus, textarea:focus, select:focus{ border-color: var(--brand); }
-    textarea { min-height: 100px; resize: vertical; }
+    textarea { min-height: 100px; resize: vertical; line-height: 1.5; }
 
     .notice { padding: 12px; border-radius: 16px; border: 1px solid rgba(46,233,166,.25); background: rgba(46,233,166,.08); color: #CFFAF0; font-weight: 800; display: none; margin-top: 10px; }
     .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
+
+    /* 🔥 FIXED CURSOR SETUP: Hide default mouse pointer on desktop grids natively */
+    @media (min-width: 769px) {
+      body { cursor: none; }
+      a, button, .close-btn, .btn, select, input, textarea { cursor: none !important; }
+    }
+    .custom-cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--brand2);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+      box-shadow: 0 0 10px var(--brand2), 0 0 20px var(--brand2);
+    }
+    .custom-cursor-follower {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1.5px solid rgba(46, 233, 166, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out, width 0.2s, height 0.2s;
+    }
+    .custom-cursor.hovered {
+      width: 6px; height: 6px;
+      background: var(--brand);
+      box-shadow: 0 0 12px var(--brand);
+    }
+    .custom-cursor-follower.hovered {
+      width: 44px; height: 44px;
+      border-color: var(--brand);
+      background: rgba(233, 46, 158, 0.05);
+    }
   </style>
 </head>
 <body>
 
-  <!-- 🔥 FIXED: Strict folder notation path for mp4 background video stream loop -->
   <video autoplay loop muted playsinline webkit-playsinline preload="auto" class="video-bg">
     <source src="../assets/bg-video.mp4" type="video/mp4">
   </video>
@@ -348,6 +384,8 @@
     </div>
   </div>
 
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-follower" id="customFollower"></div>
 
   <script>
     const staffModal = document.getElementById('staffModal');
@@ -529,9 +567,37 @@
         collabSubmitBtn.innerText = "Submit Collab Form";
       }
     });
-  </script>
 
-  <!-- ❌ Adsterra Harmful Script tag has been completely removed from here -->
+    // --- 🔥 FIXED TRACKING SCRIPT ENGINE: JavaScript calculations for cursor ring latency ---
+    const cursor = document.getElementById('customCursor');
+    const follower = document.getElementById('customFollower');
+
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        follower.style.left = e.clientX + 'px';
+        follower.style.top = e.clientY + 'px';
+      });
+
+      // Targets input fields, modals, and textareas along with standard buttons natively
+      const clickables = document.querySelectorAll('a, button, .close-btn, .btn, select, input, textarea');
+      clickables.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          cursor.classList.add('hovered');
+          follower.classList.add('hovered');
+        });
+        item.addEventListener('mouseleave', () => {
+          cursor.classList.remove('hovered');
+          follower.classList.remove('hovered');
+        });
+      });
+    } else {
+      cursor.style.display = 'none';
+      follower.style.display = 'none';
+    }
+  </script>
 
 </body>
 </html>

@@ -3,22 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MINECRAFT STUFFS - NUKENOVA YT</title>
+  <title>MINECRAFT PLUGINS & STUFFS - NUKENOVA YT</title>
   
-  <link rel="icon" type="image/jpeg" href="./assets/logo.jpeg" />
+  <link rel="icon" type="image/jpeg" href="../assets/logo.jpeg" />
 
   <style>
     :root{
       --bg0:#05070f;
+      --card-bg: rgba(11, 17, 43, 0.7);
       --text:#F1F5F9;
       --muted:#94A3B8;
-      --brand:#2EE9A6;
-      --brand-glow: rgba(46, 233, 166, 0.35);
+      --brand:#E92EA6;
       --brand2:#7C5CFF;
-      --brand2-glow: rgba(124, 92, 255, 0.25);
-      --border: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(46, 233, 166, 0.6);
-      --radius: 24px;
+      --accent:#2EE9A6;
+      --border: rgba(255, 255, 255, 0.1);
+      --radius: 20px;
     }
     *{ box-sizing: border-box; }
     body{
@@ -26,214 +25,205 @@
       font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
       color: var(--text);
       background: var(--bg0);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
-      padding: 24px;
+      padding: 30px 20px;
       overflow-x: hidden;
     }
 
-    /* Backdrop video layout notation */
     .video-bg {
       position: fixed;
       inset: 0;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 100%;
       z-index: -1;
       object-fit: cover;
       pointer-events: none;
-      opacity: 0.22;
+      opacity: 0.2;
       background: url('../assets/logo.jpeg') no-repeat center center;
       background-size: cover;
     }
 
-    /* Glassmorphism layout wrapper with perimeter neon aura mesh */
-    .form-container {
-      width: min(650px, 100%);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(11, 17, 43, 0.75), rgba(7, 10, 22, 0.85));
-      padding: 36px;
-      box-shadow: 
-        0 24px 60px rgba(0, 0, 0, 0.65),
-        0 0 40px rgba(124, 92, 255, 0.08);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      position: relative;
-    }
-    
-    .form-container::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: var(--radius);
-      padding: 1.5px;
-      background: linear-gradient(135deg, rgba(46, 233, 166, 0.4), rgba(124, 92, 255, 0.15) 40%, transparent 60%, rgba(233, 46, 158, 0.2));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .form-header {
-      margin-bottom: 28px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      padding-bottom: 18px;
+    .header-section {
+      max-width: 1100px;
+      margin: 0 auto 30px auto;
       text-align: center;
     }
-    
-    .form-header h2 {
-      margin: 0;
-      font-size: 32px;
+
+    .header-section h1 {
+      font-size: 38px;
       font-weight: 950;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       background: linear-gradient(135deg, #2EE9A6 0%, #3B82F6 50%, #7C5CFF 100%);
       -webkit-background-clip: text;
-      background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px rgba(46, 233, 166, 0.2);
+      margin-bottom: 8px;
     }
 
-    form { display: grid; gap: 20px; }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 600px){ .row2 { grid-template-columns: 1fr; } }
-    
-    label { display: flex; flex-direction: column; gap: 9px; color: #CBD5E1; font-weight: 750; font-size: 13.5px; letter-spacing: 0.3px; }
-    .optional-tag { color: rgba(255, 255, 255, 0.3); font-weight: 500; font-size: 11px; margin-left: 5px; }
-    
-    /* Interactive cyber neon input structures */
-    input, textarea, select {
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(4, 6, 14, 0.6);
-      color: var(--text);
-      padding: 14px 16px;
-      outline: none;
-      font-weight: 600;
-      font-size: 14.5px;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; padding-right: 40px; }
-    
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--brand);
-      box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.2),
-        0 0 16px var(--brand-glow);
-      background: rgba(4, 6, 14, 0.75);
-    }
-    textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
-
-    /* Sleek File Input Layout Wrapper */
-    .file-upload-wrapper {
-      position: relative;
-      display: block;
-      width: 100%;
-    }
-    input[type="file"] {
-      position: absolute;
-      left: 0; top: 0; opacity: 0;
-      width: 100%; height: 100%;
-      cursor: pointer;
-      z-index: 2;
-    }
-    .file-custom-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(4, 6, 14, 0.6);
-      border-radius: 16px;
-      padding: 14px 16px;
-      font-weight: 600;
-      font-size: 14.5px;
-      color: var(--text);
-      transition: all 0.25s ease;
-    }
-    input[type="file"]:focus + .file-custom-btn,
-    input[type="file"]:hover + .file-custom-btn {
-      border-color: var(--brand2);
-      box-shadow: 0 0 14px var(--brand2-glow);
-      background: rgba(4, 6, 14, 0.75);
-    }
-    .file-chosen-text {
+    .header-section p {
       color: var(--muted);
-      font-size: 13px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 150px;
+      font-weight: 600;
+      font-size: 15px;
+      margin-top: 0;
     }
 
-    .actions {
+    .nav-bar {
+      max-width: 1100px;
+      margin: 0 auto 30px auto;
       display: flex;
-      gap: 14px;
-      justify-content: flex-end;
-      margin-top: 12px;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
-    /* Modern action button matrices */
-    .btn {
-      padding: 14px 26px;
-      border-radius: 16px;
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(4, 6, 14, 0.7);
+      color: var(--text);
+      font-weight: 600;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--brand2);
+      box-shadow: 0 0 14px rgba(124, 92, 255, 0.3);
+    }
+
+    .back-btn {
+      padding: 12px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
       font-weight: 800;
-      cursor: pointer;
-      font-size: 14.5px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* Grid Layout for Resources */
+    .resource-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 22px;
+    }
+
+    .resource-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .resource-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124, 92, 255, 0.5);
+      box-shadow: 0 14px 40px rgba(124, 92, 255, 0.15);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .category-badge {
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(124, 92, 255, 0.15);
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      color: #DCD4FF;
+    }
+
+    .version-tag {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .resource-title {
+      font-size: 20px;
+      font-weight: 900;
+      margin: 0 0 8px 0;
+      color: #FFF;
+    }
+
+    .resource-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 14px;
+    }
+
+    .file-size {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .download-btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #E92EA6, #7C5CFF);
+      color: #FFF;
+      font-weight: 800;
+      font-size: 13px;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-    .btn-cancel { 
-      background: rgba(255, 255, 255, 0.03); 
-      color: #E2E8F0; 
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-    .btn-cancel:hover { 
-      background: rgba(255, 255, 255, 0.08); 
-      border-color: rgba(255, 255, 255, 0.25);
-      transform: translateY(-1px);
-    }
-    
-    .btn-submit { 
-      background: linear-gradient(135deg, #2EE9A6, #7C5CFF); 
-      color: #000; 
+      gap: 6px;
+      transition: all 0.2s ease;
       border: none;
-      box-shadow: 0 4px 16px rgba(46, 233, 166, 0.25);
+      box-shadow: 0 4px 12px rgba(233, 46, 158, 0.25);
     }
-    .btn-submit:hover { 
-      filter: brightness(1.1); 
+
+    .download-btn:hover {
+      filter: brightness(1.15);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(46, 233, 166, 0.4);
+      box-shadow: 0 6px 18px rgba(233, 46, 158, 0.4);
     }
-    .btn-submit:active { transform: translateY(-1px); }
 
-    .notice { 
-      padding: 14px; 
-      border-radius: 16px; 
-      border: 1px solid rgba(46,233,166,.25); 
-      background: rgba(46,233,166,.08); 
-      color: #CFFAF0; 
-      font-weight: 800; 
-      display: none; 
-      margin-top: 14px; 
-      text-align: center;
-      font-size: 14px;
-    }
-    .notice.error-notice { border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: #FFD2DA; }
-
-    /* 🔥 FIXED CURSOR SETUP: Hide default mouse pointer on desktop grids natively */
+    /* Custom Cursor Setup */
     @media (min-width: 769px) {
       body { cursor: none; }
-      a, button, .btn, select, input, textarea, .file-custom-btn { cursor: none !important; }
+      a, button, input { cursor: none !important; }
     }
     .custom-cursor {
       position: fixed;
@@ -243,8 +233,6 @@
       pointer-events: none;
       z-index: 99999;
       transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s;
-      box-shadow: 0 0 10px var(--brand2), 0 0 20px var(--brand2);
     }
     .custom-cursor-follower {
       position: fixed;
@@ -254,182 +242,116 @@
       pointer-events: none;
       z-index: 99998;
       transform: translate(-50%, -50%);
-      transition: transform 0.08s ease-out, width 0.2s, height 0.2s;
-    }
-    .custom-cursor.hovered {
-      width: 6px; height: 6px;
-      background: var(--brand);
-      box-shadow: 0 0 12px var(--brand);
-    }
-    .custom-cursor-follower.hovered {
-      width: 44px; height: 44px;
-      border-color: var(--brand);
-      background: rgba(46, 233, 166, 0.05);
+      transition: transform 0.08s ease-out;
     }
   </style>
 </head>
 <body>
 
-  <video autoplay loop muted playsinline webkit-playsinline preload="auto" class="video-bg">
+  <video autoplay loop muted playsinline class="video-bg">
     <source src="../assets/bg-video.mp4" type="video/mp4">
   </video>
 
-  <div class="form-container">
-    <div class="form-header">
-      <h2>MINECRAFT STUFFS</h2>
+  <div class="header-section">
+    <h1>📦 MINECRAFT STUFFS & PLUGINS</h1>
+    <p>Download Premium Leaked & Custom Plugins, Schematics, Maps, and Server Resources</p>
+  </div>
+
+  <div class="nav-bar">
+    <a href="/" class="back-btn">⬅ Back to Home</a>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Search plugins, maps, resources..." onkeyup="filterResources()" />
     </div>
-    
-    <form id="StuffsForm">
-      <div class="row2">
-        <label>
-          MINECRAFT Username
-          <input name="mc_user" required placeholder="e.g., NovaPlayer99" />
-        </label>
-        <label>
-          Age <span class="optional-tag">(Optional)</span>
-          <input name="age" placeholder="e.g., 16" inputmode="numeric" />
-        </label>
-      </div>
+  </div>
 
-      <div class="row2">
-        <label>
-          Game Edition
-          <select name="edition" required>
-            <option value="Java Edition">Java Edition</option>
-            <option value="Bedrock / PE">Bedrock / PE</option>
-          </select>
-        </label>
-        <label>
-          Time Zone
-          <input name="timezone" required placeholder="e.g., GMT+5:30" />
-        </label>
-      </div>
+  <div class="resource-grid" id="resourceGrid">
 
-      <label>
-        Describe your Minecraft Stuffs / Items
-        <textarea name="stuff_desc" required placeholder="Write details about your items or trade requirement..."></textarea>
-      </label>
-
-      <div class="row2">
-        <label>
-          Discord Username (for contact)
-          <input name="discord" required placeholder="e.g., @titan_nova" />
-        </label>
-        
-        <label>
-          Media <span class="optional-tag">(Upload Screenshot)</span>
-          <div class="file-upload-wrapper">
-            <input type="file" id="mediaFileInput" accept="image/*" />
-            <div class="file-custom-btn">
-              <span>📁 Select Image File</span>
-              <span class="file-chosen-text" id="fileChosenText">No file chosen</span>
-            </div>
-          </div>
-        </label>
+    <!-- RESOURCE CARD 1 -->
+    <div class="resource-card">
+      <div>
+        <div class="card-top">
+          <span class="category-badge">Plugin</span>
+          <span class="version-tag">v1.16 - 1.20.x</span>
+        </div>
+        <h3 class="resource-title">Custom Lifesteal Plugin</h3>
+        <p class="resource-desc">Advanced lifesteal mechanics with custom hearts, revive beacons, and elimination systems for your SMP.</p>
       </div>
-
-      <div class="actions">
-        <a href="/" class="btn btn-cancel">Cancel</a>
-        <button class="btn btn-submit" type="submit" id="submitBtn">📦 STUFFS</button>
+      <div class="card-footer">
+        <span class="file-size">📁 1.2 MB</span>
+        <a href="YOUR_DOWNLOAD_LINK_HERE" target="_blank" class="download-btn">⚡ Download</a>
       </div>
-      <div class="notice" id="formNotice"></div>
-    </form>
+    </div>
+
+    <!-- RESOURCE CARD 2 -->
+    <div class="resource-card">
+      <div>
+        <div class="card-top">
+          <span class="category-badge">Plugin</span>
+          <span class="version-tag">v1.18 - 1.20.x</span>
+        </div>
+        <h3 class="resource-title">LuckPerms Setup Ranks</h3>
+        <p class="resource-desc">Pre-configured LuckPerms permissions setup with Owner, Admin, Mod, VIP, and Player hierarchy.</p>
+      </div>
+      <div class="card-footer">
+        <span class="file-size">📁 450 KB</span>
+        <a href="YOUR_DOWNLOAD_LINK_HERE" target="_blank" class="download-btn">⚡ Download</a>
+      </div>
+    </div>
+
+    <!-- RESOURCE CARD 3 -->
+    <div class="resource-card">
+      <div>
+        <div class="card-top">
+          <span class="category-badge">Map / Build</span>
+          <span class="version-tag">v1.20+</span>
+        </div>
+        <h3 class="resource-title">Cyberpunk Spawn Map</h3>
+        <p class="resource-desc">High quality cyberpunk neon themed main server spawn with pre-built NPC locations and crates layout.</p>
+      </div>
+      <div class="card-footer">
+        <span class="file-size">📁 18.5 MB</span>
+        <a href="YOUR_DOWNLOAD_LINK_HERE" target="_blank" class="download-btn">⚡ Download</a>
+      </div>
+    </div>
+
+    <!-- RESOURCE CARD 4 -->
+    <div class="resource-card">
+      <div>
+        <div class="card-top">
+          <span class="category-badge">Resource</span>
+          <span class="version-tag">Universal</span>
+        </div>
+        <h3 class="resource-title">TAB & Scoreboard Config</h3>
+        <p class="resource-desc">Animated gradient tablist and scoreboard configuration for TAB plugin with animations.</p>
+      </div>
+      <div class="card-footer">
+        <span class="file-size">📁 120 KB</span>
+        <a href="YOUR_DOWNLOAD_LINK_HERE" target="_blank" class="download-btn">⚡ Download</a>
+      </div>
+    </div>
+
   </div>
 
   <div class="custom-cursor" id="customCursor"></div>
   <div class="custom-cursor-follower" id="customFollower"></div>
 
   <script>
-    const form = document.getElementById('StuffsForm');
-    const formNotice = document.getElementById('formNotice');
-    const submitBtn = document.getElementById('submitBtn');
-    const mediaFileInput = document.getElementById('mediaFileInput');
-    const fileChosenText = document.getElementById('fileChosenText');
+    function filterResources() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let cards = document.getElementsByClassName('resource-card');
 
-    mediaFileInput.addEventListener('change', () => {
-      if (mediaFileInput.files.length > 0) {
-        fileChosenText.textContent = mediaFileInput.files[0].name;
-        fileChosenText.style.color = '#2EE9A6'; 
-      } else {
-        fileChosenText.textContent = 'No file chosen';
-        fileChosenText.style.color = 'rgba(255,255,255,0.4)';
-      }
-    });
+      for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getElementsByClassName('resource-title')[0].innerText.toLowerCase();
+        let desc = cards[i].getElementsByClassName('resource-desc')[0].innerText.toLowerCase();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-      const mcUser = formData.get('mc_user').trim();
-      const age = formData.get('age') || 'Not provided';
-      const edition = formData.get('edition');
-      const timezone = formData.get('timezone');
-      const stuffDesc = formData.get('stuff_desc');
-      const discord = formData.get('discord');
-
-      const webhookUrl = "https://discord.com/api/webhooks/1510220328209612800/Cu8RBCwoeXQEzbhDQpoDxQHJiNdtdSx56MfY6xAaUP0_o7YOFlklvQrL7jip2r4Ezrka";
-
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Sending...";
-
-      const discordPayload = new FormData();
-
-      const embedMessage = {
-        username: "NOVA YT Minecraft System",
-        avatar_url: "https://i.imgur.com/AfFp7pu.png",
-        embeds: [{
-          title: "📦 New Minecraft Stuffs Form Submitted! 📦",
-          color: 3074470,
-          fields: [
-            { name: "🎮 Minecraft Username", value: `\`${mcUser}\``, inline: true },
-            { name: "🎂 Age", value: `\`${age}\``, inline: true },
-            { name: "🌍 Time Zone", value: `\`${timezone}\``, inline: true },
-            { name: "⚔️ Edition", value: `\`${edition}\``, inline: true },
-            { name: "💬 Discord Contact", value: `**${discord}**`, inline: false },
-            { name: "📋 Stuffs Description", value: stuffDesc, inline: false }
-          ],
-          timestamp: new Date().toISOString(),
-          footer: { text: "Minecraft Stuffs Module" }
-        }]
-      };
-
-      if (mediaFileInput.files.length > 0) {
-        const imageFile = mediaFileInput.files[0];
-        discordPayload.append('files[0]', imageFile, imageFile.name);
-        embedMessage.embeds[0].image = { url: `attachment://${imageFile.name}` };
-      }
-
-      discordPayload.append('payload_json', JSON.stringify(embedMessage));
-
-      try {
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          body: discordPayload
-        });
-
-        if (response.ok) {
-          formNotice.innerText = "Success! Data sent to Discord.";
-          formNotice.className = "notice";
-          formNotice.style.display = 'block';
-          form.reset();
-          fileChosenText.textContent = 'No file chosen';
-          fileChosenText.style.color = 'rgba(255,255,255,0.4)';
-          setTimeout(() => {
-            window.location.href = "/"; 
-          }, 2000);
+        if (title.includes(input) || desc.includes(input)) {
+          cards[i].style.display = "flex";
         } else {
-          throw new Error();
+          cards[i].style.display = "none";
         }
-      } catch (error) {
-        formNotice.innerText = "Error: Transmission failed. Check file size or webhook.";
-        formNotice.className = "notice error-notice";
-        formNotice.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerText = "📦 STUFFS";
       }
-    });
+    }
 
-    // Custom Cursor Movement Logic
     const cursor = document.getElementById('customCursor');
     const follower = document.getElementById('customFollower');
 
@@ -441,21 +363,11 @@
         follower.style.left = e.clientX + 'px';
         follower.style.top = e.clientY + 'px';
       });
-
-      const clickables = document.querySelectorAll('a, button, .btn, select, input, textarea, .file-custom-btn');
-      clickables.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-          cursor.classList.add('hovered');
-          follower.classList.add('hovered');
-        });
-        item.addEventListener('mouseleave', () => {
-          cursor.classList.remove('hovered');
-          follower.classList.remove('hovered');
-        });
-      });
     } else {
-      cursor.style.display = 'none';
-      follower.style.display = 'none';
+      if (cursor && follower) {
+        cursor.style.display = 'none';
+        follower.style.display = 'none';
+      }
     }
   </script>
 </body>

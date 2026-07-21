@@ -34,7 +34,6 @@
       overflow-x:hidden;
     }
 
-    /* Video Background Styling with Mobile Fallback Support */
     .video-bg {
       position: fixed;
       inset: 0;
@@ -53,7 +52,6 @@
     a{ color: inherit; text-decoration: none; }
     .container{ width: min(1100px, 92vw); margin: 0 auto; }
 
-    /* Header */
     header{
       position: sticky;
       top:0;
@@ -77,7 +75,6 @@
       letter-spacing: .2px;
     }
     
-    /* Logo background style linked to assets/logo.jpeg */
     .logo{
       width: 38px; height: 38px;
       border-radius: 12px;
@@ -103,10 +100,7 @@
       background: rgba(255,255,255,.05);
     }
 
-    /* Hero */
-    .hero{
-      padding: 54px 0 18px;
-    }
+    .hero{ padding: 54px 0 18px; }
     .hero-grid{
       display:grid;
       grid-template-columns: 1.15fr .85fr;
@@ -201,16 +195,8 @@
       border-color: rgba(255,255,255,.22);
       color: #07101C;
     }
-    .btn-primary:hover{ filter: brightness(1.04); }
-    .btn-ghost{
-      background: rgba(255,255,255,.04);
-    }
-    .btn-danger{
-      border-color: rgba(255,77,109,.35);
-      background: rgba(255,77,109,.12);
-    }
-    
-    /* Custom styling for YouTube button */
+    .btn-ghost{ background: rgba(255,255,255,.04); }
+
     .btn-youtube {
       border-color: rgba(255, 0, 0, 0.3);
       background: rgba(255, 0, 0, 0.12);
@@ -221,19 +207,19 @@
       border-color: rgba(255, 0, 0, 0.45);
     }
 
-    /* Neon Brainrot Trades Button configuration */
-    .btn-brainrot {
+    /* Updated Neon Stuffs Button */
+    .btn-stuffs {
       margin-top: 10px;
-      background: linear-gradient(135deg, rgba(233, 46, 158, 0.14), rgba(124, 92, 255, 0.14));
-      border: 1px solid rgba(233, 46, 158, 0.4);
-      color: #FFE5F4;
+      background: linear-gradient(135deg, rgba(46, 233, 166, 0.14), rgba(124, 92, 255, 0.14));
+      border: 1px solid rgba(46, 233, 166, 0.4);
+      color: #E5FFFA;
       font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.6px;
       text-transform: uppercase;
       padding: 10px 14px;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(233, 46, 158, 0.08);
+      box-shadow: 0 0 10px rgba(46, 233, 166, 0.08);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -241,10 +227,10 @@
       width: 100%;
       transition: .2s ease-in-out;
     }
-    .btn-brainrot:hover {
-      background: linear-gradient(135deg, rgba(233, 46, 158, 0.25), rgba(124, 92, 255, 0.25));
-      border-color: #E92EA6;
-      box-shadow: 0 0 16px rgba(233, 46, 158, 0.3);
+    .btn-stuffs:hover {
+      background: linear-gradient(135deg, rgba(46, 233, 166, 0.25), rgba(124, 92, 255, 0.25));
+      border-color: #2EE9A6;
+      box-shadow: 0 0 16px rgba(46, 233, 166, 0.3);
       transform: translateY(-2px);
     }
 
@@ -294,7 +280,6 @@
     }
     .mini:hover{ background: rgba(255,255,255,.10); transform: translateY(-1px); }
 
-    /* Side card */
     .side{
       padding: 20px;
       border-radius: var(--radius);
@@ -328,7 +313,6 @@
       color: #EAF0FF;
     }
 
-    /* Sections */
     section{ padding: 26px 0; }
     .section-title{
       display:flex;
@@ -337,11 +321,7 @@
       gap: 14px;
       margin-bottom: 14px;
     }
-    h2{
-      margin:0;
-      font-size: 22px;
-      letter-spacing: -0.2px;
-    }
+    h2{ margin:0; font-size: 22px; letter-spacing: -0.2px; }
     .hint{ color: var(--muted); font-weight: 700; font-size: 14px; }
 
     .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -379,7 +359,6 @@
     .rule .txt{ font-weight: 750; color: #DDE6FF; line-height:1.35; }
     .rule .sub{ color: var(--muted); font-weight: 650; font-size: 13px; margin-top: 4px; line-height:1.35; }
 
-    /* Staff sections styling */
     .staff{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     @media (max-width: 1100px){ .staff{ grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 520px){ .staff{ grid-template-columns: 1fr; } }
@@ -393,7 +372,6 @@
       gap: 10px;
     }
     
-    /* Operators staff avatars get the logo too */
     .avatar{
       width: 52px; height: 52px;
       border-radius: 18px;
@@ -406,12 +384,7 @@
     .name{ font-weight: 950; }
     .tag{ color: var(--muted); font-weight: 650; font-size: 13px; line-height:1.35; }
 
-    /* Footer */
-    footer{
-      padding: 26px 0 42px;
-      color: var(--muted);
-      font-weight: 700;
-    }
+    footer{ padding: 26px 0 42px; color: var(--muted); font-weight: 700; }
     .foot{
       border-top: 1px solid rgba(255,255,255,.10);
       padding-top: 18px;
@@ -421,7 +394,6 @@
       flex-wrap: wrap;
     }
 
-    /* Toast */
     .toast{
       position: fixed;
       left: 50%;
@@ -441,7 +413,6 @@
     }
     .toast.show{ opacity: 1; }
 
-    /* 🔥 FIXED CURSOR SETUP: CSS rules for responsive desktop layout cursor mask framework */
     @media (min-width: 769px) {
       body { cursor: none; }
       a, button, .mini, .btn, select, input { cursor: none !important; }
@@ -539,13 +510,14 @@
         </div>
 
         <aside class="side" aria-label="Server highlights">
+          <!-- UPDATED MINECRAFT STUFFS CARD -->
           <div class="stat">
             <div class="top">
-              <div class="name">ROBLOX</div>
+              <div class="name">MINECRAFT</div>
               <div class="pill">Always growing</div>
             </div>
-            <div class="value">Steal a Brainrot</div>
-            <a href="/brainrot-trades" target="_blank" class="btn btn-brainrot">💸 Brainrot Trades</a>
+            <div class="value">Minecraft Stuffs</div>
+            <a href="/stuffs-minecraft" target="_blank" class="btn btn-stuffs">📦 STUFFS</a>
           </div>
           
           <div class="stat">
@@ -708,7 +680,6 @@
     const yearEl = document.getElementById('year');
     yearEl.textContent = new Date().getFullYear();
 
-    // Copy server IP
     const copyBtn = document.getElementById('copyIpBtn');
     const serverAddressEl = document.getElementById(SERVER_ADDRESS_DISPLAY_ID);
     const toast = document.getElementById('toast');
@@ -744,7 +715,6 @@
     statusPill.textContent = 'Offline';
     statusValue.textContent = 'Check in-game';
 
-    // --- 🔥 FIXED TRACKING SCRIPT ENGINE: Syncing coordinates natively for home page ---
     const cursor = document.getElementById('customCursor');
     const follower = document.getElementById('customFollower');
 

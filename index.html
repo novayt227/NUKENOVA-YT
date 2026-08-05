@@ -408,7 +408,7 @@
       opacity: 0;
       pointer-events: none;
       transition: .18s;
-      z-index: 60;
+      z-index: 2000;
       font-weight: 900;
     }
     .toast.show{ opacity: 1; }
@@ -567,11 +567,11 @@
       </div>
 
       <nav class="nav-links" aria-label="Site">
-        <a href="#home">HOME</a>
-        <a href="#features">Features</a>
-        <a href="#rules">Rules</a>
-        <a href="/application">Application</a>
-        <a href="#staff">Staff</a>
+        <a href="#home" class="protected-link">HOME</a>
+        <a href="#features" class="protected-link">Features</a>
+        <a href="#rules" class="protected-link">Rules</a>
+        <a href="/application" class="protected-link">Application</a>
+        <a href="#staff" class="protected-link">Staff</a>
         <button class="btn btn-ghost" id="openAuthBtn" style="padding: 6px 12px; font-size: 13px;">Login / Sign Up</button>
       </nav>
     </div>
@@ -587,13 +587,13 @@
             <p class="tagline">DESTROYER LEGACY</p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer">
+              <a class="btn btn-primary protected-link" href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer">
                 <span aria-hidden="true">💬</span> Join Discord
               </a>
-              <a class="btn btn-ghost" href="/application">
+              <a class="btn btn-ghost protected-link" href="/application">
                 <span aria-hidden="true">🧑‍⚖️</span> Apply Here
               </a>
-              <a class="btn btn-youtube" href="https://www.youtube.com/channel/UCk0FfJWsXmNAKcPW2Wh1d8Q" target="_blank" rel="noreferrer">
+              <a class="btn btn-youtube protected-link" href="https://www.youtube.com/channel/UCk0FfJWsXmNAKcPW2Wh1d8Q" target="_blank" rel="noreferrer">
                 <span aria-hidden="true">🔴</span> YouTube Channel
               </a>
             </div>
@@ -603,7 +603,7 @@
                 <div class="label">Server Address</div>
                 <div class="ipcode">
                   <code id="serverAddress" data-server="play.novayt.warmc.fun">SERVER IS OFF</code>
-                  <button class="mini" id="copyIpBtn" type="button" title="Copy server address">Copy</button>
+                  <button class="mini protected-link" id="copyIpBtn" type="button" title="Copy server address">Copy</button>
                 </div>
               </div>
             </div>
@@ -617,7 +617,7 @@
               <div class="pill">Always growing</div>
             </div>
             <div class="value">Minecraft Stuffs</div>
-            <a href="/stuffs-minecraft" target="_blank" class="btn btn-stuffs">📦 STUFFS</a>
+            <a href="/stuffs-minecraft" target="_blank" class="btn btn-stuffs protected-link">📦 STUFFS</a>
           </div>
           
           <div class="stat">
@@ -758,7 +758,7 @@
         <div class="foot">
           <div>© <span id="year"></span> NUKENOVA YT</div>
           <div>
-            <a href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer">Discord</a>
+            <a href="https://discord.gg/gMnQehmRKx" target="_blank" rel="noreferrer" class="protected-link">Discord</a>
             <span style="opacity:.5; margin: 0 10px;">•</span>
             <a href="/">Back to top</a>
           </div>
@@ -816,34 +816,14 @@
       toast.textContent = text;
       toast.classList.add('show');
       window.clearTimeout(showToast._t);
-      showToast._t = window.setTimeout(()=> toast.classList.remove('show'), 1400);
+      showToast._t = window.setTimeout(()=> toast.classList.remove('show'), 2000);
     }
 
     if(serverAddressEl){
       serverAddressEl.innerHTML = '<span style="font-weight:950; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \'Liberation Mono\',\'Courier New\', monospace;">SERVER IS OFF</span>';
     }
 
-    copyBtn.addEventListener('click', async () => {
-      try{
-        await navigator.clipboard.writeText(SERVER_ADDRESS);
-        showToast('Server address copied');
-      }catch(e){
-        const ta = document.createElement('textarea');
-        ta.value = SERVER_ADDRESS;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        showToast('Server address copied');
-      }
-    });
-
-    const statusPill = document.getElementById('statusPill');
-    const statusValue = document.getElementById('statusValue');
-    statusPill.textContent = 'Offline';
-    statusValue.textContent = 'Check in-game';
-
-    // AUTHENTICATION AND IP LIMITATION ENGINE
+    // AUTHENTICATION AND ACCESS GUARD ENGINE
     let currentMode = 'signup';
     const authModal = document.getElementById('authModal');
     const openAuthBtn = document.getElementById('openAuthBtn');
@@ -851,6 +831,22 @@
     const authSubmitBtn = document.getElementById('authSubmitBtn');
     const tabSignup = document.getElementById('tabSignup');
     const tabLogin = document.getElementById('tabLogin');
+
+    function isAuthenticated() {
+      return !!localStorage.getItem('active_user_session');
+    }
+
+    // GLOBAL ACCESS GUARD FOR ALL BUTTONS AND LINKS
+    document.querySelectorAll('.protected-link').forEach(element => {
+      element.addEventListener('click', (e) => {
+        if (!isAuthenticated()) {
+          e.preventDefault();
+          e.stopPropagation();
+          showToast('🔒 Please Login or Sign Up first to access this feature!');
+          authModal.style.display = 'flex';
+        }
+      });
+    });
 
     openAuthBtn.addEventListener('click', () => authModal.style.display = 'flex');
     function closeAuthModal() { authModal.style.display = 'none'; }
@@ -878,16 +874,14 @@
       }
     }
 
-    // Checking IP limit logic
     async function validateIPAndProcessAccount(email, method = 'form') {
       const userIp = await getUserIP();
       let ipDatabase = JSON.parse(localStorage.getItem('registered_ips') || '{}');
       let userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
       let ipAccountList = ipDatabase[userIp] || [];
 
-      // Check if IP is permanently blocked
       if (ipDatabase[userIp] && ipDatabase[userIp].isBanned) {
-        showToast('🚨 Access Denied: This IP is permanently blocked for violating account limits.');
+        showToast('🚨 Access Denied: This IP is permanently blocked.');
         return false;
       }
 
@@ -902,7 +896,6 @@
           ipAccountList.push(email);
         }
 
-        // Trigger enforcement if IP attempts registering or logging into more than 2 accounts
         if (ipAccountList.length > 2) {
           ipAccountList.forEach(accEmail => {
             delete userAccounts[accEmail];
@@ -911,7 +904,7 @@
           localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
           localStorage.setItem('registered_ips', JSON.stringify(ipDatabase));
           localStorage.removeItem('active_user_session');
-          showToast('🚨 Limit Exceeded! All accounts linked to this IP have been purged and IP permanently blocked.');
+          showToast('🚨 Limit Exceeded! All accounts purged & IP permanently blocked.');
           closeAuthModal();
           return false;
         }
@@ -926,7 +919,6 @@
         closeAuthModal();
         return true;
       } else {
-        // Login Flow Verification
         if (!userAccounts[email]) {
           showToast('No account found! Please Sign Up first.');
           setAuthTab('signup');
@@ -945,7 +937,7 @@
           localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
           localStorage.setItem('registered_ips', JSON.stringify(ipDatabase));
           localStorage.removeItem('active_user_session');
-          showToast('🚨 Limit Exceeded! All accounts linked to this IP have been purged and IP permanently blocked.');
+          showToast('🚨 Limit Exceeded! All accounts purged & IP permanently blocked.');
           closeAuthModal();
           return false;
         }
@@ -986,7 +978,27 @@
       }
     }
 
-    // Auto Session Restore
+    copyBtn.addEventListener('click', async () => {
+      if (!isAuthenticated()) return;
+      try{
+        await navigator.clipboard.writeText(SERVER_ADDRESS);
+        showToast('Server address copied');
+      }catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = SERVER_ADDRESS;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showToast('Server address copied');
+      }
+    });
+
+    const statusPill = document.getElementById('statusPill');
+    const statusValue = document.getElementById('statusValue');
+    statusPill.textContent = 'Offline';
+    statusValue.textContent = 'Check in-game';
+
     window.addEventListener('load', () => {
       const activeSession = localStorage.getItem('active_user_session');
       if (activeSession) {

@@ -802,8 +802,8 @@
   <div class="custom-cursor-follower" id="customFollower"></div>
 
   <script>
-    // ⚠️ DISCORD OAUTH CLIENT CONFIGURATION
-    const DISCORD_CLIENT_ID = "YOUR_DISCORD_CLIENT_ID_HERE"; 
+    // 🔥 DISCORD OAUTH CLIENT CONFIGURATION (Integrate Client ID)
+    const DISCORD_CLIENT_ID = "1534581373757685930"; 
     const REDIRECT_URI = window.location.origin + "/";
 
     const SERVER_ADDRESS = 'play.novayt.warmc.fun';
@@ -886,11 +886,9 @@
         return false;
       }
 
-      // Check if user is logging into an existing account OR registering a new one
       const isExistingAccount = !!userAccounts[email];
 
       if (!isExistingAccount) {
-        // --- NEW SIGN UP FLOW ---
         if (!ipAccountList.includes(email)) ipAccountList.push(email);
 
         if (ipAccountList.length > 2) {
@@ -914,7 +912,6 @@
         closeAuthModal();
         return true;
       } else {
-        // --- EXISTING USER LOGIN FLOW ---
         localStorage.setItem('active_user_session', email);
         showToast('Welcome back! Logged In Successfully.');
         updateUserUI(email);
@@ -930,10 +927,6 @@
     });
 
     function handleDiscordAuth() {
-      if (DISCORD_CLIENT_ID === "YOUR_DISCORD_CLIENT_ID_HERE") {
-        alert("Pehle code me line 454 par apni Discord CLIENT_ID paste karo!");
-        return;
-      }
       const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify%20email`;
       window.location.href = discordAuthUrl;
     }

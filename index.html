@@ -802,9 +802,8 @@
   <div class="custom-cursor-follower" id="customFollower"></div>
 
   <script>
-    // ⚠️ DISCORD OAUTH CONFIGURATION ⚠️
-    // Apni Client ID yahan paste karein (Discord Dev Portal > OAuth2 > Client ID)
-    const DISCORD_CLIENT_ID = "1534581373757685930"; 
+    // ⚠️ DISCORD OAUTH CLIENT CONFIGURATION
+    const DISCORD_CLIENT_ID = "YOUR_DISCORD_CLIENT_ID_HERE"; 
     const REDIRECT_URI = window.location.origin + "/";
 
     const SERVER_ADDRESS = 'play.novayt.warmc.fun';
@@ -887,13 +886,11 @@
         return false;
       }
 
-      if (currentMode === 'signup') {
-        if (userAccounts[email]) {
-          showToast('Account already exists! Please Log In.');
-          setAuthTab('login');
-          return false;
-        }
+      // Check if user is logging into an existing account OR registering a new one
+      const isExistingAccount = !!userAccounts[email];
 
+      if (!isExistingAccount) {
+        // --- NEW SIGN UP FLOW ---
         if (!ipAccountList.includes(email)) ipAccountList.push(email);
 
         if (ipAccountList.length > 2) {
@@ -912,30 +909,12 @@
         localStorage.setItem('registered_ips', JSON.stringify(ipDatabase));
         localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
         localStorage.setItem('active_user_session', email);
-        showToast('Success! Account Created and Logged In.');
+        showToast('Success! Account Created & Logged In.');
         updateUserUI(email);
         closeAuthModal();
         return true;
       } else {
-        if (!userAccounts[email]) {
-          showToast('No account found! Please Sign Up first.');
-          setAuthTab('signup');
-          return false;
-        }
-
-        if (!ipAccountList.includes(email)) ipAccountList.push(email);
-
-        if (ipAccountList.length > 2) {
-          ipAccountList.forEach(accEmail => delete userAccounts[accEmail]);
-          ipDatabase[userIp] = { isBanned: true, accounts: [] };
-          localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
-          localStorage.setItem('registered_ips', JSON.stringify(ipDatabase));
-          localStorage.removeItem('active_user_session');
-          showToast('🚨 Limit Exceeded! All accounts purged & IP blocked.');
-          closeAuthModal();
-          return false;
-        }
-
+        // --- EXISTING USER LOGIN FLOW ---
         localStorage.setItem('active_user_session', email);
         showToast('Welcome back! Logged In Successfully.');
         updateUserUI(email);
@@ -950,7 +929,6 @@
       await validateIPAndProcessAccount(email, 'email');
     });
 
-    // ⚡ ASLI DISCORD OAUTH REDIRECT LOGIC ⚡
     function handleDiscordAuth() {
       if (DISCORD_CLIENT_ID === "YOUR_DISCORD_CLIENT_ID_HERE") {
         alert("Pehle code me line 454 par apni Discord CLIENT_ID paste karo!");
@@ -965,7 +943,6 @@
       validateIPAndProcessAccount(mockGoogleEmail, 'google');
     }
 
-    // ⚡ DISCORD AUTHORIZATION RETURN PARSING ⚡
     async function processDiscordOAuthReturn() {
       const fragment = new URLSearchParams(window.location.hash.slice(1));
       const accessToken = fragment.get('access_token');
@@ -976,7 +953,7 @@
             headers: { authorization: `Bearer ${accessToken}` }
           });
           const discordUser = await response.json();
-          if (discordUser && discordUser.username) {
+          if (discordUser && (discordUser.username || discordUser.email)) {
             const userEmail = discordUser.email || `${discordUser.username}@discord.user`;
             window.history.replaceState({}, document.title, window.location.pathname);
             await validateIPAndProcessAccount(userEmail, 'discord');

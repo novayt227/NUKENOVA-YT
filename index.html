@@ -103,6 +103,28 @@
       background: rgba(255,255,255,.05);
     }
 
+    /* 🔥 AESTHETIC NEON GLOW BUTTON FOR AUTH & USERNAME TAB */
+    #openAuthBtn {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.25), rgba(46, 233, 166, 0.2));
+      border: 1px solid rgba(46, 233, 166, 0.5);
+      color: #EAF0FF;
+      padding: 8px 16px !important;
+      border-radius: 12px;
+      font-weight: 850;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 14px rgba(46, 233, 166, 0.2);
+      transition: all 0.25s ease-in-out;
+      cursor: pointer;
+    }
+
+    #openAuthBtn:hover {
+      background: linear-gradient(135deg, #7C5CFF, #2EE9A6);
+      color: #07101C;
+      border-color: #2EE9A6;
+      box-shadow: 0 0 20px rgba(46, 233, 166, 0.5);
+      transform: translateY(-2px);
+    }
+
     .hero{ padding: 54px 0 18px; }
     .hero-grid{
       display:grid;
@@ -748,7 +770,7 @@
         <a href="#rules" class="protected-link">Rules</a>
         <a href="/application" class="protected-link">Application</a>
         <a href="#staff" class="protected-link">Staff</a>
-        <button class="btn btn-ghost" id="openAuthBtn" style="padding: 6px 12px; font-size: 13px;">Login / Sign Up</button>
+        <button id="openAuthBtn">Login / Sign Up</button>
       </nav>
     </div>
   </header>

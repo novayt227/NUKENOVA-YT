@@ -7,6 +7,9 @@
   <meta name="description" content="Play on NUKENOVA YT - a community Minecraft SMP." />
   
   <link rel="icon" type="image/jpeg" href="assets/logo.jpeg" />
+  
+  <!-- Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
     :root{
@@ -1025,6 +1028,8 @@
 
   <script>
     const DISCORD_CLIENT_ID = "1534581373757685930"; 
+    const GOOGLE_CLIENT_ID = "455035123146-cu2gprv76gtfs3m4mr591udbitce6be2.apps.googleusercontent.com"; 
+    
     const REDIRECT_URI = window.location.origin + "/";
 
     const SERVER_ADDRESS = 'play.novayt.warmc.fun';
@@ -1160,72 +1165,41 @@
       }
     }
 
-    // 🔥 SMART HYBRID AUTH ENGINE (FIXED LOG IN ISSUE)
     function processAccount(email, method = 'form', extraData = {}) {
       let userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
       const isExistingAccount = !!userAccounts[email];
 
-      // Social Auth (Discord/Google) always logs in or creates smoothly
-      if (method === 'discord' || method === 'google') {
-        if (!isExistingAccount) {
-          userAccounts[email] = { 
-            registeredAt: new Date().toISOString(), 
-            authMethod: method,
-            isVip: false,
-            ...extraData 
-          };
-          showToast('Success! Account Created & Logged In.');
-        } else {
-          userAccounts[email] = { ...userAccounts[email], ...extraData };
-          showToast('Welcome back! Logged In Successfully.');
-        }
-        localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
-        localStorage.setItem('active_user_session', email);
-        updateUserUI(email);
-        closeAuthModal();
-        return true;
+      // LOG IN MODE CHECK
+      if (currentMode === 'login' && !isExistingAccount && method !== 'discord' && method !== 'google') {
+        showToast('❌ Account not found! Please Sign Up first.');
+        setAuthTab('signup');
+        return false;
       }
 
-      // Manual Email Form Logic
-      if (currentMode === 'signup') {
-        if (isExistingAccount) {
-          showToast('Account exists! Logged in as existing user.');
-          localStorage.setItem('active_user_session', email);
-          updateUserUI(email);
-          closeAuthModal();
-          return true;
-        }
-
-        userAccounts[email] = { 
-          registeredAt: new Date().toISOString(), 
-          authMethod: method,
-          isVip: false,
-          ...extraData 
-        };
-        localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
-        localStorage.setItem('active_user_session', email);
-        showToast('Success! Account Created & Logged In.');
-        updateUserUI(email);
-        closeAuthModal();
-        return true;
-      } else {
-        if (!isExistingAccount) {
-          showToast('No account found! Creating new account.');
-          userAccounts[email] = { 
-            registeredAt: new Date().toISOString(), 
-            authMethod: method,
-            isVip: false,
-            ...extraData 
-          };
-          localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
-        }
-
-        localStorage.setItem('active_user_session', email);
-        showToast('Welcome back! Logged In Successfully.');
-        updateUserUI(email);
-        closeAuthModal();
-        return true;
+      if (currentMode === 'login' && !isExistingAccount && (method === 'discord' || method === 'google')) {
+        showToast('❌ Account not registered! Please Sign Up using this account first.');
+        setAuthTab('signup');
+        return false;
       }
+
+      if (currentMode === 'signup' && isExistingAccount) {
+        showToast('Account already exists! Logging in.');
+      }
+
+      userAccounts[email] = { 
+        registeredAt: userAccounts[email]?.registeredAt || new Date().toISOString(), 
+        authMethod: method,
+        isVip: userAccounts[email]?.isVip || false,
+        ...userAccounts[email],
+        ...extraData 
+      };
+
+      localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
+      localStorage.setItem('active_user_session', email);
+      showToast(isExistingAccount ? 'Welcome back! Logged In.' : 'Success! Account Created.');
+      updateUserUI(email);
+      closeAuthModal();
+      return true;
     }
 
     authForm.addEventListener('submit', (e) => {
@@ -1239,9 +1213,33 @@
       window.location.href = discordAuthUrl;
     }
 
+    // REAL GOOGLE IDENTITY SDK AUTHENTICATION
     function handleGoogleAuth() {
-      const mockGoogleEmail = 'google_user_' + Math.floor(Math.random() * 8999 + 1000) + '@gmail.com';
-      processAccount(mockGoogleEmail, 'google');
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredentialResponse
+      });
+
+      google.accounts.id.prompt(); 
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('0' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    }
+
+    function handleGoogleCredentialResponse(response) {
+      const responsePayload = parseJwt(response.credential);
+      const googleEmail = responsePayload.email;
+      const avatarUrl = responsePayload.picture;
+      const name = responsePayload.name.toUpperCase();
+
+      processAccount(googleEmail, 'google', { avatarUrl: avatarUrl, customUsername: name });
     }
 
     async function processDiscordOAuthReturn() {

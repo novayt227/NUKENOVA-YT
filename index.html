@@ -545,17 +545,41 @@
       padding-bottom: 18px;
     }
     .profile-img {
-      width: 76px; height: 76px;
+      width: 80px; height: 80px;
       border-radius: 50%;
       background: url('assets/logo.jpeg') no-repeat center center;
       background-size: cover;
-      box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.3), 0 0 20px rgba(124, 92, 255, 0.2);
+      box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.35), 0 0 24px rgba(124, 92, 255, 0.25);
+    }
+    .profile-name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
     }
     .profile-name {
       font-size: 22px;
       font-weight: 950;
       color: #FFF;
       letter-spacing: 0.5px;
+    }
+    .btn-edit-username {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #DCD4FF;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn-edit-username:hover { background: rgba(124, 92, 255, 0.3); border-color: var(--brand); }
+
+    .role-badges-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
     }
     .profile-badge {
       padding: 4px 12px;
@@ -567,6 +591,23 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+    }
+    .profile-rank-tag {
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(124, 92, 255, 0.18);
+      border: 1px solid rgba(124, 92, 255, 0.4);
+      color: #DCD4FF;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .profile-rank-tag.vip-rank {
+      background: linear-gradient(135deg, rgba(233, 46, 158, 0.3), rgba(255, 215, 0, 0.3));
+      border-color: #FFD700;
+      color: #FFF;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
     }
     
     .profile-stats-grid {
@@ -597,7 +638,6 @@
       color: #EAF0FF;
     }
 
-    /* 🔥 Added Section: Quick Actions & Activity */
     .profile-quick-actions {
       display: flex;
       gap: 10px;
@@ -932,18 +972,26 @@
     </div>
   </div>
 
-  <!-- 🔥 UPDATED ENHANCED MEMBER PROFILE DASHBOARD MODAL -->
+  <!-- 🔥 UPDATED USER DASHBOARD MODAL -->
   <div class="profile-modal" id="profileModal">
     <div class="profile-card">
       <div class="auth-header">
-        <div style="font-size:12px; color:var(--muted); font-weight:800; letter-spacing:1px;">MEMBER DASHBOARD</div>
+        <div style="font-size:12px; color:var(--muted); font-weight:800; letter-spacing:1px;">USER DASHBOARD</div>
         <button class="mini" onclick="closeProfileModal()" style="padding: 4px 8px;">✕</button>
       </div>
 
       <div class="profile-avatar-wrap">
         <div class="profile-img" id="profileAvatarImg"></div>
-        <div class="profile-name" id="profileDisplayUsername">User Profile</div>
-        <div class="profile-badge" id="profileBadge">Verified Member</div>
+        
+        <div class="profile-name-row">
+          <div class="profile-name" id="profileDisplayUsername">User Profile</div>
+          <button class="btn-edit-username" id="btnEditUsername" title="Change Username">✏️ Edit</button>
+        </div>
+
+        <div class="role-badges-row">
+          <div class="profile-badge">VERIFIED</div>
+          <div class="profile-rank-tag" id="profileRankTag">MEMBER</div>
+        </div>
       </div>
 
       <div class="profile-stats-grid">
@@ -1040,19 +1088,32 @@
       const downloadsCount = localStorage.getItem('user_downloads_count') || '0';
 
       const userData = userAccounts[activeSession] || {};
-      const username = activeSession ? activeSession.split('@')[0].toUpperCase() : 'USER';
+      const username = userData.customUsername || (activeSession ? activeSession.split('@')[0].toUpperCase() : 'USER');
       const method = userData.authMethod ? userData.authMethod.toUpperCase() : 'STANDARD';
 
       document.getElementById('profileDisplayUsername').textContent = username;
       document.getElementById('profileDownloadCount').textContent = downloadsCount + ' Items';
       document.getElementById('profileAuthMethod').textContent = method;
 
-      // Set Custom Avatar if Discord Avatar exists
-      if (userData.avatarUrl) {
-        document.getElementById('profileAvatarImg').style.backgroundImage = `url('${userData.avatarUrl}')`;
+      // Handle Rank Tag (Default: MEMBER, VIP: VIP MEMBER)
+      const rankTagEl = document.getElementById('profileRankTag');
+      if (userData.isVip) {
+        rankTagEl.textContent = 'VIP MEMBER';
+        rankTagEl.classList.add('vip-rank');
+      } else {
+        rankTagEl.textContent = 'MEMBER';
+        rankTagEl.classList.remove('vip-rank');
       }
 
-      // Member Since Date Calculation
+      // Fetch Real Discord Profile Picture / DP
+      const avatarImgEl = document.getElementById('profileAvatarImg');
+      if (userData.avatarUrl) {
+        avatarImgEl.style.backgroundImage = `url('${userData.avatarUrl}')`;
+      } else {
+        avatarImgEl.style.backgroundImage = "url('assets/logo.jpeg')";
+      }
+
+      // Joined Date
       if (userData.registeredAt) {
         const date = new Date(userData.registeredAt);
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -1063,6 +1124,25 @@
 
       profileModal.style.display = 'flex';
     }
+
+    // Editable Username Handler
+    document.getElementById('btnEditUsername').addEventListener('click', () => {
+      const activeSession = localStorage.getItem('active_user_session');
+      if (!activeSession) return;
+
+      const newName = prompt('Enter your new desired Username:');
+      if (newName && newName.trim().length >= 2) {
+        let userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
+        if (!userAccounts[activeSession]) userAccounts[activeSession] = {};
+        
+        userAccounts[activeSession].customUsername = newName.trim().toUpperCase();
+        localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
+        
+        document.getElementById('profileDisplayUsername').textContent = newName.trim().toUpperCase();
+        updateUserUI(activeSession);
+        showToast('Username updated successfully!');
+      }
+    });
 
     document.getElementById('confirmLogoutBtn').addEventListener('click', () => {
       localStorage.removeItem('active_user_session');
@@ -1098,6 +1178,7 @@
         userAccounts[email] = { 
           registeredAt: new Date().toISOString(), 
           authMethod: method,
+          isVip: false, // Default rank flag
           ...extraData 
         };
         localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
@@ -1159,7 +1240,7 @@
               avatarUrl = `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`;
             }
             window.history.replaceState({}, document.title, window.location.pathname);
-            processAccount(userEmail, 'discord', { avatarUrl: avatarUrl });
+            processAccount(userEmail, 'discord', { avatarUrl: avatarUrl, customUsername: discordUser.username.toUpperCase() });
           }
         } catch (err) {
           showToast('Discord Auth failed!');
@@ -1169,7 +1250,10 @@
 
     function updateUserUI(email) {
       if(email) {
-        openAuthBtn.textContent = email.split('@')[0].toUpperCase();
+        const userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
+        const userData = userAccounts[email] || {};
+        const displayName = userData.customUsername || email.split('@')[0].toUpperCase();
+        openAuthBtn.textContent = displayName;
       }
     }
 

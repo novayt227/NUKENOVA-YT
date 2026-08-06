@@ -513,7 +513,7 @@
       margin-top: 6px;
     }
 
-    /* 🔥 ENHANCED USER PROFILE DASHBOARD MODAL STYLING */
+    /* USER DASHBOARD MODAL STYLING */
     .profile-modal {
       position: fixed;
       inset: 0;
@@ -972,7 +972,7 @@
     </div>
   </div>
 
-  <!-- 🔥 UPDATED USER DASHBOARD MODAL -->
+  <!-- USER DASHBOARD MODAL -->
   <div class="profile-modal" id="profileModal">
     <div class="profile-card">
       <div class="auth-header">
@@ -1095,7 +1095,6 @@
       document.getElementById('profileDownloadCount').textContent = downloadsCount + ' Items';
       document.getElementById('profileAuthMethod').textContent = method;
 
-      // Handle Rank Tag (Default: MEMBER, VIP: VIP MEMBER)
       const rankTagEl = document.getElementById('profileRankTag');
       if (userData.isVip) {
         rankTagEl.textContent = 'VIP MEMBER';
@@ -1105,7 +1104,6 @@
         rankTagEl.classList.remove('vip-rank');
       }
 
-      // Fetch Real Discord Profile Picture / DP
       const avatarImgEl = document.getElementById('profileAvatarImg');
       if (userData.avatarUrl) {
         avatarImgEl.style.backgroundImage = `url('${userData.avatarUrl}')`;
@@ -1113,7 +1111,6 @@
         avatarImgEl.style.backgroundImage = "url('assets/logo.jpeg')";
       }
 
-      // Joined Date
       if (userData.registeredAt) {
         const date = new Date(userData.registeredAt);
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -1125,7 +1122,6 @@
       profileModal.style.display = 'flex';
     }
 
-    // Editable Username Handler
     document.getElementById('btnEditUsername').addEventListener('click', () => {
       const activeSession = localStorage.getItem('active_user_session');
       if (!activeSession) return;
@@ -1164,21 +1160,46 @@
       }
     }
 
+    // 🔥 SMART HYBRID AUTH ENGINE (FIXED LOG IN ISSUE)
     function processAccount(email, method = 'form', extraData = {}) {
       let userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
       const isExistingAccount = !!userAccounts[email];
 
+      // Social Auth (Discord/Google) always logs in or creates smoothly
+      if (method === 'discord' || method === 'google') {
+        if (!isExistingAccount) {
+          userAccounts[email] = { 
+            registeredAt: new Date().toISOString(), 
+            authMethod: method,
+            isVip: false,
+            ...extraData 
+          };
+          showToast('Success! Account Created & Logged In.');
+        } else {
+          userAccounts[email] = { ...userAccounts[email], ...extraData };
+          showToast('Welcome back! Logged In Successfully.');
+        }
+        localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
+        localStorage.setItem('active_user_session', email);
+        updateUserUI(email);
+        closeAuthModal();
+        return true;
+      }
+
+      // Manual Email Form Logic
       if (currentMode === 'signup') {
         if (isExistingAccount) {
-          showToast('Account already exists! Switching to Log In.');
-          setAuthTab('login');
-          return false;
+          showToast('Account exists! Logged in as existing user.');
+          localStorage.setItem('active_user_session', email);
+          updateUserUI(email);
+          closeAuthModal();
+          return true;
         }
 
         userAccounts[email] = { 
           registeredAt: new Date().toISOString(), 
           authMethod: method,
-          isVip: false, // Default rank flag
+          isVip: false,
           ...extraData 
         };
         localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
@@ -1189,13 +1210,13 @@
         return true;
       } else {
         if (!isExistingAccount) {
-          showToast('No account found! Please Sign Up first.');
-          setAuthTab('signup');
-          return false;
-        }
-
-        if (Object.keys(extraData).length > 0) {
-          userAccounts[email] = { ...userAccounts[email], ...extraData };
+          showToast('No account found! Creating new account.');
+          userAccounts[email] = { 
+            registeredAt: new Date().toISOString(), 
+            authMethod: method,
+            isVip: false,
+            ...extraData 
+          };
           localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
         }
 

@@ -3,8 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NUKENOVA YT</title>
+  
+  <!-- 🔥 BRAND TITLE & GOOGLE SEARCH FIX -->
+  <title>NUKENOVA YT - Official Minecraft SMP</title>
   <meta name="description" content="Play on NUKENOVA YT - a community Minecraft SMP." />
+  <meta property="og:site_name" content="NUKENOVA YT" />
+  <meta property="og:title" content="NUKENOVA YT - Official Minecraft SMP" />
+  <meta property="og:description" content="Play on NUKENOVA YT - a community Minecraft SMP." />
+  <meta name="application-name" content="NUKENOVA YT" />
+  <meta name="apple-mobile-web-app-title" content="NUKENOVA YT" />
   
   <link rel="icon" type="image/jpeg" href="assets/logo.jpeg" />
   
@@ -103,7 +110,6 @@
       background: rgba(255,255,255,.05);
     }
 
-    /* 🔥 AESTHETIC NEON GLOW BUTTON FOR AUTH & USERNAME TAB */
     #openAuthBtn {
       background: linear-gradient(135deg, rgba(124, 92, 255, 0.25), rgba(46, 233, 166, 0.2));
       border: 1px solid rgba(46, 233, 166, 0.5);
@@ -1191,7 +1197,6 @@
       let userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
       const isExistingAccount = !!userAccounts[email];
 
-      // LOG IN MODE CHECK
       if (currentMode === 'login' && !isExistingAccount && method !== 'discord' && method !== 'google') {
         showToast('❌ Account not found! Please Sign Up first.');
         setAuthTab('signup');
@@ -1235,7 +1240,6 @@
       window.location.href = discordAuthUrl;
     }
 
-    // REAL GOOGLE IDENTITY SDK AUTHENTICATION
     function handleGoogleAuth() {
       google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,

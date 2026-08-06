@@ -513,7 +513,7 @@
       margin-top: 6px;
     }
 
-    /* 🔥 USER PROFILE DASHBOARD MODAL STYLING */
+    /* 🔥 ENHANCED USER PROFILE DASHBOARD MODAL STYLING */
     .profile-modal {
       position: fixed;
       inset: 0;
@@ -526,11 +526,11 @@
       padding: 20px;
     }
     .profile-card {
-      width: min(480px, 100%);
+      width: min(500px, 100%);
       background: linear-gradient(135deg, rgba(13, 19, 38, 0.95), rgba(7, 10, 22, 0.98));
       border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 32px;
+      padding: 30px;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(124, 92, 255, 0.12);
       position: relative;
     }
@@ -540,12 +540,12 @@
       align-items: center;
       text-align: center;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 20px;
+      padding-bottom: 18px;
     }
     .profile-img {
-      width: 72px; height: 72px;
+      width: 76px; height: 76px;
       border-radius: 50%;
       background: url('assets/logo.jpeg') no-repeat center center;
       background-size: cover;
@@ -568,30 +568,58 @@
       letter-spacing: 0.5px;
       text-transform: uppercase;
     }
+    
     .profile-stats-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 28px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
     }
+    @media (max-width: 500px) { .profile-stats-grid { grid-template-columns: 1fr; } }
+
     .profile-stat-box {
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
     .profile-stat-label {
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
     }
     .profile-stat-val {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 900;
       color: #EAF0FF;
+    }
+
+    /* 🔥 Added Section: Quick Actions & Activity */
+    .profile-quick-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .profile-action-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      background: rgba(124, 92, 255, 0.1);
+      color: #DCD4FF;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .profile-action-btn:hover {
+      background: rgba(124, 92, 255, 0.25);
+      border-color: #7C5CFF;
     }
 
     .btn-logout-big {
@@ -904,7 +932,7 @@
     </div>
   </div>
 
-  <!-- 🔥 NEW: USER PROFILE DASHBOARD MODAL -->
+  <!-- 🔥 UPDATED ENHANCED MEMBER PROFILE DASHBOARD MODAL -->
   <div class="profile-modal" id="profileModal">
     <div class="profile-card">
       <div class="auth-header">
@@ -913,20 +941,29 @@
       </div>
 
       <div class="profile-avatar-wrap">
-        <div class="profile-img"></div>
+        <div class="profile-img" id="profileAvatarImg"></div>
         <div class="profile-name" id="profileDisplayUsername">User Profile</div>
-        <div class="profile-badge">Verified Member</div>
+        <div class="profile-badge" id="profileBadge">Verified Member</div>
       </div>
 
       <div class="profile-stats-grid">
         <div class="profile-stat-box">
-          <div class="profile-stat-label">📦 Stuffs Accessed</div>
-          <div class="profile-stat-val" id="profileDownloadCount">0 Resources</div>
+          <div class="profile-stat-label">📦 Downloads</div>
+          <div class="profile-stat-val" id="profileDownloadCount">0 Items</div>
         </div>
         <div class="profile-stat-box">
           <div class="profile-stat-label">🔐 Auth Method</div>
           <div class="profile-stat-val" id="profileAuthMethod">Discord</div>
         </div>
+        <div class="profile-stat-box">
+          <div class="profile-stat-label">📅 Member Since</div>
+          <div class="profile-stat-val" id="profileJoinedDate">Aug 2026</div>
+        </div>
+      </div>
+
+      <div class="profile-quick-actions">
+        <a href="/stuffs-minecraft" target="_blank" class="profile-action-btn">📦 Browse Stuffs</a>
+        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="profile-action-btn">💬 Support Server</a>
       </div>
 
       <button class="btn-logout-big" id="confirmLogoutBtn">
@@ -1010,6 +1047,20 @@
       document.getElementById('profileDownloadCount').textContent = downloadsCount + ' Items';
       document.getElementById('profileAuthMethod').textContent = method;
 
+      // Set Custom Avatar if Discord Avatar exists
+      if (userData.avatarUrl) {
+        document.getElementById('profileAvatarImg').style.backgroundImage = `url('${userData.avatarUrl}')`;
+      }
+
+      // Member Since Date Calculation
+      if (userData.registeredAt) {
+        const date = new Date(userData.registeredAt);
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        document.getElementById('profileJoinedDate').textContent = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+      } else {
+        document.getElementById('profileJoinedDate').textContent = 'Aug 2026';
+      }
+
       profileModal.style.display = 'flex';
     }
 
@@ -1033,7 +1084,7 @@
       }
     }
 
-    function processAccount(email, method = 'form') {
+    function processAccount(email, method = 'form', extraData = {}) {
       let userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
       const isExistingAccount = !!userAccounts[email];
 
@@ -1044,7 +1095,11 @@
           return false;
         }
 
-        userAccounts[email] = { registeredAt: new Date().toISOString(), authMethod: method };
+        userAccounts[email] = { 
+          registeredAt: new Date().toISOString(), 
+          authMethod: method,
+          ...extraData 
+        };
         localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
         localStorage.setItem('active_user_session', email);
         showToast('Success! Account Created & Logged In.');
@@ -1056,6 +1111,11 @@
           showToast('No account found! Please Sign Up first.');
           setAuthTab('signup');
           return false;
+        }
+
+        if (Object.keys(extraData).length > 0) {
+          userAccounts[email] = { ...userAccounts[email], ...extraData };
+          localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
         }
 
         localStorage.setItem('active_user_session', email);
@@ -1094,8 +1154,12 @@
           const discordUser = await response.json();
           if (discordUser && (discordUser.username || discordUser.email)) {
             const userEmail = discordUser.email || `${discordUser.username}@discord.user`;
+            let avatarUrl = '';
+            if (discordUser.avatar) {
+              avatarUrl = `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`;
+            }
             window.history.replaceState({}, document.title, window.location.pathname);
-            processAccount(userEmail, 'discord');
+            processAccount(userEmail, 'discord', { avatarUrl: avatarUrl });
           }
         } catch (err) {
           showToast('Discord Auth failed!');

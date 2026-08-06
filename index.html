@@ -413,6 +413,7 @@
     }
     .toast.show{ opacity: 1; }
 
+    /* Auth Modal Styling */
     .auth-modal {
       position: fixed;
       inset: 0;
@@ -510,6 +511,111 @@
       font-size: 14px;
       cursor: pointer;
       margin-top: 6px;
+    }
+
+    /* 🔥 USER PROFILE DASHBOARD MODAL STYLING */
+    .profile-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 15, 0.88);
+      backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .profile-card {
+      width: min(480px, 100%);
+      background: linear-gradient(135deg, rgba(13, 19, 38, 0.95), rgba(7, 10, 22, 0.98));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(124, 92, 255, 0.12);
+      position: relative;
+    }
+    .profile-avatar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 20px;
+    }
+    .profile-img {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: url('assets/logo.jpeg') no-repeat center center;
+      background-size: cover;
+      box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.3), 0 0 20px rgba(124, 92, 255, 0.2);
+    }
+    .profile-name {
+      font-size: 22px;
+      font-weight: 950;
+      color: #FFF;
+      letter-spacing: 0.5px;
+    }
+    .profile-badge {
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(46, 233, 166, 0.15);
+      border: 1px solid rgba(46, 233, 166, 0.3);
+      color: #2EE9A6;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .profile-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .profile-stat-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .profile-stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .profile-stat-val {
+      font-size: 18px;
+      font-weight: 900;
+      color: #EAF0FF;
+    }
+
+    .btn-logout-big {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 77, 109, 0.4);
+      background: linear-gradient(135deg, rgba(255, 77, 109, 0.2), rgba(233, 46, 158, 0.3));
+      color: #FFD2DA;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(255, 77, 109, 0.15);
+    }
+    .btn-logout-big:hover {
+      background: linear-gradient(135deg, #FF4D6D, #E92EA6);
+      color: #FFF;
+      box-shadow: 0 6px 24px rgba(255, 77, 109, 0.4);
+      transform: translateY(-2px);
     }
 
     @media (min-width: 769px) {
@@ -798,6 +904,37 @@
     </div>
   </div>
 
+  <!-- 🔥 NEW: USER PROFILE DASHBOARD MODAL -->
+  <div class="profile-modal" id="profileModal">
+    <div class="profile-card">
+      <div class="auth-header">
+        <div style="font-size:12px; color:var(--muted); font-weight:800; letter-spacing:1px;">MEMBER DASHBOARD</div>
+        <button class="mini" onclick="closeProfileModal()" style="padding: 4px 8px;">✕</button>
+      </div>
+
+      <div class="profile-avatar-wrap">
+        <div class="profile-img"></div>
+        <div class="profile-name" id="profileDisplayUsername">User Profile</div>
+        <div class="profile-badge">Verified Member</div>
+      </div>
+
+      <div class="profile-stats-grid">
+        <div class="profile-stat-box">
+          <div class="profile-stat-label">📦 Stuffs Accessed</div>
+          <div class="profile-stat-val" id="profileDownloadCount">0 Resources</div>
+        </div>
+        <div class="profile-stat-box">
+          <div class="profile-stat-label">🔐 Auth Method</div>
+          <div class="profile-stat-val" id="profileAuthMethod">Discord</div>
+        </div>
+      </div>
+
+      <button class="btn-logout-big" id="confirmLogoutBtn">
+        🚪 LOG OUT OF ACCOUNT
+      </button>
+    </div>
+  </div>
+
   <div class="custom-cursor" id="customCursor"></div>
   <div class="custom-cursor-follower" id="customFollower"></div>
 
@@ -827,6 +964,7 @@
 
     let currentMode = 'signup';
     const authModal = document.getElementById('authModal');
+    const profileModal = document.getElementById('profileModal');
     const openAuthBtn = document.getElementById('openAuthBtn');
     const authForm = document.getElementById('authForm');
     const authSubmitBtn = document.getElementById('authSubmitBtn');
@@ -848,8 +986,39 @@
       });
     });
 
-    openAuthBtn.addEventListener('click', () => authModal.style.display = 'flex');
+    openAuthBtn.addEventListener('click', () => {
+      if (isAuthenticated()) {
+        openProfileModal();
+      } else {
+        authModal.style.display = 'flex';
+      }
+    });
+
     function closeAuthModal() { authModal.style.display = 'none'; }
+    function closeProfileModal() { profileModal.style.display = 'none'; }
+
+    function openProfileModal() {
+      const activeSession = localStorage.getItem('active_user_session');
+      const userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
+      const downloadsCount = localStorage.getItem('user_downloads_count') || '0';
+
+      const userData = userAccounts[activeSession] || {};
+      const username = activeSession ? activeSession.split('@')[0].toUpperCase() : 'USER';
+      const method = userData.authMethod ? userData.authMethod.toUpperCase() : 'STANDARD';
+
+      document.getElementById('profileDisplayUsername').textContent = username;
+      document.getElementById('profileDownloadCount').textContent = downloadsCount + ' Items';
+      document.getElementById('profileAuthMethod').textContent = method;
+
+      profileModal.style.display = 'flex';
+    }
+
+    document.getElementById('confirmLogoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('active_user_session');
+      showToast('Logged out successfully.');
+      closeProfileModal();
+      setTimeout(() => { location.reload(); }, 600);
+    });
 
     function setAuthTab(mode) {
       currentMode = mode;
@@ -937,12 +1106,6 @@
     function updateUserUI(email) {
       if(email) {
         openAuthBtn.textContent = email.split('@')[0].toUpperCase();
-        openAuthBtn.onclick = () => {
-          if(confirm('Do you want to log out?')) {
-            localStorage.removeItem('active_user_session');
-            location.reload();
-          }
-        };
       }
     }
 

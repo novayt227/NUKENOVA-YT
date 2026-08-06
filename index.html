@@ -802,7 +802,6 @@
   <div class="custom-cursor-follower" id="customFollower"></div>
 
   <script>
-    // 🔥 DISCORD OAUTH CLIENT CONFIGURATION (Integrate Client ID)
     const DISCORD_CLIENT_ID = "1534581373757685930"; 
     const REDIRECT_URI = window.location.origin + "/";
 
@@ -865,46 +864,18 @@
       }
     }
 
-    async function getUserIP() {
-      try {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const data = await res.json();
-        return data.ip;
-      } catch (err) {
-        return 'UNKNOWN_IP';
-      }
-    }
-
-    async function validateIPAndProcessAccount(email, method = 'form') {
-      const userIp = await getUserIP();
-      let ipDatabase = JSON.parse(localStorage.getItem('registered_ips') || '{}');
+    function processAccount(email, method = 'form') {
       let userAccounts = JSON.parse(localStorage.getItem('user_accounts') || '{}');
-      let ipAccountList = ipDatabase[userIp] || [];
-
-      if (ipDatabase[userIp] && ipDatabase[userIp].isBanned) {
-        showToast('🚨 Access Denied: This IP is permanently blocked.');
-        return false;
-      }
-
       const isExistingAccount = !!userAccounts[email];
 
-      if (!isExistingAccount) {
-        if (!ipAccountList.includes(email)) ipAccountList.push(email);
-
-        if (ipAccountList.length > 2) {
-          ipAccountList.forEach(accEmail => delete userAccounts[accEmail]);
-          ipDatabase[userIp] = { isBanned: true, accounts: [] };
-          localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
-          localStorage.setItem('registered_ips', JSON.stringify(ipDatabase));
-          localStorage.removeItem('active_user_session');
-          showToast('🚨 Limit Exceeded! All accounts purged & IP blocked.');
-          closeAuthModal();
+      if (currentMode === 'signup') {
+        if (isExistingAccount) {
+          showToast('Account already exists! Switching to Log In.');
+          setAuthTab('login');
           return false;
         }
 
-        ipDatabase[userIp] = ipAccountList;
         userAccounts[email] = { registeredAt: new Date().toISOString(), authMethod: method };
-        localStorage.setItem('registered_ips', JSON.stringify(ipDatabase));
         localStorage.setItem('user_accounts', JSON.stringify(userAccounts));
         localStorage.setItem('active_user_session', email);
         showToast('Success! Account Created & Logged In.');
@@ -912,6 +883,12 @@
         closeAuthModal();
         return true;
       } else {
+        if (!isExistingAccount) {
+          showToast('No account found! Please Sign Up first.');
+          setAuthTab('signup');
+          return false;
+        }
+
         localStorage.setItem('active_user_session', email);
         showToast('Welcome back! Logged In Successfully.');
         updateUserUI(email);
@@ -920,10 +897,10 @@
       }
     }
 
-    authForm.addEventListener('submit', async (e) => {
+    authForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('authEmail').value.trim();
-      await validateIPAndProcessAccount(email, 'email');
+      processAccount(email, 'email');
     });
 
     function handleDiscordAuth() {
@@ -933,7 +910,7 @@
 
     function handleGoogleAuth() {
       const mockGoogleEmail = 'google_user_' + Math.floor(Math.random() * 8999 + 1000) + '@gmail.com';
-      validateIPAndProcessAccount(mockGoogleEmail, 'google');
+      processAccount(mockGoogleEmail, 'google');
     }
 
     async function processDiscordOAuthReturn() {
@@ -949,7 +926,7 @@
           if (discordUser && (discordUser.username || discordUser.email)) {
             const userEmail = discordUser.email || `${discordUser.username}@discord.user`;
             window.history.replaceState({}, document.title, window.location.pathname);
-            await validateIPAndProcessAccount(userEmail, 'discord');
+            processAccount(userEmail, 'discord');
           }
         } catch (err) {
           showToast('Discord Auth failed!');

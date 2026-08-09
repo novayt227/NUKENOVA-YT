@@ -155,12 +155,25 @@
       backdrop-filter: blur(12px);
     }
 
+    /* BANNER IMAGE STYLING */
+    .plugin-banner-img {
+      width: 100%;
+      border-radius: 14px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      display: block;
+    }
+
     .details-card h2 {
       font-size: 20px;
-      margin: 0 0 14px 0;
+      margin: 20px 0 14px 0;
       color: #2EE9A6;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding-bottom: 10px;
+    }
+    .details-card h2:first-of-type {
+      margin-top: 0;
     }
 
     .details-card p {
@@ -280,12 +293,16 @@
     </div>
     
     <a href="./FlectonePulse-bukkit-1.10.1.jar" download="FlectonePulse-bukkit-1.10.1.jar" class="btn-download-special">
-      ⚡ Download Now
+      ⚡ Download Now (1.12.2)
     </a>
   </div>
 
   <div class="content-grid">
     <div class="details-card">
+      
+      <!-- MAIN BANNER IMAGE ADDED HERE -->
+      <img src="../assets/flectonepulse-banner.jpg" alt="FlectonePulse Banner" class="plugin-banner-img" />
+
       <h2>What Is FlectonePulse?</h2>
       <p>
         FlectonePulse is a plugin and mod for Minecraft (and Hytale) servers that takes full control over chat, messages, and notifications. You decide what players see, when they see it, and how it looks. Clean defaults for beginners, deep configuration for everyone else.

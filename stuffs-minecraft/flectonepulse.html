@@ -155,19 +155,66 @@
       backdrop-filter: blur(12px);
     }
 
-    /* BANNER IMAGE STYLING */
     .plugin-banner-img {
       width: 100%;
       border-radius: 14px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       display: block;
     }
 
+    /* BADGES ROW STYLING */
+    .badges-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .badge-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .badge-item:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.2);
+    }
+
+    .badge-modrinth {
+      background: #00AF5C;
+      color: #000;
+      border-color: #1BD96A;
+      box-shadow: 0 0 10px rgba(27, 217, 106, 0.25);
+    }
+
+    .badge-docs {
+      background: rgba(30, 41, 59, 0.9);
+      color: #E2E8F0;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .badge-discord {
+      background: #5865F2;
+      color: #FFF;
+      border-color: #7983F5;
+      box-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
+    }
+
     .details-card h2 {
       font-size: 20px;
-      margin: 20px 0 14px 0;
+      margin: 22px 0 14px 0;
       color: #2EE9A6;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding-bottom: 10px;
@@ -300,8 +347,21 @@
   <div class="content-grid">
     <div class="details-card">
       
-      <!-- MAIN BANNER IMAGE ADDED HERE -->
+      <!-- MAIN BANNER IMAGE -->
       <img src="../assets/flectonepulse-banner.jpg" alt="FlectonePulse Banner" class="plugin-banner-img" />
+
+      <!-- BADGES ROW -->
+      <div class="badges-container">
+        <a href="https://modrinth.com/plugin/flectonepulse" target="_blank" class="badge-item badge-modrinth">
+          🌀 Available on <strong>Modrinth</strong>
+        </a>
+        <a href="https://flectone.net/en/pulse" target="_blank" class="badge-item badge-docs">
+          📖 Read the <strong>Documentation</strong>
+        </a>
+        <a href="https://discord.gg/PQs9FtNDV7" target="_blank" class="badge-item badge-discord">
+          💬 Chat with us on <strong>Discord</strong>
+        </a>
+      </div>
 
       <h2>What Is FlectonePulse?</h2>
       <p>

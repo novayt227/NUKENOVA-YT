@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FlectonePulse 1.12.2 - LEAKED PLUGINS - NUKENOVA YT</title>
+  <title>LEAKED PLUGINS - NUKENOVA YT</title>
   
   <link rel="icon" type="image/jpeg" href="../assets/logo.jpeg" />
 
@@ -43,206 +43,185 @@
       background-size: cover;
     }
 
+    .header-section {
+      max-width: 1100px;
+      margin: 0 auto 30px auto;
+      text-align: center;
+    }
+
+    .header-section h1 {
+      font-size: 38px;
+      font-weight: 950;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #2EE9A6 0%, #3B82F6 50%, #7C5CFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .header-section p {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 15px;
+      margin-top: 0;
+    }
+
     .nav-bar {
       max-width: 1100px;
-      margin: 0 auto 25px auto;
+      margin: 0 auto 30px auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(4, 6, 14, 0.7);
+      color: var(--text);
+      font-weight: 600;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--brand2);
+      box-shadow: 0 0 14px rgba(124, 92, 255, 0.3);
     }
 
     .back-btn {
-      padding: 10px 18px;
-      border-radius: 12px;
+      padding: 12px 20px;
+      border-radius: 14px;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.05);
       color: var(--text);
       font-weight: 800;
-      font-size: 13px;
       text-decoration: none;
       transition: all 0.2s ease;
     }
+
     .back-btn:hover {
       background: rgba(255, 255, 255, 0.12);
       transform: translateY(-2px);
     }
 
-    /* PLUGIN HEADER CONTAINER */
-    .plugin-header-card {
-      max-width: 1100px;
-      margin: 0 auto 25px auto;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      backdrop-filter: blur(12px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .plugin-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .plugin-icon-img {
-      width: 58px;
-      height: 58px;
-      border-radius: 14px;
-      background: url('../assets/logo.jpeg') no-repeat center center;
-      background-size: cover;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 16px rgba(124, 92, 255, 0.3);
-    }
-
-    .plugin-title-text h1 {
-      margin: 0 0 4px 0;
-      font-size: 26px;
-      font-weight: 950;
-      color: #FFF;
-    }
-
-    .plugin-title-text p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13.5px;
-      font-weight: 600;
-    }
-
-    /* ATTRACTIVE GLOWING DOWNLOAD BUTTON */
-    .btn-download-special {
-      padding: 14px 26px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #2EE9A6, #00B4D8);
-      color: #07101C;
-      font-weight: 950;
-      font-size: 15px;
-      letter-spacing: 0.5px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 0 20px rgba(46, 233, 166, 0.4);
-      transition: all 0.25s ease;
-      border: none;
-    }
-
-    .btn-download-special:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 0 30px rgba(46, 233, 166, 0.7);
-      background: linear-gradient(135deg, #00B4D8, #2EE9A6);
-    }
-
-    /* MAIN CONTENT GRID LAYOUT */
-    .content-grid {
+    .resource-grid {
       max-width: 1100px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 2.8fr 1.2fr;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 22px;
     }
-    @media (max-width: 900px) {
-      .content-grid { grid-template-columns: 1fr; }
-    }
 
-    .details-card {
+    .resource-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 26px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
     }
 
-    .details-card h2 {
-      font-size: 20px;
-      margin: 0 0 14px 0;
-      color: #2EE9A6;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 10px;
+    .resource-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124, 92, 255, 0.5);
+      box-shadow: 0 14px 40px rgba(124, 92, 255, 0.15);
     }
 
-    .details-card p {
-      line-height: 1.65;
-      color: #CBD5E1;
-      font-weight: 500;
-      font-size: 14.5px;
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
-    /* SPECIFICATION TABLES */
-    .spec-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 18px 0;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .spec-table th, .spec-table td {
-      padding: 10px 14px;
-      text-align: left;
-      font-size: 13px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .spec-table th {
-      background: rgba(124, 92, 255, 0.15);
-      color: #DCD4FF;
+    .category-badge {
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
       font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(124, 92, 255, 0.15);
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      color: #DCD4FF;
     }
 
-    .spec-table td {
-      color: #E2E8F0;
+    .version-tag {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .resource-title {
+      font-size: 20px;
+      font-weight: 900;
+      margin: 0 0 8px 0;
+      color: #FFF;
+    }
+
+    .resource-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 14px;
+    }
+
+    .file-size {
+      font-size: 12px;
+      color: var(--muted);
       font-weight: 600;
     }
 
-    /* SIDEBAR INFO PANELS */
-    .sidebar-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .info-box {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      backdrop-filter: blur(12px);
-    }
-
-    .info-box-header {
-      font-size: 13px;
+    .view-btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2EE9A6, #00B4D8);
+      color: #07101C;
       font-weight: 900;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #7C5CFF;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
       font-size: 13px;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      border: none;
+      box-shadow: 0 4px 12px rgba(46, 233, 166, 0.25);
     }
 
-    .info-row .lbl { color: var(--muted); font-weight: 700; }
-    .info-row .val { color: #FFF; font-weight: 800; }
+    .view-btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(46, 233, 166, 0.4);
+    }
 
     @media (min-width: 769px) {
       body { cursor: none; }
-      a, button { cursor: none !important; }
+      a, button, input { cursor: none !important; }
     }
     .custom-cursor {
       position: fixed;
@@ -271,201 +250,35 @@
     <source src="../assets/bg-video.mp4" type="video/mp4">
   </video>
 
+  <div class="header-section">
+    <h1>🔥 LEAKED PLUGINS COLLECTION</h1>
+    <p>Search and download high quality premium plugins for your server</p>
+  </div>
+
   <div class="nav-bar">
     <a href="/stuffs-minecraft/" class="back-btn">⬅ Back to Resources</a>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Search leaked plugins..." onkeyup="filterResources()" />
+    </div>
   </div>
 
-  <!-- PLUGIN HEADER CARD WITH ATTRACTIVE DOWNLOAD BUTTON -->
-  <div class="plugin-header-card">
-    <div class="plugin-title-wrap">
-      <div class="plugin-icon-img"></div>
-      <div class="plugin-title-text">
-        <h1>FlectonePulse 1.12.2</h1>
-        <p>Every Message Under Your Control!</p>
+  <div class="resource-grid" id="resourceGrid">
+
+    <!-- PLUGIN CARD 1: FlectonePulse -->
+    <div class="resource-card">
+      <div>
+        <div class="card-top">
+          <span class="category-badge">Plugin / Mod</span>
+          <span class="version-tag">1.8 - 1.21.2</span>
+        </div>
+        <h3 class="resource-title">FlectonePulse 1.12.2</h3>
+        <p class="resource-desc">Full control over chat, messages, and notifications for Minecraft & Hytale servers.</p>
       </div>
-    </div>
-    
-    <!-- Direct File Download Link -->
-    <a href="../FlectonePulse-1.12.2.jar" download="FlectonePulse-1.12.2.jar" class="btn-download-special">
-      ⚡ Download Now (1.12.2)
-    </a>
-  </div>
-
-  <!-- MAIN CONTENT GRID -->
-  <div class="content-grid">
-    
-    <!-- LEFT DETAILS SECTION -->
-    <div class="details-card">
-      <h2>What Is FlectonePulse?</h2>
-      <p>
-        FlectonePulse is a plugin and mod for Minecraft (and Hytale) servers that takes full control over chat, messages, and notifications. You decide what players see, when they see it, and how it looks. Clean defaults for beginners, deep configuration for everyone else.
-      </p>
-
-      <h2>Why FlectonePulse instead of other message plugins?</h2>
-      <table class="spec-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>FlectonePulse</th>
-            <th>Typical Message Plugin</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Fully async – no main thread impact</td>
-            <td>✅ Yes</td>
-            <td>❌ No</td>
-          </tr>
-          <tr>
-            <td>Supports 1.8.8 up to latest Minecraft version</td>
-            <td>✅ Yes</td>
-            <td>⚠️ Limited</td>
-          </tr>
-          <tr>
-            <td>Bukkit, Spigot, Paper, Purpur, Folia, Fabric</td>
-            <td>✅ Yes</td>
-            <td>❌ Usually 1 Platform</td>
-          </tr>
-          <tr>
-            <td>Built-in proxy support (BungeeCord, Velocity)</td>
-            <td>✅ Yes</td>
-            <td>❌ Needs Separate Plugin</td>
-          </tr>
-          <tr>
-            <td>Cross-server message synchronization</td>
-            <td>✅ Yes</td>
-            <td>❌ No</td>
-          </tr>
-          <tr>
-            <td>Hytale support</td>
-            <td>✅ Yes</td>
-            <td>❌ No</td>
-          </tr>
-          <tr>
-            <td>Per-player client language detection</td>
-            <td>✅ Yes</td>
-            <td>❌ No</td>
-          </tr>
-          <tr>
-            <td>Textures in chat without resource pack</td>
-            <td>✅ Yes</td>
-            <td>❌ No</td>
-          </tr>
-          <tr>
-            <td>40+ built-in commands (chat, moderation, fun, etc.)</td>
-            <td>✅ Yes</td>
-            <td>❌ No</td>
-          </tr>
-          <tr>
-            <td>Cross-platform chat (Discord, Telegram, Twitch)</td>
-            <td>✅ Yes</td>
-            <td>❌ No</td>
-          </tr>
-          <tr>
-            <td>Open source & completely free</td>
-            <td>✅ Yes</td>
-            <td>⚠️ Often Freemium</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Requirements</h2>
-      <p><strong>Java 17 or higher is REQUIRED.</strong> Older Minecraft versions, such as 1.8.8, can also run on Java 17.</p>
-      <table class="spec-table">
-        <thead>
-          <tr>
-            <th>Platform</th>
-            <th>Supported Versions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Bukkit / Spigot / Paper / Purpur / Folia</td>
-            <td>1.8.8 – Latest</td>
-          </tr>
-          <tr>
-            <td>Fabric</td>
-            <td>Latest Minecraft version</td>
-          </tr>
-          <tr>
-            <td>BungeeCord / Waterfall</td>
-            <td>Latest</td>
-          </tr>
-          <tr>
-            <td>Velocity</td>
-            <td>Latest</td>
-          </tr>
-          <tr>
-            <td>Hytale</td>
-            <td>Latest Hytale version</td>
-          </tr>
-          <tr>
-            <td>NeoForge</td>
-            <td>Planned</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Configuration Files</h2>
-      <table class="spec-table">
-        <thead>
-          <tr>
-            <th>File</th>
-            <th>Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>config.yml</td>
-            <td>Database, language, proxy mode, cache</td>
-          </tr>
-          <tr>
-            <td>command.yml</td>
-            <td>Enable/disable and configure commands</td>
-          </tr>
-          <tr>
-            <td>message.yml</td>
-            <td>All message modules, conditions and behavior</td>
-          </tr>
-          <tr>
-            <td>integration.yml</td>
-            <td>Third-party plugins and external platforms</td>
-          </tr>
-          <tr>
-            <td>permission.yml</td>
-            <td>Permissions for every feature</td>
-          </tr>
-          <tr>
-            <td>localizations/*.yml</td>
-            <td>Per-language message text</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- RIGHT SIDEBAR INFO PANELS -->
-    <div class="sidebar-panel">
-      
-      <!-- INFORMATION PANEL -->
-      <div class="info-box">
-        <div class="info-box-header">ℹ️ Information</div>
-        <div class="info-row"><span class="lbl">Author</span><span class="val">TheFaser</span></div>
-        <div class="info-row"><span class="lbl">Total Downloads</span><span class="val">3,244</span></div>
-        <div class="info-row"><span class="lbl">First Release</span><span class="val">Dec 31, 2024</span></div>
-        <div class="info-row"><span class="lbl">Last Update</span><span class="val">Jul 31, 2026</span></div>
-        <div class="info-row"><span class="lbl">Category</span><span class="val">Spigot / Proxy</span></div>
-        <div class="info-row"><span class="lbl">All Time Rating</span><span class="val">⭐⭐⭐⭐⭐ (12)</span></div>
+      <div class="card-footer">
+        <span class="file-size">📁 Spigot / Proxy</span>
+        <!-- Redirects to dedicated plugin details page -->
+        <a href="/stuffs-minecraft/flectonepulse.html" class="view-btn">⚡ View & Download</a>
       </div>
-
-      <!-- VERSION PANEL -->
-      <div class="info-box">
-        <div class="info-box-header">📌 Version 1.12.2</div>
-        <div class="info-row"><span class="lbl">Released</span><span class="val">Jul 31, 2026</span></div>
-        <div class="info-row"><span class="lbl">Downloads</span><span class="val">41</span></div>
-        <div class="info-row"><span class="lbl">Native Version</span><span class="val">1.13</span></div>
-        <div class="info-row"><span class="lbl">Tested MC</span><span class="val">1.8 - 1.21.2</span></div>
-      </div>
-
     </div>
 
   </div>
@@ -474,6 +287,22 @@
   <div class="custom-cursor-follower" id="customFollower"></div>
 
   <script>
+    function filterResources() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let cards = document.getElementsByClassName('resource-card');
+
+      for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getElementsByClassName('resource-title')[0].innerText.toLowerCase();
+        let desc = cards[i].getElementsByClassName('resource-desc')[0].innerText.toLowerCase();
+
+        if (title.includes(input) || desc.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+
     const cursor = document.getElementById('customCursor');
     const follower = document.getElementById('customFollower');
 

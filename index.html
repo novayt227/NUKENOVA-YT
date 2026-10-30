@@ -1060,7 +1060,7 @@
     
     const REDIRECT_URI = window.location.origin + "/";
 
-    const SERVER_ADDRESS = 'play.novayt.warmc.fun';
+    const SERVER_ADDRESS = 'nukenova.halix.gg';
     const SERVER_ADDRESS_DISPLAY_ID = 'serverAddress';
     const yearEl = document.getElementById('year');
     yearEl.textContent = new Date().getFullYear();
@@ -1074,10 +1074,6 @@
       toast.classList.add('show');
       window.clearTimeout(showToast._t);
       showToast._t = window.setTimeout(()=> toast.classList.remove('show'), 2000);
-    }
-
-    if(serverAddressEl){
-      serverAddressEl.innerHTML = '<span style="font-weight:950; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \'Liberation Mono\',\'Courier New\', monospace;">SERVER IS OFF</span>';
     }
 
     let currentMode = 'signup';

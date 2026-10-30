@@ -44,19 +44,17 @@
       overflow-x:hidden;
     }
 
-    .video-bg {
+    /* 🔥 SUKUNA BACKGROUND IMAGE STYLING */
+    .site-bg {
       position: fixed;
       inset: 0;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 100%;
       z-index: -1;
-      object-fit: cover;
-      pointer-events: none;
-      opacity: 0.25;
-      background: url('assets/logo.jpeg') no-repeat center center;
+      background: url('assets/bg.jpg') no-repeat center center fixed;
       background-size: cover;
+      opacity: 0.35;
+      pointer-events: none;
     }
 
     a{ color: inherit; text-decoration: none; }
@@ -756,9 +754,8 @@
 </head>
 <body>
 
-  <video autoplay loop muted playsinline webkit-playsinline preload="auto" class="video-bg">
-    <source src="assets/bg-video.mp4" type="video/mp4">
-  </video>
+  <!-- SUKUNA BACKGROUND IMAGE -->
+  <div class="site-bg"></div>
 
   <header>
     <div class="container nav">

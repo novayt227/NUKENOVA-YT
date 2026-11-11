@@ -13,7 +13,7 @@
   <meta name="application-name" content="NUKENOVA YT" />
   <meta name="apple-mobile-web-app-title" content="NUKENOVA YT" />
   
-  <link rel="icon" type="image/jpeg" href="assets/logo.jpeg" />
+  <link rel="icon" type="image/png" href="assets/nukenova-logo.png" />
   
   <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -44,7 +44,7 @@
       overflow-x:hidden;
     }
 
-    /* 🔥 SUKUNA BACKGROUND IMAGE STYLING */
+    /* 🔥 SUKUNA BACKGROUND IMAGE */
     .site-bg {
       position: fixed;
       inset: 0;
@@ -78,18 +78,19 @@
     .brand{
       display:flex;
       align-items:center;
-      gap: 10px;
+      gap: 12px;
       font-weight: 900;
       letter-spacing: .2px;
     }
     
+    /* 🔥 NEW NUKENOVA LOGO */
     .logo{
-      width: 38px; height: 38px;
+      width: 42px; height: 42px;
       border-radius: 12px;
-      background: url('assets/logo.jpeg') no-repeat center center;
+      background: url('assets/nukenova-logo.png') no-repeat center center;
       background-size: cover;
-      box-shadow: 0 0 0 4px rgba(124,92,255,.15);
-      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 14px rgba(46,233,166,.35), 0 0 0 2px rgba(46,233,166,.3);
+      border: 1px solid rgba(255,255,255,0.2);
     }
     
     .nav-links{ display:flex; align-items:center; gap: 18px; flex-wrap: wrap; }
@@ -576,9 +577,9 @@
     .profile-img {
       width: 80px; height: 80px;
       border-radius: 50%;
-      background: url('assets/logo.jpeg') no-repeat center center;
+      background: url('assets/nukenova-logo.png') no-repeat center center;
       background-size: cover;
-      box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.35), 0 0 24px rgba(124, 92, 255, 0.25);
+      box-shadow: 0 0 0 4px rgba(46, 233, 166, 0.35), 0 0 24px rgba(46, 233, 166, 0.25);
     }
     .profile-name-row {
       display: flex;
@@ -803,7 +804,7 @@
               <div class="ip">
                 <div class="label">Server Address</div>
                 <div class="ipcode">
-                  <code id="serverAddress" data-server="play.nukenova.net">play.nukenova.net</code>
+                  <code id="serverAddress" data-server="nukenova.halix.gg">nukenova.halix.gg</code>
                   <button class="mini protected-link" id="copyIpBtn" type="button" title="Copy server address">Copy</button>
                 </div>
               </div>
@@ -932,7 +933,6 @@
           <div class="tag">Manage updates, rules, and community direction.</div>
         </div>
         
-        <!-- 🔥 NK NAITIK REPLACED WITH MISSING -->
         <div class="person">
           <div class="avatar"></div>
           <div class="name">[MISSING]</div>
@@ -1136,7 +1136,7 @@
       if (userData.avatarUrl) {
         avatarImgEl.style.backgroundImage = `url('${userData.avatarUrl}')`;
       } else {
-        avatarImgEl.style.backgroundImage = "url('assets/logo.jpeg')";
+        avatarImgEl.style.backgroundImage = "url('assets/nukenova-logo.png')";
       }
 
       if (userData.registeredAt) {

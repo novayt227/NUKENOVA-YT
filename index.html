@@ -470,6 +470,29 @@
     }
     .toast.show{ opacity: 1; }
 
+    /* Sound Toggle Button */
+    #soundToggleBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1500;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(11, 17, 43, 0.85);
+      backdrop-filter: blur(10px);
+      color: #EAF0FF;
+      font-weight: 850;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(46, 233, 166, 0.25);
+      transition: all 0.2s ease;
+    }
+    #soundToggleBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 22px rgba(46, 233, 166, 0.45);
+    }
+
     /* Auth Modal Styling */
     .auth-modal {
       position: fixed;
@@ -783,9 +806,12 @@
 <body>
 
   <!-- BACKGROUND VIDEO -->
-  <video class="site-bg" autoplay loop muted playsinline poster="assets/bg.jpg">
+  <video class="site-bg" id="bgVideo" autoplay loop muted playsinline poster="assets/bg.jpg">
     <source src="assets/bg.mp4" type="video/mp4" />
   </video>
+
+  <!-- SOUND TOGGLE BUTTON -->
+  <button id="soundToggleBtn">🔇 Sound: OFF</button>
 
   <header>
     <div class="container nav">
@@ -1383,6 +1409,38 @@
 
     fetchLiveServerStatus();
     setInterval(fetchLiveServerStatus, 30000);
+
+    // 🔥 BACKGROUND VIDEO SOUND CONTROLLER
+    const bgVideo = document.getElementById('bgVideo');
+    const soundBtn = document.getElementById('soundToggleBtn');
+
+    function updateSoundBtn() {
+      if (bgVideo.muted) {
+        soundBtn.textContent = '🔇 Sound: OFF';
+        soundBtn.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+      } else {
+        soundBtn.textContent = '🔊 Sound: ON';
+        soundBtn.style.borderColor = '#2EE9A6';
+      }
+    }
+
+    soundBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      bgVideo.muted = !bgVideo.muted;
+      bgVideo.volume = 0.5;
+      if (!bgVideo.paused) bgVideo.play();
+      updateSoundBtn();
+    });
+
+    document.addEventListener('click', function enableAudioOnFirstClick() {
+      if (bgVideo.muted) {
+        bgVideo.muted = false;
+        bgVideo.volume = 0.5;
+        bgVideo.play();
+        updateSoundBtn();
+      }
+      document.removeEventListener('click', enableAudioOnFirstClick);
+    });
 
     window.addEventListener('load', () => {
       processDiscordOAuthReturn();

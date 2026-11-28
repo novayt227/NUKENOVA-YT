@@ -264,6 +264,34 @@
       color: #FFF;
     }
 
+    /* 🔥 PURCHASE RANKS BUTTON STYLING */
+    .btn-purchase {
+      margin-top: 10px;
+      background: linear-gradient(135deg, rgba(46, 233, 166, 0.2), rgba(0, 180, 216, 0.3));
+      border: 1px solid rgba(46, 233, 166, 0.55);
+      color: #FFF;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(46, 233, 166, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      transition: all 0.25s ease-in-out;
+    }
+    .btn-purchase:hover {
+      background: linear-gradient(135deg, #2EE9A6, #00B4D8);
+      border-color: #2EE9A6;
+      box-shadow: 0 0 20px rgba(46, 233, 166, 0.55);
+      transform: translateY(-2px);
+      color: #07101C;
+    }
+
     .copywrap{
       margin-top: 16px;
       border-top: 1px solid rgba(255,255,255,.10);
@@ -822,16 +850,16 @@
             <a href="/stuffs-minecraft" target="_blank" class="btn btn-stuffs protected-link">📦 STUFFS</a>
           </div>
           
+          <!-- 🔥 MINECRAFT RANKS BOX (REPLACED HOW TO PLAY) -->
           <div class="stat">
             <div class="top">
-              <div class="name">How to play</div>
-              <div class="pill">1 minute</div>
+              <div class="name">STORE</div>
+              <div class="pill">Exclusive Perks</div>
             </div>
-            <div class="value" style="font-size:16px;">Discord → Apply → Join</div>
-            <div style="color: var(--muted); font-weight: 700; line-height:1.4; font-size: 14px;">
-              Connect using the server address (copy button above).
-            </div>
+            <div class="value">Minecraft Ranks</div>
+            <a href="/ranks.html" target="_blank" class="btn btn-purchase protected-link">👑 PURCHASE</a>
           </div>
+
           <div class="stat">
             <div class="top">
               <div class="name">Status</div>

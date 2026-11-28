@@ -289,6 +289,7 @@
       font-weight: 700;
       margin-bottom: 6px;
     }
+    .req-star { color: #FF4D6D; font-weight: 900; }
     .modal-input {
       width: 100%;
       padding: 10px 14px;
@@ -576,7 +577,7 @@
     </div>
 
     <div class="info-banner">
-      <strong>⚡ Instant UPI Checkout:</strong> Select any Rank or Key, enter your Minecraft Username, scan the UPI QR code to pay, and submit your 12-digit UTR number + Payment Screenshot. Your order alert goes directly to our server staff!
+      <strong>⚡ Instant UPI Checkout:</strong> Select any Rank or Key, enter your Minecraft Username & Discord Username, scan the UPI QR code to pay, and submit your 12-digit UTR number + Payment Screenshot. Your order alert goes directly to our server staff!
     </div>
   </div>
 
@@ -588,16 +589,16 @@
         <button class="close-modal" onclick="closeCheckout()">✕</button>
       </div>
 
-      <!-- STEP 1: ENTER IGN & QUANTITY -->
+      <!-- STEP 1: ENTER IGN, DISCORD & QUANTITY -->
       <div id="stepDetails">
         <div class="form-group">
-          <label>Minecraft Username (IGN) *</label>
+          <label>Minecraft Username (IGN) <span class="req-star">*</span></label>
           <input type="text" id="mcUsername" class="modal-input" placeholder="e.g. NP_ANKUSH" required />
         </div>
 
         <div class="form-group">
-          <label>Discord Username (Optional)</label>
-          <input type="text" id="discordUser" class="modal-input" placeholder="e.g. novayt_227" />
+          <label>Discord Username <span class="req-star">*</span></label>
+          <input type="text" id="discordUser" class="modal-input" placeholder="e.g. novayt_227" required />
         </div>
 
         <div class="form-group" id="qtySection">
@@ -637,12 +638,12 @@
         <a id="upiDirectLink" href="#" class="upi-app-link">📱 Open UPI App Directly (Mobile)</a>
 
         <div class="form-group">
-          <label>Enter 12-Digit UPI Transaction / UTR ID *</label>
-          <input type="text" id="utrInput" class="modal-input" placeholder="e.g. 433219847561" maxlength="16" />
+          <label>Enter 12-Digit UPI Transaction / UTR ID <span class="req-star">*</span></label>
+          <input type="text" id="utrInput" class="modal-input" placeholder="e.g. 433219847561" maxlength="16" required />
         </div>
 
         <div class="form-group">
-          <label>Upload Payment Screenshot *</label>
+          <label>Upload Payment Screenshot <span class="req-star">*</span></label>
           <label class="upload-box" for="screenshotInput">
             <span id="uploadLabelText" style="font-size:13px; font-weight:800; color:#2EE9A6;">📸 Click to Upload Payment Screenshot</span>
             <span style="font-size:11px; color:var(--muted); margin-top:3px;">PNG, JPG, JPEG supported</span>
@@ -727,13 +728,20 @@
 
     function goToPayment() {
       const ign = document.getElementById('mcUsername').value.trim();
+      const discord = document.getElementById('discordUser').value.trim();
+
       if (ign.length < 3) {
-        alert("Please enter your valid Minecraft Username first!");
+        alert("Please enter your valid Minecraft Username (IGN)!");
+        return;
+      }
+
+      if (discord.length < 2) {
+        alert("Please enter your Discord Username! Both Minecraft IGN and Discord Username are required.");
         return;
       }
 
       const total = unitPrice * currentQty;
-      const note = encodeURIComponent(`${ign} - ${currentQty}x ${currentItem}`);
+      const note = encodeURIComponent(`${ign} (${discord}) - ${currentQty}x ${currentItem}`);
       const upiUrl = `upi://pay?pa=${encodeURIComponent(MY_UPI_ID)}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${total}&cu=INR&tn=${note}`;
 
       document.getElementById('payAmountText').textContent = "₹" + total + "/-";
@@ -784,7 +792,7 @@
       }
 
       const ign = document.getElementById('mcUsername').value.trim();
-      const discord = document.getElementById('discordUser').value.trim() || "Not provided";
+      const discord = document.getElementById('discordUser').value.trim();
       const total = unitPrice * currentQty;
       const orderId = "NK-" + Math.floor(100000 + Math.random() * 900000);
 
@@ -804,7 +812,7 @@
               fields: [
                 { name: "Order ID", value: orderId, inline: true },
                 { name: "Minecraft IGN", value: `\`${ign}\``, inline: true },
-                { name: "Discord", value: discord, inline: true },
+                { name: "Discord Username", value: `\`${discord}\``, inline: true },
                 { name: "Item Purchased", value: `**${currentQty}x ${currentItem}**`, inline: true },
                 { name: "Amount Paid", value: `**₹${total}/-**`, inline: true },
                 { name: "UTR / Ref ID", value: `\`${utr}\``, inline: true }
@@ -834,7 +842,8 @@
 
       document.getElementById('receiptBox').innerHTML = `
         <strong>Order ID:</strong> ${orderId}<br>
-        <strong>Player (IGN):</strong> ${ign}<br>
+        <strong>Minecraft (IGN):</strong> ${ign}<br>
+        <strong>Discord:</strong> ${discord}<br>
         <strong>Item:</strong> ${currentQty}x ${currentItem}<br>
         <strong>Amount Paid:</strong> ₹${total}/-<br>
         <strong>UTR ID:</strong> ${utr}<br>

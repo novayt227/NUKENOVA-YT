@@ -212,6 +212,10 @@
       transform: scale(1.02);
       box-shadow: 0 0 20px rgba(46, 233, 166, 0.5);
     }
+    .buy-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
     .buy-btn.gold-btn {
       background: linear-gradient(135deg, #FFD700, #FF8C00);
@@ -230,7 +234,7 @@
       line-height: 1.6;
     }
 
-    /* 🔥 CHECKOUT MODAL STYLING */
+    /* CHECKOUT MODAL STYLING */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -241,16 +245,19 @@
       justify-content: center;
       z-index: 9999;
       padding: 18px;
+      overflow-y: auto;
     }
     .modal-box {
-      width: min(440px, 100%);
+      width: min(450px, 100%);
       background: #0D1326;
       border: 1px solid rgba(46, 233, 166, 0.35);
       border-radius: 22px;
-      padding: 26px;
+      padding: 24px;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(46, 233, 166, 0.15);
       position: relative;
       animation: popIn 0.2s ease-out;
+      max-height: 92vh;
+      overflow-y: auto;
     }
     @keyframes popIn {
       from { transform: scale(0.94); opacity: 0; }
@@ -260,9 +267,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding-bottom: 12px;
+      padding-bottom: 10px;
     }
     .modal-top h3 { margin: 0; font-size: 18px; font-weight: 900; }
     .close-modal {
@@ -274,7 +281,7 @@
       cursor: pointer;
       font-weight: 900;
     }
-    .form-group { margin-bottom: 14px; }
+    .form-group { margin-bottom: 13px; }
     .form-group label {
       display: block;
       font-size: 12.5px;
@@ -284,7 +291,7 @@
     }
     .modal-input {
       width: 100%;
-      padding: 11px 14px;
+      padding: 10px 14px;
       border-radius: 12px;
       border: 1px solid var(--border);
       background: rgba(0, 0, 0, 0.45);
@@ -294,6 +301,71 @@
       outline: none;
     }
     .modal-input:focus { border-color: var(--brand2); }
+
+    /* Custom FamPay QR Card Display */
+    .fampay-qr-container {
+      text-align: center;
+      margin: 0 auto 12px;
+    }
+    .fampay-qr-img {
+      width: 220px;
+      max-width: 100%;
+      border-radius: 16px;
+      border: 2px solid rgba(46, 233, 166, 0.45);
+      box-shadow: 0 0 22px rgba(46, 233, 166, 0.25);
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .upi-copy-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(46, 233, 166, 0.35);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #EAF0FF;
+      margin-bottom: 10px;
+    }
+    .copy-upi-btn {
+      background: #2EE9A6;
+      color: #07101C;
+      border: none;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    /* Screenshot Upload Box */
+    .upload-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1.5px dashed rgba(46, 233, 166, 0.45);
+      background: rgba(46, 233, 166, 0.05);
+      cursor: pointer;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .upload-box:hover {
+      background: rgba(46, 233, 166, 0.12);
+      border-color: #2EE9A6;
+    }
+    .upload-preview {
+      max-width: 100%;
+      max-height: 110px;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: none;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
 
     .qty-row {
       display: flex;
@@ -326,44 +398,34 @@
       margin: 16px 0;
       font-weight: 900;
     }
-    .qr-wrap {
-      text-align: center;
-      background: #FFF;
-      padding: 14px;
-      border-radius: 16px;
-      width: fit-content;
-      margin: 0 auto 14px;
-      box-shadow: 0 0 25px rgba(46, 233, 166, 0.3);
-    }
-    .qr-wrap img { display: block; width: 190px; height: 190px; }
     .upi-app-link {
       display: block;
       text-align: center;
-      padding: 10px;
+      padding: 9px;
       border-radius: 12px;
       background: rgba(124, 92, 255, 0.2);
       border: 1px solid rgba(124, 92, 255, 0.45);
       color: #DCD4FF;
       font-weight: 800;
-      font-size: 13px;
+      font-size: 12.5px;
       text-decoration: none;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .success-screen {
       text-align: center;
-      padding: 16px 6px;
+      padding: 14px 4px;
     }
     .check-circle {
-      width: 68px; height: 68px;
+      width: 64px; height: 64px;
       border-radius: 50%;
       background: rgba(46, 233, 166, 0.18);
       border: 2px solid #2EE9A6;
       color: #2EE9A6;
-      font-size: 34px;
+      font-size: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 14px;
+      margin: 0 auto 12px;
       box-shadow: 0 0 25px rgba(46, 233, 166, 0.4);
     }
     .order-receipt {
@@ -514,11 +576,11 @@
     </div>
 
     <div class="info-banner">
-      <strong>⚡ Instant UPI Checkout:</strong> Select any Rank or Key, enter your Minecraft Username, scan the UPI QR code to pay, and submit your 12-digit UTR number. Your order alert goes directly to our server staff!
+      <strong>⚡ Instant UPI Checkout:</strong> Select any Rank or Key, enter your Minecraft Username, scan the UPI QR code to pay, and submit your 12-digit UTR number + Payment Screenshot. Your order alert goes directly to our server staff!
     </div>
   </div>
 
-  <!-- 🔥 CHECKOUT & PAYMENT DONE MODAL -->
+  <!-- CHECKOUT & PAYMENT DONE MODAL -->
   <div class="modal-overlay" id="checkoutModal">
     <div class="modal-box">
       <div class="modal-top">
@@ -558,14 +620,18 @@
         <button type="button" class="buy-btn" onclick="goToPayment()">Proceed to UPI Payment ➔</button>
       </div>
 
-      <!-- STEP 2: SCAN QR & ENTER UTR -->
+      <!-- STEP 2: SCAN FAMPAY QR, ENTER UTR & UPLOAD SCREENSHOT -->
       <div id="stepPayment" style="display:none;">
-        <p style="text-align:center; font-size:13px; color:var(--muted); margin:0 0 12px;">
-          Scan with <strong>FamPay / Paytm / GPay / PhonePe</strong> to pay <strong id="payAmountText" style="color:#2EE9A6;">₹0</strong>
+        <p style="text-align:center; font-size:13px; color:var(--muted); margin:0 0 10px;">
+          Scan QR or copy UPI ID to pay <strong id="payAmountText" style="color:#2EE9A6;">₹0</strong>
         </p>
 
-        <div class="qr-wrap">
-          <img id="upiQrImg" src="" alt="UPI QR Code" />
+        <div class="fampay-qr-container">
+          <img src="assets/fampay-qr.jpg" alt="Scan FamPay QR Code" class="fampay-qr-img" />
+          <div class="upi-copy-pill">
+            <span>UPI: <strong style="color:#2EE9A6;">sarkar147@fam</strong></span>
+            <button type="button" class="copy-upi-btn" id="copyUpiBtn" onclick="copyUpiId()">Copy</button>
+          </div>
         </div>
 
         <a id="upiDirectLink" href="#" class="upi-app-link">📱 Open UPI App Directly (Mobile)</a>
@@ -575,6 +641,16 @@
           <input type="text" id="utrInput" class="modal-input" placeholder="e.g. 433219847561" maxlength="16" />
         </div>
 
+        <div class="form-group">
+          <label>Upload Payment Screenshot *</label>
+          <label class="upload-box" for="screenshotInput">
+            <span id="uploadLabelText" style="font-size:13px; font-weight:800; color:#2EE9A6;">📸 Click to Upload Payment Screenshot</span>
+            <span style="font-size:11px; color:var(--muted); margin-top:3px;">PNG, JPG, JPEG supported</span>
+            <img id="screenshotPreview" class="upload-preview" alt="Screenshot Preview" />
+          </label>
+          <input type="file" id="screenshotInput" accept="image/*" style="display:none;" onchange="handleScreenshotSelect(event)" />
+        </div>
+
         <button type="button" class="buy-btn gold-btn" id="confirmPayBtn" onclick="confirmPayment()">✅ I Have Paid — Verify Order</button>
       </div>
 
@@ -582,7 +658,7 @@
       <div id="stepDone" class="success-screen" style="display:none;">
         <div class="check-circle">✓</div>
         <h2 style="margin:0 0 6px; color:#2EE9A6; font-weight:950;">Payment Done!</h2>
-        <p style="margin:0; font-size:13.5px; color:var(--muted);">Your order has been submitted & sent to NUKENOVA SMP staff.</p>
+        <p style="margin:0; font-size:13.5px; color:var(--muted);">Your order & payment screenshot have been sent to NUKENOVA SMP staff.</p>
 
         <div class="order-receipt" id="receiptBox"></div>
 
@@ -593,25 +669,30 @@
 
   <script>
     const MY_UPI_ID = "sarkar147@fam";
-    const PAYEE_NAME = "NUKENOVA SMP";
+    const PAYEE_NAME = "Ankush Sarkar";
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1576160823108444210/nKvfSN7N4QlsvNQ7Jevjx4NrdXs1QkOOJY-BdaK_lwYtEIe5z8qmktYYU8-XEtd8yig4";
 
     let currentItem = "";
     let unitPrice = 0;
     let currentQty = 1;
     let allowMultiple = false;
+    let selectedScreenshotFile = null;
 
     function openCheckout(itemName, price, isKey) {
       currentItem = itemName;
       unitPrice = price;
       currentQty = 1;
       allowMultiple = isKey;
+      selectedScreenshotFile = null;
 
       document.getElementById('modalHeaderTitle').textContent = "🛒 " + itemName;
       document.getElementById('selectedItemLabel').textContent = itemName;
       document.getElementById('qtyValue').textContent = "1";
       document.getElementById('qtySection').style.display = isKey ? "block" : "none";
       document.getElementById('utrInput').value = "";
+      document.getElementById('screenshotInput').value = "";
+      document.getElementById('screenshotPreview').style.display = "none";
+      document.getElementById('uploadLabelText').textContent = "📸 Click to Upload Payment Screenshot";
 
       updateTotal();
 
@@ -637,6 +718,13 @@
       document.getElementById('totalPriceDisplay').textContent = "₹" + total + "/-";
     }
 
+    function copyUpiId() {
+      navigator.clipboard.writeText(MY_UPI_ID);
+      const btn = document.getElementById('copyUpiBtn');
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = "Copy"; }, 1800);
+    }
+
     function goToPayment() {
       const ign = document.getElementById('mcUsername').value.trim();
       if (ign.length < 3) {
@@ -648,14 +736,39 @@
       const note = encodeURIComponent(`${ign} - ${currentQty}x ${currentItem}`);
       const upiUrl = `upi://pay?pa=${encodeURIComponent(MY_UPI_ID)}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${total}&cu=INR&tn=${note}`;
 
-      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUrl)}`;
-
       document.getElementById('payAmountText').textContent = "₹" + total + "/-";
-      document.getElementById('upiQrImg').src = qrApiUrl;
       document.getElementById('upiDirectLink').href = upiUrl;
 
       document.getElementById('stepDetails').style.display = "none";
       document.getElementById('stepPayment').style.display = "block";
+    }
+
+    function handleScreenshotSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        alert("Please select a valid image file (PNG, JPG, JPEG)!");
+        event.target.value = "";
+        return;
+      }
+
+      if (file.size > 8 * 1024 * 1024) {
+        alert("Image size must be under 8MB!");
+        event.target.value = "";
+        return;
+      }
+
+      selectedScreenshotFile = file;
+      document.getElementById('uploadLabelText').textContent = "✅ Selected: " + file.name;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const preview = document.getElementById('screenshotPreview');
+        preview.src = e.target.result;
+        preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
     }
 
     async function confirmPayment() {
@@ -665,36 +778,51 @@
         return;
       }
 
+      if (!selectedScreenshotFile) {
+        alert("Please upload your Payment Screenshot before submitting!");
+        return;
+      }
+
       const ign = document.getElementById('mcUsername').value.trim();
       const discord = document.getElementById('discordUser').value.trim() || "Not provided";
       const total = unitPrice * currentQty;
       const orderId = "NK-" + Math.floor(100000 + Math.random() * 900000);
 
       const btn = document.getElementById('confirmPayBtn');
-      btn.textContent = "Verifying...";
+      btn.textContent = "Uploading & Verifying...";
       btn.disabled = true;
 
       if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL.startsWith("https://")) {
         try {
+          const formData = new FormData();
+          const fileName = `payment_${orderId}.png`;
+
+          const payload = {
+            embeds: [{
+              title: "💰 NEW STORE ORDER — PAYMENT DONE",
+              color: 3074470,
+              fields: [
+                { name: "Order ID", value: orderId, inline: true },
+                { name: "Minecraft IGN", value: `\`${ign}\``, inline: true },
+                { name: "Discord", value: discord, inline: true },
+                { name: "Item Purchased", value: `**${currentQty}x ${currentItem}**`, inline: true },
+                { name: "Amount Paid", value: `**₹${total}/-**`, inline: true },
+                { name: "UTR / Ref ID", value: `\`${utr}\``, inline: true }
+              ],
+              image: {
+                url: `attachment://${fileName}`
+              },
+              footer: { text: "NUKENOVA SMP Store • Verify UTR & Screenshot in FamPay" },
+              timestamp: new Date().toISOString()
+            }]
+          };
+
+          formData.append("payload_json", JSON.stringify(payload));
+          formData.append("files[0]", selectedScreenshotFile, fileName);
+
           await fetch(DISCORD_WEBHOOK_URL, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              embeds: [{
-                title: "💰 NEW STORE ORDER — PAYMENT DONE",
-                color: 3074470,
-                fields: [
-                  { name: "Order ID", value: orderId, inline: true },
-                  { name: "Minecraft IGN", value: `\`${ign}\``, inline: true },
-                  { name: "Discord", value: discord, inline: true },
-                  { name: "Item Purchased", value: `**${currentQty}x ${currentItem}**`, inline: true },
-                  { name: "Amount Paid", value: `**₹${total}/-**`, inline: true },
-                  { name: "UTR / Ref ID", value: `\`${utr}\``, inline: true }
-                ],
-                footer: { text: "NUKENOVA SMP Store • Verify UTR in FamPay & deliver in-game" },
-                timestamp: new Date().toISOString()
-              }]
-            })
+            body: formData
           });
         } catch (err) {
           console.error("Webhook error:", err);
@@ -710,6 +838,7 @@
         <strong>Item:</strong> ${currentQty}x ${currentItem}<br>
         <strong>Amount Paid:</strong> ₹${total}/-<br>
         <strong>UTR ID:</strong> ${utr}<br>
+        <strong>Screenshot:</strong> <span style="color:#2EE9A6;">Uploaded ✓</span><br>
         <strong>Status:</strong> <span style="color:#2EE9A6; font-weight:800;">Payment Done (Delivering Soon)</span>
       `;
 

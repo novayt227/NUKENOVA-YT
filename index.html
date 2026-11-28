@@ -860,14 +860,15 @@
             <a href="/ranks.html" target="_blank" class="btn btn-purchase protected-link">👑 PURCHASE</a>
           </div>
 
+          <!-- 🔥 REAL-TIME LIVE SERVER STATUS -->
           <div class="stat">
             <div class="top">
               <div class="name">Status</div>
               <div class="pill" id="statusPill">Checking…</div>
             </div>
-            <div class="value" id="statusValue">Online / Offline</div>
-            <div style="color: var(--muted); font-weight: 700; line-height:1.4; font-size: 14px;">
-              (Optional) Real status can be added later with a backend.
+            <div class="value" id="statusValue">Fetching players…</div>
+            <div id="statusSub" style="color: var(--muted); font-weight: 700; line-height:1.4; font-size: 13.5px;">
+              Checking play.nukenova.net…
             </div>
           </div>
         </aside>
@@ -1341,10 +1342,46 @@
       }
     });
 
+    // 🔥 REAL-TIME MINECRAFT SERVER STATUS CHECKER
     const statusPill = document.getElementById('statusPill');
     const statusValue = document.getElementById('statusValue');
-    statusPill.textContent = 'Offline';
-    statusValue.textContent = 'Check in-game';
+    const statusSub = document.getElementById('statusSub');
+
+    async function fetchLiveServerStatus() {
+      try {
+        const res = await fetch(`https://api.mcsrvstat.us/3/${SERVER_ADDRESS}`);
+        const data = await res.json();
+
+        if (data && data.online) {
+          const onlinePlayers = data.players ? data.players.online : 0;
+          const maxPlayers = data.players ? data.players.max : 100;
+          const version = data.version || '1.20+';
+
+          statusPill.textContent = '🟢 Online';
+          statusPill.style.background = 'rgba(46, 233, 166, 0.18)';
+          statusPill.style.borderColor = '#2EE9A6';
+          statusPill.style.color = '#2EE9A6';
+
+          statusValue.textContent = `${onlinePlayers} / ${maxPlayers} Players`;
+          statusSub.textContent = `Server is Live • Version: ${version}`;
+        } else {
+          statusPill.textContent = '🔴 Offline';
+          statusPill.style.background = 'rgba(255, 77, 109, 0.18)';
+          statusPill.style.borderColor = '#FF4D6D';
+          statusPill.style.color = '#FF4D6D';
+
+          statusValue.textContent = '0 / 0 Players';
+          statusSub.textContent = 'Server is currently offline or restarting.';
+        }
+      } catch (err) {
+        statusPill.textContent = '⚠️ Error';
+        statusValue.textContent = 'Check in-game';
+        statusSub.textContent = 'Could not fetch live status right now.';
+      }
+    }
+
+    fetchLiveServerStatus();
+    setInterval(fetchLiveServerStatus, 30000);
 
     window.addEventListener('load', () => {
       processDiscordOAuthReturn();

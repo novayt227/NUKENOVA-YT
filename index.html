@@ -44,16 +44,15 @@
       overflow-x:hidden;
     }
 
-    /* 🔥 SUKUNA BACKGROUND IMAGE */
+    /* 🔥 BACKGROUND VIDEO */
     .site-bg {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: url('assets/bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      opacity: 0.35;
+      object-fit: cover;
+      opacity: 0.38;
       pointer-events: none;
     }
 
@@ -783,8 +782,10 @@
 </head>
 <body>
 
-  <!-- SUKUNA BACKGROUND IMAGE -->
-  <div class="site-bg"></div>
+  <!-- BACKGROUND VIDEO -->
+  <video class="site-bg" autoplay loop muted playsinline poster="assets/bg.jpg">
+    <source src="assets/bg.mp4" type="video/mp4" />
+  </video>
 
   <header>
     <div class="container nav">

@@ -43,7 +43,7 @@
       pointer-events: none;
     }
 
-    .container { max-width: 1120px; margin: 0 auto; }
+    .container { max-width: 1160px; margin: 0 auto; }
 
     .nav-bar {
       display: flex;
@@ -107,6 +107,18 @@
       gap: 20px;
     }
 
+    .keys-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 1050px) {
+      .keys-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .keys-grid { grid-template-columns: 1fr; }
+    }
+
     .store-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -151,7 +163,7 @@
     }
 
     .item-title {
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 950;
       margin: 0 0 6px;
       color: #FFF;
@@ -162,11 +174,6 @@
       font-weight: 950;
       color: var(--brand2);
       margin-bottom: 16px;
-    }
-    .item-price span {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 700;
     }
 
     .perks-list {
@@ -295,51 +302,66 @@
 
     <!-- CRATE KEYS SECTION -->
     <div class="section-heading">🔑 Crate Keys</div>
-    <div class="store-grid">
+    <div class="keys-grid">
 
-      <!-- KEY 1 -->
+      <!-- KEY 1: WARRIOR KEY -->
       <div class="store-card">
         <div>
-          <span class="badge-tag">Bundle</span>
-          <h2 class="item-title">3x Rare Keys</h2>
-          <div class="item-price">₹29/- <span>/ Pack</span></div>
+          <span class="badge-tag">Basic</span>
+          <h2 class="item-title" style="color:#2EE9A6;">1x Warrior Key</h2>
+          <div class="item-price">₹2/-</div>
           <ul class="perks-list">
-            <li>🔑 3x Rare Crate Keys</li>
-            <li>💎 Chance for Diamond Gear & Tools</li>
-            <li>💰 In-game Money & XP Bottles</li>
+            <li>🔑 <strong>1x Warrior Crate Key</strong></li>
+            <li>💎 Starter Gear & Tools</li>
+            <li>💰 In-game Money & XP</li>
           </ul>
         </div>
-        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="buy-btn">🛒 Buy Keys</a>
+        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="buy-btn">🛒 Buy Key</a>
       </div>
 
-      <!-- KEY 2 -->
+      <!-- KEY 2: LEGEND KEY -->
       <div class="store-card">
         <div>
-          <span class="badge-tag">Bundle</span>
-          <h2 class="item-title">3x Epic Keys</h2>
-          <div class="item-price">₹59/- <span>/ Pack</span></div>
+          <span class="badge-tag">Rare</span>
+          <h2 class="item-title" style="color:#00B4D8;">1x Legend Key</h2>
+          <div class="item-price">₹4/-</div>
           <ul class="perks-list">
-            <li>🔑 3x Epic Crate Keys</li>
-            <li>⚔️ Enchanted Netherite Gear Chance</li>
-            <li>✨ Custom Enchantment Books</li>
+            <li>🔑 <strong>1x Legend Crate Key</strong></li>
+            <li>⚔️ Enchanted Diamond Gear</li>
+            <li>✨ Custom Enchant Books</li>
           </ul>
         </div>
-        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="buy-btn">🛒 Buy Keys</a>
+        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="buy-btn">🛒 Buy Key</a>
       </div>
 
-      <!-- KEY 3 -->
+      <!-- KEY 3: NOVA KEY -->
+      <div class="store-card">
+        <div>
+          <span class="badge-tag">Epic</span>
+          <h2 class="item-title" style="color:#E92EA6;">1x Nova Key</h2>
+          <div class="item-price">₹5/-</div>
+          <ul class="perks-list">
+            <li>🔑 <strong>1x Nova Crate Key</strong></li>
+            <li>🛡️ Netherite Gear & Totems</li>
+            <li>⚡ Rare Server Items</li>
+          </ul>
+        </div>
+        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="buy-btn">🛒 Buy Key</a>
+      </div>
+
+      <!-- KEY 4: MEGA KEY -->
       <div class="store-card popular">
         <div>
           <span class="badge-tag gold">Best Loot</span>
-          <h2 class="item-title" style="color:#FFD700;">5x Mythic Keys</h2>
-          <div class="item-price" style="color:#FFD700;">₹99/- <span>/ Pack</span></div>
+          <h2 class="item-title" style="color:#FFD700;">1x Mega Key</h2>
+          <div class="item-price" style="color:#FFD700;">₹10/-</div>
           <ul class="perks-list">
-            <li>🔑 5x Mythic Crate Keys</li>
-            <li>🔥 OP Custom Weapons & Totems</li>
+            <li>🔑 <strong>1x Mega Crate Key</strong></li>
+            <li>🔥 OP Custom Weapons & Armor</li>
             <li>🏆 Highest Jackpot Reward Chance</li>
           </ul>
         </div>
-        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="buy-btn gold-btn">🔥 Buy Mythic Pack</a>
+        <a href="https://discord.gg/gMnQehmRKx" target="_blank" class="buy-btn gold-btn">🔥 Buy Mega Key</a>
       </div>
 
     </div>
